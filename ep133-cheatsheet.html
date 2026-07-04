@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EP-133 KO2 Cheat Sheet</title>
+<meta name="description" content="Quick reference for the Teenage Engineering EP-133 K.O. II sampler. All button combos, system settings, punch-in FX, fader modes, and timing controls on one page. Print-friendly.">
+<meta property="og:title" content="EP-133 KO2 Cheat Sheet">
+<meta property="og:description" content="Quick reference for the Teenage Engineering EP-133 K.O. II sampler. All button combos, system settings, punch-in FX, fader modes, and timing controls on one page.">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%23f0ebe0'/><rect x='1.5' y='1.5' width='13' height='13' fill='%231a1a18' rx='1.5'/><text x='8' y='11.5' font-family='monospace' font-size='9' font-weight='700' fill='%23ede8dd' text-anchor='middle'>ko</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  /* device-inspired palette - cream body, black pads, red logo */
+  --bg:#f0ebe0;
+  --card:#faf7f2;
+  --border:#d4cabb;
+  --border2:#b8a895;
+  --text:#111111;
+  --sub:#3a3530;
+  --muted:#7a7268;
+  --dim:#b0a898;
+  --red:#d42e1e;
+  --key-bg:#1a1a18;
+  --key-text:#ede8dd;
+  --mono:'Space Mono','Courier New',monospace;
+  --sans:'Inter',system-ui,sans-serif;
+}
+
+html{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13px;line-height:1.5}
+body{max-width:1100px;margin:0 auto;padding-bottom:60px}
+
+/* ── HEADER ───────────────────────────────────────────────── */
+header{
+  position:sticky;top:0;z-index:50;
+  background:var(--bg);
+  border-bottom:2px solid var(--text);
+  padding:14px 24px 12px;
+}
+.h-row1{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.h-logo{font-family:var(--mono);font-size:13px;letter-spacing:.07em;color:var(--text);font-weight:700}
+h1.h-logo{margin:0;display:inline}
+.h-dash{color:var(--dim)}
+.h-sub{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.06em}
+.h-badge{
+  font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.08em;
+  padding:2px 6px;
+  background:rgba(212,46,30,.1);border:1px solid rgba(212,46,30,.35);
+  border-radius:2px;color:var(--red);
+}
+.h-print-btn{
+  margin-left:auto;
+  padding:5px 12px;
+  font-family:var(--mono);font-size:9px;letter-spacing:.06em;
+  background:none;border:1px solid var(--border2);border-radius:3px;
+  color:var(--muted);cursor:pointer;transition:all .1s;
+}
+.h-print-btn:hover{color:var(--text);border-color:#888}
+
+#search{
+  display:block;width:100%;max-width:360px;
+  padding:7px 12px;margin-bottom:11px;
+  background:var(--card);border:1px solid var(--border2);border-radius:3px;
+  color:var(--text);font-family:var(--mono);font-size:11px;
+  outline:none;
+}
+#search::placeholder{color:var(--dim)}
+#search:focus{border-color:#888}
+.filters{display:flex;flex-wrap:wrap;gap:5px}
+.filter{
+  padding:4px 11px;
+  font-family:var(--mono);font-size:9px;letter-spacing:.06em;
+  background:none;border:1px solid var(--border);border-radius:20px;
+  color:var(--muted);cursor:pointer;transition:all .1s;
+}
+.filter:hover{color:var(--text);border-color:var(--border2)}
+.filter.on{color:#fff;border-color:var(--red);background:var(--red)}
+
+/* ── ORIENTATION ─────────────────────────────────────────── */
+.orient{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  column-gap:1px;
+  background:var(--border2);
+  border-bottom:1px solid var(--border2);
+}
+.orient-panel{
+  padding:20px 24px 18px;
+  background:var(--bg);
+}
+.orient-label{
+  font-family:var(--mono);font-size:9px;letter-spacing:.1em;
+  color:var(--muted);margin-bottom:14px;text-transform:lowercase;
+}
+
+/* Hierarchy */
+.hier{display:flex;flex-direction:column;gap:5px}
+.hier-row{display:flex;align-items:baseline;gap:8px}
+.hier-indent{color:var(--dim);font-family:var(--mono);font-size:11px;white-space:pre;flex-shrink:0}
+.hier-name{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.04em;color:var(--text)}
+.hier-note{font-size:10px;color:var(--muted);font-weight:300;margin-left:4px}
+
+/* Commit loop */
+.commit-steps{display:flex;flex-direction:column;gap:10px}
+.commit-step{display:flex;align-items:flex-start;gap:10px}
+.commit-num{
+  font-family:var(--mono);font-size:9px;font-weight:700;
+  color:var(--red);flex-shrink:0;margin-top:2px;
+}
+.commit-body{}
+.commit-title{font-size:11.5px;font-weight:500;color:var(--text);line-height:1.3}
+.commit-sub{font-size:10.5px;color:var(--muted);font-weight:300;margin-top:2px;line-height:1.35}
+.commit-key{
+  display:inline-block;
+  font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.04em;
+  padding:1px 5px;
+  background:var(--key-bg);border:1px solid #000;border-bottom:2px solid #000;
+  border-radius:2px;color:var(--key-text);
+}
+.commit-key.ks{background:var(--red);border-color:#a01810;border-bottom-color:#a01810;color:#fff}
+
+/* ── WORKFLOW SECTION ─────────────────────────────────────── */
+.wf-details{border-bottom:1px solid var(--border2);background:var(--card)}
+.wf-summary{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 24px;
+  cursor:pointer;list-style:none;user-select:none;
+}
+.wf-summary::-webkit-details-marker{display:none}
+.wf-summary-label{display:flex;align-items:center;gap:12px}
+.wf-summary .orient-label{margin-bottom:0}
+.wf-toggle{
+  font-family:var(--mono);font-size:12px;color:var(--muted);
+  transition:transform .2s;display:inline-block;
+}
+.wf-details[open] .wf-toggle{transform:rotate(180deg)}
+.wf-body{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  padding:0 24px 16px;
+  gap:0;
+}
+.wf-step{
+  display:flex;gap:10px;align-items:flex-start;
+  padding:10px 16px 10px 12px;
+}
+.wf-num{
+  font-family:var(--mono);font-size:9px;font-weight:700;
+  color:var(--red);flex-shrink:0;margin-top:1px;min-width:18px;
+}
+.wf-title{font-size:11.5px;font-weight:500;color:var(--text);margin-bottom:4px}
+.wf-combo{display:flex;flex-wrap:wrap;gap:2px;align-items:center;margin-bottom:4px}
+.wf-desc{font-size:10px;color:var(--muted);font-weight:300;line-height:1.35}
+
+/* ── QUICK REFERENCE ─────────────────────────────────────── */
+.qref{
+  display:grid;
+  grid-template-columns:auto 1fr 1.25fr;
+  column-gap:1px;
+  background:var(--border2);
+  border-bottom:1px solid var(--border2);
+}
+.qref-panel{
+  padding:18px 20px 18px 24px;
+  background:var(--bg);
+}
+.qref-head{
+  font-family:var(--mono);font-size:9px;letter-spacing:.1em;
+  color:var(--muted);margin-bottom:12px;text-transform:lowercase;
+}
+
+/* Punch-in FX numpad */
+.fx-numpad{
+  display:grid;
+  grid-template-columns:repeat(3,80px);
+  gap:3px;
+  margin-bottom:8px;
+}
+.fx-key{
+  background:var(--bg);border:1px solid var(--border2);
+  border-radius:3px;padding:5px 6px 6px;
+  text-align:center;
+  transition:background .1s;
+}
+.fx-key.sp{
+  background:var(--key-bg);border-color:#000;border-bottom:2px solid #000;
+}
+.fx-key-num{
+  font-family:var(--mono);font-size:8px;color:var(--muted);
+  margin-bottom:3px;line-height:1;
+}
+.fx-key.sp .fx-key-num{color:rgba(237,232,221,.4)}
+.fx-key-name{
+  font-size:9px;font-weight:600;color:var(--text);
+  line-height:1.2;text-transform:lowercase;
+}
+.fx-key.sp .fx-key-name{color:var(--key-text)}
+.fx-key-prs{
+  font-size:8px;color:var(--muted);font-weight:300;
+  margin-top:3px;line-height:1.2;font-style:italic;
+}
+.fx-key.sp .fx-key-prs{color:rgba(237,232,221,.45)}
+.fx-note{font-size:9px;color:var(--muted);font-style:italic;margin-top:4px}
+
+/* Sample library slots */
+.slots{display:flex;flex-direction:column;gap:4px;margin-bottom:16px}
+.slot-row{display:flex;align-items:center;gap:8px}
+.slot-range{
+  font-family:var(--mono);font-size:8.5px;color:var(--muted);
+  width:64px;flex-shrink:0;
+}
+.slot-label{font-size:10.5px;color:var(--sub);font-weight:400;flex-shrink:0;min-width:72px}
+.slot-bar{flex:1;height:5px;border-radius:2px;background:var(--border);overflow:hidden}
+.slot-fill{height:100%;border-radius:2px;background:var(--key-bg);opacity:.55}
+
+/* Fader modes */
+.fader-table{display:grid;grid-template-columns:repeat(2,1fr);gap:3px 8px;margin-top:4px}
+.fader-entry{display:flex;align-items:baseline;gap:5px}
+.fader-name{
+  font-family:var(--mono);font-size:8px;letter-spacing:.03em;
+  padding:2px 5px;border-radius:2px;text-align:center;
+  background:var(--bg);border:1px solid var(--border2);
+  color:var(--sub);white-space:nowrap;flex-shrink:0;min-width:44px;
+}
+.fader-name.def{background:var(--key-bg);border-color:#000;color:var(--key-text)}
+.fader-def{font-size:9.5px;color:var(--muted);font-weight:300;line-height:1.3}
+.fader-note{font-size:9px;color:var(--muted);font-style:italic;margin-top:8px;line-height:1.4}
+
+/* Code column (system settings) */
+.row-code{
+  font-family:var(--mono);font-size:9px;color:var(--dim);
+  text-align:right;white-space:nowrap;align-self:center;min-width:52px;
+}
+/* System settings sub-rows get 4-column grid (combo | desc | code | badge) */
+.section-group.full-width .rows-grid .row.sub-row{
+  grid-template-columns:minmax(140px,auto) 1fr auto auto;
+}
+
+/* Tips list - use absolute bullet so inline key chips flow as normal text */
+.tips-list{list-style:none;display:flex;flex-direction:column;gap:6px;padding-left:13px}
+.tips-list li{
+  font-size:10.5px;color:var(--sub);font-weight:300;line-height:1.5;
+  position:relative;
+}
+.tips-list li::before{
+  content:'·';color:var(--red);font-size:16px;
+  position:absolute;left:-13px;top:-3px;line-height:1;
+}
+
+/* ── LEGEND ──────────────────────────────────────────────── */
+.legend{
+  display:flex;align-items:center;flex-wrap:wrap;gap:5px 20px;
+  padding:10px 24px;
+  border-bottom:1px solid var(--border2);
+  background:var(--card);
+}
+.legend-label{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.06em}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)}
+
+/* ── SHORTCUTS ───────────────────────────────────────────── */
+main{padding:0 24px}
+.section-group{margin-top:0}
+
+.s-head{
+  display:flex;align-items:center;gap:10px;
+  padding:16px 0 5px;
+  border-bottom:1px solid var(--border);
+}
+.s-head-num{font-family:var(--mono);font-size:8.5px;color:var(--red);opacity:.7;letter-spacing:.04em}
+.s-head-label{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:var(--muted)}
+
+.row{
+  display:grid;
+  grid-template-columns:minmax(200px,auto) 1fr auto;
+  align-items:center;gap:0 20px;
+  padding:7px 0;
+  border-bottom:1px solid var(--border);
+}
+.row-combo{display:flex;flex-wrap:wrap;align-items:center;gap:3px}
+.row-desc{font-size:11.5px;font-weight:300;color:var(--sub);line-height:1.4}
+.row-badge{width:26px;text-align:right}
+
+/* ── KEY CHIPS ───────────────────────────────────────────── */
+.key{
+  display:inline-flex;align-items:center;
+  font-family:var(--mono);font-size:9px;font-weight:700;
+  letter-spacing:.04em;text-transform:uppercase;
+  padding:3px 6px;
+  background:var(--key-bg);
+  border:1px solid #000;border-bottom:2px solid #000;
+  border-radius:3px;color:var(--key-text);
+  white-space:nowrap;line-height:1;
+}
+.key.ks{
+  color:#fff;
+  border-color:#a01810;
+  border-bottom-color:#a01810;
+  background:var(--red);
+}
+.op{color:var(--dim);font-family:var(--mono);font-size:11px;padding:0 1px;line-height:1}
+.ctx{color:var(--muted);font-size:9.5px;font-style:italic;font-family:var(--sans)}
+
+.badge-new{
+  font-family:var(--mono);font-size:7px;font-weight:700;letter-spacing:.06em;
+  padding:2px 4px;
+  background:rgba(212,46,30,.09);border:1px solid rgba(212,46,30,.3);
+  border-radius:2px;color:var(--red);white-space:nowrap;
+}
+
+.no-res{
+  display:none;padding:60px 24px;
+  text-align:center;font-family:var(--mono);font-size:11px;color:var(--muted);
+}
+
+/* ── SUB-ROW (system settings indent) ─────────────────────── */
+.sub-row .row-combo{padding-left:14px}
+
+/* ── FADER MODES SEPARATOR ────────────────────────────────── */
+.qref-sep{
+  margin-top:14px;padding-top:12px;
+  border-top:1px solid var(--border);
+}
+
+/* ── SEP-ROW (system settings group separator) ─────────────── */
+.sep-row{border-top:1px solid var(--border2) !important;padding-top:5px;margin-top:4px}
+
+/* ── SYS-HEAD-ROW (print-only table header) ─────────────────── */
+.sys-head-row{display:none}
+
+/* ── RESPONSIVE ──────────────────────────────────────────── */
+@media(max-width:800px){
+  .orient{grid-template-columns:1fr}
+  .orient-panel{border-right:none;border-bottom:1px solid var(--border2)}
+  .orient-panel:last-child{border-bottom:none}
+  .qref{grid-template-columns:1fr}
+  .qref-panel{border-right:none;border-bottom:1px solid var(--border2);padding:14px 16px}
+  .qref-panel:last-child{border-bottom:none}
+  .fx-numpad{grid-template-columns:repeat(3,72px)}
+  .row{grid-template-columns:1fr auto;grid-template-rows:auto auto;gap:5px 8px;padding:10px 0}
+  .row-combo{grid-column:1;grid-row:1}
+  .row-badge{grid-column:2;grid-row:1;align-self:start}
+  .row-desc{grid-column:1/3;grid-row:2}
+  header,main,.orient,.legend,.wf-details,.qref{padding-left:16px;padding-right:16px}
+  .wf-summary,.wf-body{padding-left:16px;padding-right:16px}
+}
+
+/* ── PRINT ───────────────────────────────────────────────── */
+@media print{
+  @page{margin:10mm 12mm;size:A4}
+
+  html{background:#fff;color:#111;font-size:10px}
+  body{max-width:none;padding:0}
+
+  header{
+    position:static;background:#fff;
+    border-bottom:2px solid #111;
+    padding:0 0 6px;margin-bottom:0;
+  }
+  #search,.filters,.h-print-btn,.h-dash,.h-sub{display:none}
+  .h-row1{margin-bottom:0}
+  .h-logo{font-size:11px}
+  .h-badge{font-size:8px;padding:1px 4px}
+
+  .orient{
+    display:grid;grid-template-columns:1fr 1fr;
+    column-gap:0;background:transparent;
+    border-bottom:1px solid #ddd;padding:0;
+  }
+  .orient-panel{padding:8px 12px;background:#fff;border-right:none}
+  .orient-panel:not(:last-child){border-right:1px solid #ccc}
+  .orient-panel:last-child{padding-left:12px}
+  .orient-label{font-size:8px;margin-bottom:8px}
+  .hier-name{font-size:9px}
+  .hier-note{font-size:9px}
+  .commit-title{font-size:10px}
+  .commit-sub{font-size:9px}
+  .commit-key{
+    font-size:7.5px;padding:1px 5px;
+    background:#eceae6;border:1px solid #999;border-bottom:2px solid #999;color:#111;
+  }
+  .commit-key.ks{background:#f5e8e6;color:#b01808;border-color:#c03020;border-bottom-color:#c03020}
+  .commit-steps{gap:5px}
+
+  /* Workflow section */
+  .wf-details{border-color:#ddd;background:#fff}
+  .wf-summary{padding:6px 0;border-bottom:1px solid #ddd}
+  .wf-toggle{display:none}
+  .wf-body{
+    grid-template-columns:repeat(2,1fr);
+    padding:4px 0 8px;
+    gap:3px;
+  }
+  .wf-step{
+    padding:4px 8px;
+    border:1px solid #ccc;
+    border-radius:3px;
+  }
+  .wf-num{font-size:8px}
+  .wf-title{font-size:9.5px;margin-bottom:2px}
+  .wf-combo .key{font-size:7px;padding:1px 5px;background:#eceae6;border:1px solid #999;border-bottom:2px solid #999;color:#111}
+  .wf-combo .key.ks{background:#f5e8e6;color:#b01808;border-color:#c03020;border-bottom-color:#c03020}
+  .wf-combo .op{font-size:9px}
+  .wf-desc{font-size:8.5px}
+
+  /* Quick reference */
+  .qref{
+    grid-template-columns:185px 1fr 1.3fr;
+    column-gap:0;background:transparent;
+    border-color:#ddd;
+  }
+  .qref-panel{padding:8px 10px;border-right:none;background:#fff}
+  .qref-panel:first-child{padding-left:0}
+  .qref-panel:last-child{padding-right:0}
+  .qref-panel:not(:last-child){border-right:1px solid #ccc}
+  .qref-head{font-size:8px;margin-bottom:8px}
+  /* FX numpad */
+  .fx-numpad{grid-template-columns:repeat(3,auto);gap:2px;width:fit-content}
+  .fx-key{padding:4px 6px 5px;background:#f5f5f5;border-color:#ccc;min-width:56px}
+  /* Bottom row: use a tinted fill instead of dark - dark doesn't print reliably */
+  .fx-key.sp{background:#e8e4dc;border-color:#999;border-bottom-color:#999}
+  .fx-key.sp .fx-key-num{color:#777}
+  .fx-key.sp .fx-key-name{color:#111}
+  .fx-key.sp .fx-key-prs{color:#777}
+  .fx-key-num{font-size:7px}
+  .fx-key-name{font-size:7.5px}
+  .fx-key-prs{font-size:6.5px}
+  .fx-note{font-size:8px}
+  .slot-row{gap:5px}
+  .slot-range{font-size:7.5px;width:52px}
+  .slot-label{font-size:9px;min-width:58px}
+  .fader-table{gap:1px 5px}
+  .fader-name{font-size:7px;padding:1px 4px;min-width:36px}
+  .fader-def{font-size:7.5px}
+  .fader-note{font-size:7.5px}
+  .tips-list{padding-left:11px}
+  .tips-list li{font-size:8.5px;line-height:1.4}
+  .tips-list li::before{left:-11px;font-size:13px;top:-2px}
+
+  .legend{
+    padding:5px 0;border-color:#ddd;gap:3px 14px;background:#fff;
+  }
+  .legend-label,.legend-item{font-size:9px}
+  .legend-item .key{font-size:7.5px;padding:1px 5px;background:#eceae6;border:1px solid #999;border-bottom:2px solid #999;color:#111}
+
+  main{
+    padding:0;
+    column-count:2;
+    column-gap:13mm;
+    column-rule:1px solid #ccc;
+  }
+  .section-group{
+    break-inside:avoid;
+    -webkit-column-break-inside:avoid;
+  }
+  .s-head{padding:8px 0 3px;border-color:#ccc;border-bottom-width:1.5px}
+  .s-head-num{font-size:8px;color:#d42e1e}
+  .s-head-label{font-size:8.5px;letter-spacing:.08em}
+  .row{
+    grid-template-columns:auto 1fr auto;
+    gap:0 10px;padding:3px 0;border-color:#e4e4e4;
+  }
+  .row-combo{gap:2px}
+  .row-desc{font-size:9px;color:#444}
+  .sub-row .row-combo{padding-left:12px}
+  .qref-sep{margin-top:8px;padding-top:8px;border-top:1px solid #ccc}
+  .key{
+    background:#eceae6;border:1px solid #999;border-bottom:2px solid #999;
+    color:#111;font-size:7.5px;padding:2px 5px;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
+  }
+  .key.ks{
+    background:#f5e8e6;color:#b01808;
+    border-color:#c03020;border-bottom-color:#c03020;
+  }
+  .op{color:#aaa;font-size:10px}
+  .ctx{color:#888;font-size:8.5px}
+  .badge-new{font-size:6.5px;padding:1px 3px}
+  .no-res{display:none!important}
+  .s-head{break-after:avoid}
+
+  /* System settings: own page, full width, table layout */
+  .section-group.full-width{
+    column-span:all;
+    break-before:page;
+    break-inside:auto !important;
+    -webkit-column-break-inside:auto !important;
+  }
+  .section-group.full-width .rows-grid{display:block;}
+  /* Column label row - matches rest of sheet's muted label style */
+  .sys-head-row{
+    display:flex !important;
+    align-items:center;
+    padding:4px 0 3px;gap:0;
+    border-bottom:1.5px solid #ccc;
+  }
+  .sys-head-row .row-code{
+    order:1;width:46px;flex-shrink:0;
+    font-family:var(--mono);font-size:6.5px;letter-spacing:.1em;
+    color:#aaa;text-transform:uppercase;text-align:left;
+  }
+  .sys-head-row .row-combo{
+    order:2;flex:0 0 178px;
+    font-family:var(--mono);font-size:6.5px;letter-spacing:.1em;
+    color:#aaa;text-transform:uppercase;
+  }
+  .sys-head-row .row-desc{
+    order:3;flex:1;
+    font-family:var(--mono);font-size:6.5px;letter-spacing:.1em;
+    color:#aaa;text-transform:uppercase;
+  }
+  .sys-head-row .row-badge{order:4;width:24px}
+  /* Opener row (SHIFT+ERASE) - plain, like any other row */
+  .section-group.full-width .rows-grid .row.full-span{
+    display:flex;align-items:center;
+    padding:3px 0;gap:8px;
+    border-bottom:1px solid #e4e4e4;
+  }
+  .section-group.full-width .rows-grid .row.full-span .row-desc{
+    font-size:9px;color:#444;
+  }
+  /* Sub-rows: flex with code first */
+  .section-group.full-width .rows-grid .row.sub-row{
+    display:flex;align-items:center;
+    padding:3px 0;
+    border-bottom:1px solid #e4e4e4;
+    gap:0;
+  }
+  .section-group.full-width .rows-grid .row.sub-row .row-code{
+    order:1;width:46px;flex-shrink:0;
+    font-family:var(--mono);font-size:7.5px;
+    color:#888;text-align:left;
+  }
+  .section-group.full-width .rows-grid .row.sub-row .row-combo{
+    order:2;flex:0 0 178px;padding-left:0;
+  }
+  .section-group.full-width .rows-grid .row.sub-row .row-desc{
+    order:3;flex:1;font-size:9px;color:#444;line-height:1.3;
+  }
+  .section-group.full-width .rows-grid .row.sub-row .row-badge{
+    order:4;width:24px;text-align:right;
+  }
+  /* Path text: readable monospace - upright, not italic/muted */
+  .section-group.full-width .rows-grid .ctx{
+    color:#333;font-style:normal;font-size:8px;
+    font-family:var(--mono);letter-spacing:.02em;
+  }
+  .section-group.full-width .rows-grid .op{
+    color:#999;font-size:9px;padding:0 1px;
+  }
+  /* Group separators: slightly stronger border, matching section head weight */
+  .section-group.full-width .rows-grid .sep-row{
+    border-top:1px solid #ccc !important;
+  }
+  .row-code{font-family:var(--mono);font-size:7px;color:#aaa;text-align:right;white-space:nowrap;align-self:center}
+  .sep-row{border-top:1px solid #bbb !important;padding-top:3px;margin-top:2px}
+  /* Force backgrounds on key elements */
+  .fader-name.def,.key{
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
+  }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="h-row1">
+    <h1 class="h-logo">ep-133 k.o. ii</h1>
+    <span class="h-dash">-</span>
+    <span class="h-sub">cheat sheet</span>
+    <span class="h-badge">v2.5</span>
+    <button class="h-print-btn" onclick="window.print()">print</button>
+  </div>
+  <input id="search" type="text" placeholder="search shortcuts…" autocomplete="off" spellcheck="false">
+  <div class="filters" id="filters"></div>
+</header>
+
+<!-- ORIENTATION -->
+<div class="orient" id="orient">
+
+  <div class="orient-panel">
+    <div class="orient-label">how k.o. ii organizes music</div>
+    <div class="hier">
+      <div class="hier-row">
+        <span class="hier-indent"></span>
+        <span class="hier-name">project</span>
+        <span class="hier-note">— 9 total, each is a song</span>
+      </div>
+      <div class="hier-row">
+        <span class="hier-indent">  └─ </span>
+        <span class="hier-name">groups a/b/c/d</span>
+        <span class="hier-note">— 12 pads each</span>
+      </div>
+      <div class="hier-row">
+        <span class="hier-indent">       └─ </span>
+        <span class="hier-name">pattern</span>
+        <span class="hier-note">— up to 99 bars, 99 patterns</span>
+      </div>
+      <div class="hier-row">
+        <span class="hier-indent">  └─ </span>
+        <span class="hier-name">scene</span>
+        <span class="hier-note">— one pattern per group, combined</span>
+      </div>
+      <div class="hier-row">
+        <span class="hier-indent">       └─ </span>
+        <span class="hier-name">song</span>
+        <span class="hier-note">— ordered list of up to 99 scenes</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="orient-panel">
+    <div class="orient-label">the commit loop</div>
+    <div class="commit-steps">
+      <div class="commit-step">
+        <span class="commit-num">①</span>
+        <div class="commit-body">
+          <div class="commit-title">build a scene</div>
+          <div class="commit-sub">record patterns across groups A–D. each group plays its own pattern simultaneously.</div>
+        </div>
+      </div>
+      <div class="commit-step">
+        <span class="commit-num">②</span>
+        <div class="commit-body">
+          <div class="commit-title"><span class="commit-key ks">SHIFT</span> + <span class="commit-key">MAIN</span> - commit</div>
+          <div class="commit-sub">saves the current scene and creates the next one based on it. like "save as, keep going."</div>
+        </div>
+      </div>
+      <div class="commit-step">
+        <span class="commit-num">③</span>
+        <div class="commit-body">
+          <div class="commit-title"><span class="commit-key">MAIN</span> + <span class="commit-key">ENTER</span> - song editor</div>
+          <div class="commit-sub">chain committed scenes into a song. each position holds one scene.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FROM-SCRATCH WORKFLOW -->
+<details class="wf-details" id="extras" open>
+  <summary class="wf-summary">
+    <div class="wf-summary-label">
+      <span class="orient-label" style="margin-bottom:0">from-scratch workflow</span>
+    </div>
+    <span class="wf-toggle">▾</span>
+  </summary>
+  <div class="wf-body" id="wf-body">
+
+    <div class="wf-step">
+      <div class="wf-num">①</div>
+      <div>
+        <div class="wf-title">navigate to a scene</div>
+        <div class="wf-combo" id="wf1"></div>
+        <div class="wf-desc">or let SHIFT+MAIN advance you automatically after each build</div>
+      </div>
+    </div>
+
+    <div class="wf-step">
+      <div class="wf-num">②</div>
+      <div>
+        <div class="wf-title">load sounds</div>
+        <div class="wf-combo" id="wf2"></div>
+        <div class="wf-desc">select pad → browse with −/+. kicks 1–99, snares 100–199, etc.</div>
+      </div>
+    </div>
+
+    <div class="wf-step">
+      <div class="wf-num">③</div>
+      <div>
+        <div class="wf-title">set tempo &amp; length</div>
+        <div class="wf-combo" id="wf3"></div>
+        <div class="wf-desc">tap TEMPO for tap tempo. in RECORD (armed), −/+ changes bar count</div>
+      </div>
+    </div>
+
+    <div class="wf-step">
+      <div class="wf-num">④</div>
+      <div>
+        <div class="wf-title">record your pattern</div>
+        <div class="wf-combo" id="wf4"></div>
+        <div class="wf-desc">4-beat count-in, then play pads. or RECORD+PLAY to start immediately</div>
+      </div>
+    </div>
+
+    <div class="wf-step">
+      <div class="wf-num">⑤</div>
+      <div>
+        <div class="wf-title">fix with step sequencer</div>
+        <div class="wf-combo" id="wf5"></div>
+        <div class="wf-desc">step through with −/+, add notes with RECORD+PAD, remove with ERASE+PAD</div>
+      </div>
+    </div>
+
+    <div class="wf-step">
+      <div class="wf-num">⑥</div>
+      <div>
+        <div class="wf-title">add more groups</div>
+        <div class="wf-combo" id="wf6"></div>
+        <div class="wf-desc">press B, C, or D to switch groups. each runs a separate pattern simultaneously</div>
+      </div>
+    </div>
+
+    <div class="wf-step">
+      <div class="wf-num">⑦</div>
+      <div>
+        <div class="wf-title">commit the scene</div>
+        <div class="wf-combo" id="wf7"></div>
+        <div class="wf-desc">saves this scene, clones it to the next. all groups carry over - modify from here</div>
+      </div>
+    </div>
+
+    <div class="wf-step">
+      <div class="wf-num">⑧</div>
+      <div>
+        <div class="wf-title">vary the next scene</div>
+        <div class="wf-desc" style="margin-top:0">change patterns in any group - drop a hi-hat, add a fill, mute a pad. commit again when ready</div>
+      </div>
+    </div>
+
+    <div class="wf-step">
+      <div class="wf-num">⑨</div>
+      <div>
+        <div class="wf-title">resample your output</div>
+        <div class="wf-combo" id="wf9"></div>
+        <div class="wf-desc">captures the full mix of the current pattern as a new sample</div>
+      </div>
+    </div>
+
+    <div class="wf-step">
+      <div class="wf-num">⑩</div>
+      <div>
+        <div class="wf-title">build the song</div>
+        <div class="wf-combo" id="wf10"></div>
+        <div class="wf-desc">SHIFT+A adds scenes in order. −/+ navigates positions. PLAY to hear it</div>
+      </div>
+    </div>
+
+  </div>
+</details>
+
+<!-- QUICK REFERENCE: FX MAP · SAMPLE LIBRARY · TIPS -->
+<div class="qref" id="qref">
+
+  <!-- PUNCH-IN FX MAP -->
+  <div class="qref-panel">
+    <div class="qref-head">punch-in fx - hold <span id="qref-fx-label"></span> + numpad key</div>
+    <div class="fx-numpad">
+
+      <!-- Row 1: 7 8 9 -->
+      <div class="fx-key">
+        <div class="fx-key-num">7</div>
+        <div class="fx-key-name">mute slicer</div>
+        <div class="fx-key-prs">↑ chop speed</div>
+      </div>
+      <div class="fx-key">
+        <div class="fx-key-num">8</div>
+        <div class="fx-key-name">octave down</div>
+        <div class="fx-key-prs">↑ pitch toward orig</div>
+      </div>
+      <div class="fx-key">
+        <div class="fx-key-num">9</div>
+        <div class="fx-key-name">bit redux</div>
+        <div class="fx-key-prs">↓ bit depth</div>
+      </div>
+
+      <!-- Row 2: 4 5 6 -->
+      <div class="fx-key">
+        <div class="fx-key-num">4</div>
+        <div class="fx-key-name">lpf</div>
+        <div class="fx-key-prs">↓ cutoff</div>
+      </div>
+      <div class="fx-key">
+        <div class="fx-key-num">5</div>
+        <div class="fx-key-name">hpf</div>
+        <div class="fx-key-prs">↑ cutoff</div>
+      </div>
+      <div class="fx-key">
+        <div class="fx-key-num">6</div>
+        <div class="fx-key-name">master fx send</div>
+        <div class="fx-key-prs">↑ send amt</div>
+      </div>
+
+      <!-- Row 3: 1 2 3 -->
+      <div class="fx-key">
+        <div class="fx-key-num">1</div>
+        <div class="fx-key-name">beat repeat</div>
+        <div class="fx-key-prs">↓ repeat length</div>
+      </div>
+      <div class="fx-key">
+        <div class="fx-key-num">2</div>
+        <div class="fx-key-name">tape stop</div>
+        <div class="fx-key-prs">↓ speed</div>
+      </div>
+      <div class="fx-key">
+        <div class="fx-key-num">3</div>
+        <div class="fx-key-name">lpf tremolo</div>
+        <div class="fx-key-prs">↑ tremolo speed</div>
+      </div>
+
+      <!-- Row 4: . 0 ENTER (special, dark) -->
+      <div class="fx-key sp">
+        <div class="fx-key-num">.</div>
+        <div class="fx-key-name">pitch mod</div>
+        <div class="fx-key-prs">↑ randomness</div>
+      </div>
+      <div class="fx-key sp">
+        <div class="fx-key-num">0</div>
+        <div class="fx-key-name">pad random</div>
+        <div class="fx-key-prs">—</div>
+      </div>
+      <div class="fx-key sp">
+        <div class="fx-key-num">ENT</div>
+        <div class="fx-key-name">stutter</div>
+        <div class="fx-key-prs">—</div>
+      </div>
+
+    </div>
+    <div class="fx-note">all keys pressure-sensitive · combine for layered fx<br>bottom row (· 0 ENT) - randomization &amp; stutter effects</div>
+  </div>
+
+  <!-- SAMPLE LIBRARY + FADER -->
+  <div class="qref-panel">
+    <div class="qref-head">sample library ranges</div>
+    <div class="slots">
+      <div class="slot-row">
+        <span class="slot-range">001–099</span>
+        <span class="slot-label">kicks</span>
+        <span class="slot-bar"><span class="slot-fill" style="width:100%"></span></span>
+      </div>
+      <div class="slot-row">
+        <span class="slot-range">100–199</span>
+        <span class="slot-label">snares</span>
+        <span class="slot-bar"><span class="slot-fill" style="width:100%"></span></span>
+      </div>
+      <div class="slot-row">
+        <span class="slot-range">200–299</span>
+        <span class="slot-label">hi-hats</span>
+        <span class="slot-bar"><span class="slot-fill" style="width:100%"></span></span>
+      </div>
+      <div class="slot-row">
+        <span class="slot-range">300–399</span>
+        <span class="slot-label">percussion</span>
+        <span class="slot-bar"><span class="slot-fill" style="width:100%"></span></span>
+      </div>
+      <div class="slot-row">
+        <span class="slot-range">400–499</span>
+        <span class="slot-label">bass</span>
+        <span class="slot-bar"><span class="slot-fill" style="width:100%"></span></span>
+      </div>
+      <div class="slot-row">
+        <span class="slot-range">500–599</span>
+        <span class="slot-label">melodic</span>
+        <span class="slot-bar"><span class="slot-fill" style="width:100%"></span></span>
+      </div>
+    </div>
+
+    <div class="qref-head qref-sep">fader modes - hold <span id="qref-fader-label"></span> + labeled pad</div>
+    <div class="fader-table">
+      <div class="fader-entry"><span class="fader-name def">level ★</span><span class="fader-def">group/pattern volume</span></div>
+      <div class="fader-entry"><span class="fader-name">pitch</span><span class="fader-def">semitone pitch shift</span></div>
+      <div class="fader-entry"><span class="fader-name">time</span><span class="fader-def">playback speed / stretch</span></div>
+      <div class="fader-entry"><span class="fader-name">lpf</span><span class="fader-def">low-pass filter</span></div>
+      <div class="fader-entry"><span class="fader-name">hpf</span><span class="fader-def">high-pass filter</span></div>
+      <div class="fader-entry"><span class="fader-name">→fx</span><span class="fader-def">FX bus send level</span></div>
+      <div class="fader-entry"><span class="fader-name">atk</span><span class="fader-def">envelope attack</span></div>
+      <div class="fader-entry"><span class="fader-name">rel</span><span class="fader-def">envelope release</span></div>
+      <div class="fader-entry"><span class="fader-name">pan</span><span class="fader-def">stereo panning</span></div>
+      <div class="fader-entry"><span class="fader-name">tune</span><span class="fader-def">fine pitch (precision)</span></div>
+      <div class="fader-entry"><span class="fader-name">vel</span><span class="fader-def">pad pressure response</span></div>
+      <div class="fader-entry"><span class="fader-name">mod</span><span class="fader-def">modulation / LFO</span></div>
+    </div>
+    <div class="fader-note">★ default · labels printed above pads · hold FADER to see active automations</div>
+  </div>
+
+  <!-- EASY TO MISS TIPS -->
+  <div class="qref-panel">
+    <div class="qref-head">easy to miss</div>
+    <ul class="tips-list">
+      <li>Hold <span id="tip-shift"></span> while turning any knob → slow/precise adjustment</li>
+      <li>Hold a pad in SOUND mode → see the sample name on screen</li>
+      <li>Umbrella icon lit up → undo available - press <span id="tip-undo"></span> to undo</li>
+      <li>Hold <span id="tip-fx"></span> while playing, then press GROUP pads → momentary per-group solo</li>
+      <li>Hold + or − during playback → temporarily nudge tempo up / down</li>
+      <li>In step mode: hold <span id="tip-rec"></span> while pressing a pad longer → longer note duration</li>
+      <li>In SOUND mode, type a number (e.g. 1·0·3) + ENTER → jump directly to sample slot</li>
+      <li>Lock mode: hold <span id="tip-main"></span> on power-up → changes not auto-saved to disk</li>
+      <li><span id="tip-shift2"></span> + <span id="tip-fx2"></span> → master compressor &amp; sidechain settings</li>
+      <li>Tape stop (punch-in FX pad 2) affects MIDI clock output - useful for synced gear</li>
+      <li>Velocity/pressure off by default - in system settings: pad → vel → hi for soft-touch, pad → vel → lo for vigorous play</li>
+      <li>Mute groups: press <span id="tip-mute"></span>, navigate to mute group sub-mode - pads in the same group cut each other off (great for hi-hats)</li>
+    </ul>
+  </div>
+
+</div>
+
+<!-- SHIFT+GROUP LEGEND -->
+<div class="legend">
+  <span class="legend-label">shift + group:</span>
+  <span class="legend-item"><span class="key">A</span> new pattern</span>
+  <span class="legend-item"><span class="key">B</span> undo</span>
+  <span class="legend-item"><span class="key">C</span> copy</span>
+  <span class="legend-item"><span class="key">D</span> paste</span>
+</div>
+
+<main id="main"></main>
+<div class="no-res" id="no-res">no shortcuts found</div>
+
+<script>
+const SECTIONS = [
+  {id:'record',   label:'record'},
+  {id:'step',     label:'step seq'},
+  {id:'patterns', label:'patterns'},
+  {id:'scenes',   label:'scenes'},
+  {id:'song',     label:'song mode'},
+  {id:'edit',     label:'copy + paste'},
+  {id:'erase',    label:'erase'},
+  {id:'keys',     label:'keys'},
+  {id:'timing',   label:'timing'},
+  {id:'fader',    label:'fader'},
+  {id:'sound',    label:'sound'},
+  {id:'sample',   label:'sample + chop'},
+  {id:'loop',     label:'loop'},
+  {id:'tempo',    label:'tempo'},
+  {id:'system',   label:'system settings'},
+];
+
+const DATA = [
+// ── RECORD ──────────────────────────────────────────────────
+  {s:'record',c:'[RECORD] → [PLAY]',                    d:'Start recording after a 4-beat count-in'},
+  {s:'record',c:'[RECORD] + [PLAY]',                    d:'Start recording immediately - no count-in'},
+  {s:'record',c:'[RECORD] → [SHIFT] + [PLAY]',          d:'Record from pattern start, not the current bar'},
+  {s:'record',c:'[PLAY] (while recording)',                    d:'Stop recording AND pause playback - full stop'},
+  {s:'record',c:'[RECORD] (while recording)',                  d:'Stop recording only - keeps the beat playing uninterrupted'},
+  {s:'record',c:'[RECORD] + [−] / [+]',                 d:'Change pattern length on the fly while playing'},
+  {s:'record',c:'[RECORD] → [−] / [+] (while stopped)',  d:'Set pattern length while record-armed'},
+  {s:'record',c:'[RECORD] → [SHIFT] + [+]',             d:'Double pattern length - duplicates all existing notes'},
+  {s:'record',c:'[PLAY] → hold [RECORD] + [PAD]',       d:'Overdub: punch new notes into existing pattern'},
+  {s:'record',c:'[RECORD] + [ERASE] + [+]',             d:'Overwrite record - clears existing pattern, starts fresh'},
+// ── STEP SEQ ────────────────────────────────────────────────
+  {s:'step',  c:'[−] / [+] (while stopped)',                  d:'Step backward / forward through the sequencer'},
+  {s:'step',  c:'hold [RECORD] + [PAD] (while stopped)',       d:'Write that pad\'s note to the current step'},
+  {s:'step',  c:'[ERASE] + [PAD] (while stopped)',             d:'Erase all notes for that pad - hold until TRK blinks'},
+  {s:'step',  c:'[ERASE] + [PAD] (while playing)',             d:'Live-erase pad notes as the pattern plays'},
+  {s:'step',  c:'[SHIFT] + [PAD] + [−] / [+]',          d:'Nudge note - steps in quantize mode, ticks in free time'},
+  {s:'step',  c:'[SHIFT] + turn [KNOB X]',              d:'Set velocity for all notes at the current step'},
+  {s:'step',  c:'[SHIFT] + turn [KNOB Y]',              d:'Set duration for all notes at the current step'},
+// ── PATTERNS ────────────────────────────────────────────────
+  {s:'patterns',c:'hold [GROUP] + [−] / [+]',           d:'Select pattern - or hold GROUP + type number on pads'},
+  {s:'patterns',c:'hold [GROUP A] + [GROUP B] + [−] / [+]', d:'Hold multiple groups at once to scroll all their patterns together, locked to the same offset'},
+  {s:'patterns',c:'[SHIFT] + [A]',                      d:'Jump to next available empty pattern'},
+  {s:'patterns',c:'[MAIN] + [TEMPO]',                   d:'Change time signature (X = numerator, Y = denominator)'},
+// ── SCENES ──────────────────────────────────────────────────
+  {s:'scenes', c:'hold [MAIN] + [−] / [+]',             d:'Select scene 01–99'},
+  {s:'scenes', c:'hold [MAIN] + numpad',                 d:'Jump directly to a scene by number'},
+  {s:'scenes', c:'hold [MAIN] + [PAD 1–9]',             d:'Switch project (9 projects total)'},
+  {s:'scenes', c:'[SHIFT] + [MAIN]',                    d:'Commit: duplicate scene, advance to next, keep editing'},
+  {s:'scenes', c:'[ERASE] + [MAIN] (2s)',               d:'Clear scene contents, or delete if empty and not in song'},
+// ── SONG MODE ───────────────────────────────────────────────
+  {s:'song',   c:'hold [MAIN] → [ENTER]',               d:'Open song list editor - arrange committed scenes into a full song'},
+  {s:'song',   c:'[−] / [+] (in song editor)',              d:'Go to previous / next song position'},
+  {s:'song',   c:'[SHIFT] + [A] (in song editor)',          d:'Add current scene to song list at this position'},
+  {s:'song',   c:'[SHIFT] + [−] / [+] (in song editor)',   d:'Change which scene plays at the current position'},
+  {s:'song',   c:'[SHIFT] + [C] (in song editor)',          d:'Cut scene from current song position to clipboard'},
+  {s:'song',   c:'[SHIFT] + [D] (in song editor)',          d:'Insert / paste scene at current song position'},
+  {s:'song',   c:'[PLAY] (in song editor)',                 d:'Play song from current position - exits song editor view'},
+  {s:'song',   c:'[SHIFT] + [PLAY] (in song editor)',       d:'Play song from the very beginning'},
+// ── COPY + PASTE ────────────────────────────────────────────
+  {s:'edit',   c:'[SHIFT] + [C]',                       d:'Copy - once for current bar, twice for full pattern'},
+  {s:'edit',   c:'[SHIFT] + [D]',                       d:'Paste copied bar or full pattern at the current position'},
+  {s:'edit',   c:'[SHIFT] + [B]',                       d:'Undo - umbrella icon lights up when available'},
+  {s:'edit',   c:'[SHIFT] + [−] / [+] (while copying)',        d:'Navigate to a different bar before copying'},
+  {s:'edit',   c:'hold [PAD] → [SHIFT] + [C]',          d:'Copy just this pad\'s notes (per-pad)',n:true},
+  {s:'edit',   c:'hold [PAD] → [SHIFT] + [D]',          d:'Paste just this pad\'s notes (per-pad)',n:true},
+// ── ERASE ───────────────────────────────────────────────────
+  {s:'erase',  c:'[ERASE] + [GROUP]',                   d:'Erase entire current pattern - hold until PTN blinks'},
+  {s:'erase',  c:'[ERASE] + [SOUND]',                   d:'Permanently delete the currently selected sample'},
+  {s:'erase',  c:'[ERASE] + [FADER] (2s, while stopped)',     d:'Erase all fader automation; fader position resets to where it was when held'},
+  {s:'erase',  c:'[ERASE] + [FADER] (while playing)',         d:'Erase fader automation live while playing'},
+  {s:'erase',  c:'[ERASE] + [FADER] + [PAD]',           d:'Erase one fader assignment\'s automation only',n:true},
+  {s:'erase',  c:'[SHIFT] + [ERASE]',                   d:'Open system settings - velocity, scene sync, MIDI clock, scale, metronome (see system settings section)'},
+// ── KEYS ────────────────────────────────────────────────────
+  {s:'keys',   c:'[KEYS]',                              d:'Keys mode: selected pad plays chromatically across all 12 pads'},
+  {s:'keys',   c:'hold [KEYS] + [−] / [+]',             d:'Shift the keyboard layout up or down by one octave'},
+  {s:'keys',   c:'hold [KEYS] + [PAD]',                 d:'Set root note / transpose scale'},
+  {s:'keys',   c:'[SHIFT] + [ERASE] → pad → sca', d:'Change scale type in system settings: 12T (default), maj, min, dor, phr, lyd, mix, loc, ma.p, mi.p'},
+  {s:'keys',   c:'[SHIFT] + [ERASE] → pad → key', d:'Change scale root key: C through B (12 options)'},
+  {s:'keys',   c:'[KEYS] → hold [TIMING] + [PAD] [PAD]…',d:'Arpeggio - oneshot or legato sounds only',n:true},
+  {s:'keys',   c:'[RECORD] → [PLAY] (in keys)',              d:'Live record pitched notes into the pattern'},
+// ── TIMING ──────────────────────────────────────────────────
+  {s:'timing', c:'[TIMING]',                            d:'Open timing mode (X = note interval, Y = swing)'},
+  {s:'timing', c:'turn [KNOB X] (in timing)',               d:'Note interval: 1/1, 1/2, 1/4, 1/8, 1/8T, 1/16, 1/16T, 1/32'},
+  {s:'timing', c:'turn [KNOB Y] (in timing)',               d:'Swing - applies to 1/8 and 1/16 only'},
+  {s:'timing', c:'[−] (in timing)',                         d:'Quantized mode - snaps recording to note interval'},
+  {s:'timing', c:'[+] (in timing)',                         d:'Free time mode - records exactly as played'},
+  {s:'timing', c:'hold [TIMING] + [PAD]',                d:'Note repeat at current interval (velocity sensitive)'},
+  {s:'timing', c:'[TIMING] → hold [SHIFT] + [PAD]',     d:'Latch note repeat on pad - same combo to toggle off'},
+  {s:'timing', c:'[SHIFT] + [TIMING]',                   d:'Open timing correct - tap any pad to snap all its notes to the current interval'},
+  {s:'timing', c:'[PAD] (in timing correct, while stopped)',      d:'Quantize all notes on that pad to note interval'},
+  {s:'timing', c:'hold [PAD] (in timing correct, while playing)', d:'Live-quantize notes on that pad while held'},
+  {s:'timing', c:'hold [PAD] + [−] / [+] (in timing correct)', d:'Nudge all notes on that pad earlier or later by one step',n:true},
+// ── FADER ───────────────────────────────────────────────────
+  {s:'fader',  c:'hold [FADER] + [PAD]',                d:'Assign fader function - Level, Pitch, Time, LPF, HPF, →FX, ATK, REL, Pan, Tune, Vel, Mod (labeled above pads)'},
+  {s:'fader',  c:'hold [RECORD] + move [FADER]',        d:'Record fader movement into the pattern'},
+  {s:'fader',  c:'[SHIFT] + [FADER]',                   d:'Reset fader to default; press again to recall previous'},
+  {s:'fader',  c:'hold [GROUP] + move [FADER]',         d:'Adjust group project volume - not automatable, spans all patterns'},
+  {s:'fader',  c:'hold [SHIFT] + move [FADER]',         d:'Fine-tune fader position with higher precision'},
+// ── SOUND ───────────────────────────────────────────────────
+  {s:'sound',  c:'[SOUND]',                             d:'Enter sound mode - browse and assign samples to pads'},
+  {s:'sound',  c:'[−] / [+] (in sound)',                   d:'Change sample on current pad'},
+  {s:'sound',  c:'[SHIFT] + [−] / [+] (in sound)',         d:'Jump through sample library in tens'},
+  {s:'sound',  c:'turn [KNOB X] (in sound)',                d:'Amplitude - sets this pad\'s volume relative to the other pads'},
+  {s:'sound',  c:'turn [KNOB Y] (in sound)',                d:'Pitch - shifts this pad\'s sample up or down in semitones'},
+  {s:'sound',  c:'[SHIFT] + [SOUND]',                   d:'Enter sound edit - Trim, Envelope, Time, MIDI, Mute Group'},
+  {s:'sound',  c:'hold [SHIFT] + [SOUND] (2s)',          d:'Save sound edits permanently to disk'},
+  {s:'sound',  c:'[−] / [+] (in sound edit)',               d:'Navigate between edit sub-modes'},
+  {s:'sound',  c:'[SHIFT] + [SOUND] → mute group sub-mode', d:'Assign this pad to a mute group (1–4) - pads sharing a group cut each other off; perfect for hi-hats'},
+  {s:'sound',  c:'(in time edit) → turn [KNOB X] to REV', d:'Reverse sample playback',n:true},
+  {s:'sound',  c:'hold [SHIFT] + [SOUND] (in trim)',        d:'Crop sample to current trim points - permanent',n:true},
+// ── SAMPLE + CHOP ───────────────────────────────────────────
+  {s:'sample', c:'[SAMPLE]',                            d:'Enter sample mode - all pads blink; tap and hold any pad to record audio to it'},
+  {s:'sample', c:'hold [PAD] (in sample)',                  d:'Record audio to that pad - hold to capture, release to stop and auto-trim'},
+  {s:'sample', c:'[−] / [+] (in sample)',                   d:'Switch input: mic, line mono/stereo, resample, USB'},
+  {s:'sample', c:'[SHIFT] + [PAD] (in sample)',             d:'Hands-free sampling - k.o. ii holds the pad for you'},
+  {s:'sample', c:'[SHIFT] + [PAD] → [PLAY] (in resample)', d:'Resample the current pattern\'s full length'},
+  {s:'sample', c:'[SHIFT] + [SAMPLE] → CHOP',           d:'Enter chop mode - slice a sample and spread chunks across group pads'},
+  {s:'sample', c:'[GROUP] (in chop)',                       d:'Select destination group (resets that group\'s pads)'},
+  {s:'sample', c:'hold [GROUP] + [−] / [+] (in chop)',     d:'Switch: equal-length slices vs. attack-detection',n:true},
+  {s:'sample', c:'[−] / [+] (in auto-chop)',               d:'Set number of equal-length slices to distribute across group pads'},
+// ── LOOP ────────────────────────────────────────────────────
+  {s:'loop',   c:'[SHIFT] + [TEMPO]',                   d:'Create a loop at the current playhead'},
+  {s:'loop',   c:'hold [SHIFT] + [TEMPO]',              d:'Set loop length - starts on press, ends on release'},
+  {s:'loop',   c:'turn [KNOB X] (in loop)',                 d:'Slide loop position back and forth - tempo-locked'},
+  {s:'loop',   c:'turn [KNOB Y] (in loop)',                 d:'Adjust loop length'},
+  {s:'loop',   c:'[TEMPO]',                             d:'Exit loop immediately'},
+  {s:'loop',   c:'[MAIN]',                              d:'Exit loop gracefully at end of next bar'},
+// ── TEMPO ───────────────────────────────────────────────────
+  {s:'tempo',  c:'[TEMPO]',                             d:'Enter tempo mode - display shows current BPM'},
+  {s:'tempo',  c:'tap [TEMPO]',                         d:'Tap to set tempo'},
+  {s:'tempo',  c:'turn [KNOB X] (in tempo)',                d:'Adjust BPM - 60–180 with knob, 40–399 by typing'},
+  {s:'tempo',  c:'hold [TEMPO] + numpad',               d:'Type exact BPM - use . for decimals e.g. 120.51'},
+  {s:'tempo',  c:'[SAMPLE] + [TEMPO]',                  d:'Tempo match - listens to audio input and sets BPM'},
+// ── SYSTEM SETTINGS ─────────────────────────────────────────
+  {s:'system', c:'[SHIFT] + [ERASE]',        d:'Open system settings - navigate with −/+, confirm with ENTER, back with SHIFT+ENTER (or MAIN to exit)'},
+// MIDI clock
+  {s:'system', c:'mid → clk → off',     sub:true,           code:'100',     d:'MIDI clock off - internal clock, no sync (default)'},
+  {s:'system', c:'mid → clk → in',      sub:true,           code:'101',     d:'Sync to incoming external MIDI clock'},
+  {s:'system', c:'mid → clk → out',     sub:true,           code:'102',     d:'Send MIDI clock to external gear'},
+// MIDI channel
+  {s:'system', c:'mid → chn → all',     sub:true, sep:true, code:'110',     d:'Receive on all channels, send on ch.1 (default)'},
+  {s:'system', c:'mid → chn → ch.1–16', sub:true,           code:'111–126', d:'Lock send + receive to a specific MIDI channel'},
+  {s:'system', c:'mid → chn → off',     sub:true,           code:'127',     d:'Only send MIDI if a channel is assigned per-pad in sound edit'},
+// MIDI misc
+  {s:'system', c:'mid → thr → on',      sub:true,           code:'131',     d:'MIDI thru - forward incoming MIDI signal through MIDI out'},
+  {s:'system', c:'mid → rst → on',      sub:true,           code:'141',     d:'Reset all MIDI controllers on stop'},
+// Sync in
+  {s:'system', c:'syn → in → 16',       sub:true, sep:true, code:'201',     d:'Sync in: 1/16 note pulse (default)'},
+  {s:'system', c:'syn → in → 8',        sub:true,           code:'200',     d:'Sync in: 1/8 note - for Pocket Operator SY2'},
+  {s:'system', c:'syn → in → 24',       sub:true,           code:'202',     d:'Sync in: 24 PPQ - for vintage drum machines'},
+// Sync out
+  {s:'system', c:'syn → out → 16',      sub:true,           code:'211',     d:'Sync out: 1/16 note (default)'},
+  {s:'system', c:'syn → out → 8',       sub:true,           code:'210',     d:'Sync out: 1/8 note - for Pocket Operator SY1'},
+  {s:'system', c:'syn → out → 24',      sub:true,           code:'212',     d:'Sync out: 24 PPQ'},
+// Pad velocity
+  {s:'system', c:'pad → vel → off',     sub:true, sep:true, code:'300',     d:'Fixed full velocity on all pads (default)'},
+  {s:'system', c:'pad → vel → hi',      sub:true,           code:'301',     d:'Pressure sensitive - soft touch'},
+  {s:'system', c:'pad → vel → lo',      sub:true,           code:'302',     d:'Pressure sensitive - vigorous play'},
+// Scale type
+  {s:'system', c:'pad → sca → 12t',     sub:true, sep:true, code:'310',     d:'12-tone equal temperament (default)'},
+  {s:'system', c:'pad → sca → maj',     sub:true,           code:'311',     d:'Major (Ionian)'},
+  {s:'system', c:'pad → sca → min',     sub:true,           code:'312',     d:'Natural minor (Aeolian)'},
+  {s:'system', c:'pad → sca → dor',     sub:true,           code:'313',     d:'Dorian mode'},
+  {s:'system', c:'pad → sca → phr',     sub:true,           code:'314',     d:'Phrygian mode'},
+  {s:'system', c:'pad → sca → lyd',     sub:true,           code:'315',     d:'Lydian mode'},
+  {s:'system', c:'pad → sca → mix',     sub:true,           code:'316',     d:'Mixolydian mode'},
+  {s:'system', c:'pad → sca → loc',     sub:true,           code:'317',     d:'Locrian mode'},
+  {s:'system', c:'pad → sca → ma.p',    sub:true,           code:'318',     d:'Major pentatonic'},
+  {s:'system', c:'pad → sca → mi.p',    sub:true,           code:'319',     d:'Minor pentatonic'},
+// Scale key + auditioning
+  {s:'system', c:'pad → key → c (thru b)', sub:true,        code:'320–331', d:'Set scale root key - C through B'},
+  {s:'system', c:'pad → aud → on',         sub:true,        code:'340',     d:'Enable sample auditioning while tweaking values'},
+// Sequencer metronome
+  {s:'system', c:'seq → met → rec',     sub:true, sep:true, code:'401',     d:'Metronome during record only (default)'},
+  {s:'system', c:'seq → met → on',      sub:true,           code:'400',     d:'Metronome during record + playback'},
+  {s:'system', c:'seq → met → cnt',     sub:true,           code:'402',     d:'Metronome at count-in only'},
+// Scene sync
+  {s:'system', c:'seq → scn → tic',     sub:true,           code:'410',     d:'Scene change immediately on button press (default)'},
+  {s:'system', c:'seq → scn → bar',     sub:true,           code:'411',     d:'Scene change waits for end of current bar'},
+  {s:'system', c:'seq → scn → ptn',     sub:true,           code:'412',     d:'Scene change waits for end of current pattern'},
+];
+
+function escH(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function renderCombo(str) {
+  let html = '';
+  const re = /\[([^\]]+)\]|(→|\+)|\(([^)]+)\)/g;
+  let last = 0, m;
+  while ((m = re.exec(str)) !== null) {
+    if (m.index > last) {
+      const txt = str.slice(last, m.index).trim();
+      if (txt) html += `<span class="ctx">${escH(txt)}</span>`;
+    }
+    if (m[1]) {
+      html += `<span class="key${m[1]==='SHIFT'?' ks':''}">${escH(m[1])}</span>`;
+    } else if (m[2]) {
+      html += `<span class="op">${m[2]}</span>`;
+    } else if (m[3]) {
+      html += `<span class="ctx">(${escH(m[3])})</span>`;
+    }
+    last = m.index + m[0].length;
+  }
+  if (last < str.length) {
+    const rest = str.slice(last).trim();
+    if (rest) html += `<span class="ctx">${escH(rest)}</span>`;
+  }
+  return html;
+}
+
+// Render inline key chips into workflow and quick ref label spots
+function injectCombo(id, str) {
+  const el = document.getElementById(id);
+  if (el) el.innerHTML = renderCombo(str);
+}
+
+injectCombo('wf1',   'hold [MAIN] + [−] / [+]');
+injectCombo('wf2',   '[SOUND] → select pad → [−] / [+]');
+injectCombo('wf3',   'tap [TEMPO]  or  [RECORD] → [−] / [+]');
+injectCombo('wf4',   '[RECORD] → [PLAY]');
+injectCombo('wf5',   '[−] / [+]  to step through');
+injectCombo('wf6',   '[GROUP B] / [GROUP C] / [GROUP D]');
+injectCombo('wf7',   '[SHIFT] + [MAIN]');
+injectCombo('wf9',   '[SAMPLE] → [SHIFT] + [PAD] → [PLAY]');
+injectCombo('wf10',  'hold [MAIN] → [ENTER]');
+
+// Quick ref inline labels
+document.getElementById('qref-fx-label').innerHTML    = renderCombo('[FX]');
+document.getElementById('qref-fader-label').innerHTML = renderCombo('[FADER]');
+
+// Tips inline chips
+injectCombo('tip-shift',  '[SHIFT]');
+injectCombo('tip-undo',   '[SHIFT] + [B]');
+injectCombo('tip-fx',     '[FX]');
+injectCombo('tip-rec',    '[RECORD]');
+injectCombo('tip-main',   '[MAIN]');
+injectCombo('tip-shift2', '[SHIFT]');
+injectCombo('tip-fx2',    '[FX]');
+injectCombo('tip-mute',   '[SHIFT] + [SOUND]');
+
+let activeFilter = 'all';
+let searchTerm = '';
+
+function render() {
+  const main    = document.getElementById('main');
+  const noRes   = document.getElementById('no-res');
+  const orient  = document.getElementById('orient');
+  const extras  = document.getElementById('extras');
+  const qref    = document.getElementById('qref');
+
+  const showExtras = (activeFilter === 'all' && !searchTerm);
+  orient.style.display = showExtras ? '' : 'none';
+  extras.style.display = showExtras ? '' : 'none';
+  qref.style.display   = showExtras ? '' : 'none';
+
+  let hasAny = false;
+  let html = '';
+  let secNum = 1;
+
+  SECTIONS.forEach(sec => {
+    const isSystem = sec.id === 'system';
+    const rows = DATA.filter(d => {
+      if (d.s !== sec.id) return false;
+      if (activeFilter !== 'all' && d.s !== activeFilter) return false;
+      if (searchTerm) {
+        const q = searchTerm.toLowerCase();
+        const plain = d.c.replace(/\[([^\]]+)\]/g,'$1').toLowerCase();
+        if (!plain.includes(q) && !d.d.toLowerCase().includes(q) && !sec.label.includes(q)) return false;
+      }
+      return true;
+    });
+    if (!rows.length) return;
+    hasAny = true;
+
+    html += `<div class="section-group${isSystem ? ' full-width' : ''}">`;
+    html += `<div class="s-head">
+      <span class="s-head-num">((${String(secNum).padStart(2,'0')}))</span>
+      <span class="s-head-label">${escH(sec.label)}</span>
+    </div>`;
+    if (isSystem) {
+      html += '<div class="rows-grid">';
+      html += `<div class="row sys-head-row">
+        <div class="row-code">code</div>
+        <div class="row-combo">path</div>
+        <div class="row-desc">setting</div>
+        <div class="row-badge"></div>
+      </div>`;
+    }
+    rows.forEach(d => {
+      const cls = ['row'];
+      if (d.sub) cls.push('sub-row');
+      if (d.sep) cls.push('sep-row');
+      if (isSystem && !d.sub) cls.push('full-span');
+      const codeEl = (isSystem && d.sub) ? `<div class="row-code">${d.code ? escH(d.code) : ''}</div>` : '';
+      html += `<div class="${cls.join(' ')}">
+        <div class="row-combo">${renderCombo(d.c)}</div>
+        <div class="row-desc">${escH(d.d)}</div>
+        ${codeEl}
+        <div class="row-badge">${d.n ? '<span class="badge-new">2.5</span>' : ''}</div>
+      </div>`;
+    });
+    if (isSystem) html += '</div>';
+    html += `</div>`;
+
+    secNum++;
+  });
+
+  if (!hasAny) {
+    main.innerHTML = '';
+    noRes.style.display = 'block';
+    return;
+  }
+  noRes.style.display = 'none';
+  main.innerHTML = html;
+}
+
+// Filter buttons
+(function() {
+  const el = document.getElementById('filters');
+  const all = [{id:'all', label:'all'}, ...SECTIONS];
+  let html = '';
+  all.forEach(f => {
+    html += `<button class="filter${f.id==='all'?' on':''}" data-id="${f.id}">${escH(f.label)}</button>`;
+  });
+  el.innerHTML = html;
+  el.addEventListener('click', e => {
+    const btn = e.target.closest('.filter');
+    if (!btn) return;
+    activeFilter = btn.dataset.id;
+    el.querySelectorAll('.filter').forEach(b => b.classList.toggle('on', b.dataset.id === activeFilter));
+    render();
+  });
+})();
+
+document.getElementById('search').addEventListener('input', e => {
+  searchTerm = e.target.value.trim();
+  render();
+});
+
+render();
+
+</script>
+</body>
+</html>
