@@ -231,11 +231,21 @@ h1.h-logo{margin:0;display:inline}
 /* Code column (system settings) */
 .row-code{
   font-family:var(--mono);font-size:9px;color:var(--dim);
-  text-align:right;white-space:nowrap;align-self:center;min-width:52px;
+  text-align:left;white-space:nowrap;align-self:center;min-width:40px;
 }
-/* System settings sub-rows get 4-column grid (combo | desc | code | badge) */
+/* System settings sub-rows get 4-column grid (code | combo | desc | badge) */
 .section-group.full-width .rows-grid .row.sub-row{
-  grid-template-columns:minmax(140px,auto) 1fr auto auto;
+  grid-template-columns:auto minmax(140px,auto) 1fr auto;
+}
+.section-group.full-width .rows-grid .row.sub-row .row-code{order:1}
+.section-group.full-width .rows-grid .row.sub-row .row-combo{order:2}
+.section-group.full-width .rows-grid .row.sub-row .row-desc{order:3}
+.section-group.full-width .rows-grid .row.sub-row .row-badge{order:4}
+
+/* Opener row (e.g. SHIFT+ERASE) - stronger separator from the settings list below it */
+.section-group.full-width .rows-grid .row.full-span{
+  border-bottom:2px solid var(--border2);
+  padding-bottom:10px;margin-bottom:3px;
 }
 
 /* Tips list - use absolute bullet so inline key chips flow as normal text */
@@ -298,7 +308,7 @@ main{padding:0 24px}
   content:'';
   position:absolute;top:-4px;left:-4px;
   width:8px;height:8px;border-radius:50%;
-  background:var(--bg);border:1.3px solid var(--dim);
+  background:var(--bg);border:1.8px solid var(--muted);
 }
 .key.ks{
   color:#fff;
@@ -333,8 +343,23 @@ main{padding:0 24px}
 /* ── SEP-ROW (system settings group separator) ─────────────── */
 .sep-row{border-top:1px solid var(--border2) !important;padding-top:5px;margin-top:4px}
 
-/* ── SYS-HEAD-ROW (print-only table header) ─────────────────── */
-.sys-head-row{display:none}
+/* ── SYS-HEAD-ROW (column header, system settings only) ─────── */
+.sys-head-row{
+  display:grid;
+  grid-template-columns:auto minmax(140px,auto) 1fr auto;
+  padding:4px 0 3px;
+  border-bottom:1.5px solid var(--border2);
+}
+.sys-head-row .row-code,
+.sys-head-row .row-combo,
+.sys-head-row .row-desc{
+  font-family:var(--mono);font-size:8px;letter-spacing:.1em;
+  color:var(--muted);text-transform:uppercase;
+}
+.sys-head-row .row-code{order:1}
+.sys-head-row .row-combo{order:2}
+.sys-head-row .row-desc{order:3}
+.sys-head-row .row-badge{order:4}
 
 /* ── RESPONSIVE ──────────────────────────────────────────── */
 @media(max-width:800px){
@@ -474,7 +499,7 @@ main{padding:0 24px}
   .row-combo{grid-column:2;grid-row:1;gap:2px;justify-content:flex-start}
   .row-combo .bare{flex-basis:100%}
   .row-badge{grid-column:3;grid-row:1;align-self:center}
-  .key.held::after{background:#fff;border-color:#999}
+  .key.held::after{background:#fff;border-color:#888;border-width:1.8px}
   .sub-row .row-combo{padding-left:16px}
   .qref-sep{margin-top:8px;padding-top:8px;border-top:1px solid #ccc}
   .key{
@@ -523,11 +548,12 @@ main{padding:0 24px}
     color:#aaa;text-transform:uppercase;
   }
   .sys-head-row .row-badge{order:4;width:24px}
-  /* Opener row (SHIFT+ERASE) - plain, like any other row */
+  /* Opener row (SHIFT+ERASE) - stronger separator from the settings list below it */
   .section-group.full-width .rows-grid .row.full-span{
     display:flex;align-items:center;
-    padding:3px 0;gap:8px;
-    border-bottom:1px solid #e4e4e4;
+    padding:3px 0 7px;gap:8px;
+    border-bottom:1.5px solid #999;
+    margin-bottom:2px;
   }
   .section-group.full-width .rows-grid .row.full-span .row-desc{
     font-size:9px;color:#444;
@@ -954,7 +980,7 @@ const DATA = [
 // ── STEP SEQ ────────────────────────────────────────────────
   {s:'step',  c:'[−] / [+] (while stopped)',                  d:'Step backward / forward through the sequencer'},
   {s:'step',  c:'hold [RECORD] + [PAD] (while stopped)',       d:'Write that pad\'s note to the current step'},
-  {s:'step',  c:'[ERASE] + [PAD] (while stopped)',             d:'Erase all notes for that pad - hold until TRK blinks'},
+  {s:'step',  c:'hold [ERASE] + [PAD] (while stopped)',        d:'Erase all notes for that pad - hold until TRK blinks'},
   {s:'step',  c:'[ERASE] + [PAD] (while playing)',             d:'Live-erase pad notes as the pattern plays'},
   {s:'step',  c:'[SHIFT] + [PAD] + [−] / [+]',          d:'Nudge note - steps in quantize mode, ticks in free time'},
   {s:'step',  c:'[SHIFT] + turn [KNOB X]',              d:'Set velocity for all notes at the current step'},
@@ -969,7 +995,7 @@ const DATA = [
   {s:'scenes', c:'hold [MAIN] + numpad',                 d:'Jump directly to a scene by number'},
   {s:'scenes', c:'hold [MAIN] + [PAD 1–9]',             d:'Switch project (9 projects total)'},
   {s:'scenes', c:'[SHIFT] + [MAIN]',                    d:'Commit: duplicate scene, advance to next, keep editing'},
-  {s:'scenes', c:'[ERASE] + [MAIN] (2s)',               d:'Clear scene contents, or delete if empty and not in song'},
+  {s:'scenes', c:'hold [ERASE] + [MAIN] (2s)',          d:'Clear scene contents, or delete if empty and not in song'},
 // ── SONG MODE ───────────────────────────────────────────────
   {s:'song',   c:'hold [MAIN] → [ENTER]',               d:'Open song list editor - arrange committed scenes into a full song'},
   {s:'song',   c:'[−] / [+] (in song editor)',              d:'Go to previous / next song position'},
@@ -987,9 +1013,9 @@ const DATA = [
   {s:'edit',   c:'hold [PAD] → [SHIFT] + [C]',          d:'Copy just this pad\'s notes (per-pad)',n:true},
   {s:'edit',   c:'hold [PAD] → [SHIFT] + [D]',          d:'Paste just this pad\'s notes (per-pad)',n:true},
 // ── ERASE ───────────────────────────────────────────────────
-  {s:'erase',  c:'[ERASE] + [GROUP]',                   d:'Erase entire current pattern - hold until PTN blinks'},
+  {s:'erase',  c:'hold [ERASE] + [GROUP]',              d:'Erase entire current pattern - hold until PTN blinks'},
   {s:'erase',  c:'[ERASE] + [SOUND]',                   d:'Permanently delete the currently selected sample'},
-  {s:'erase',  c:'[ERASE] + [FADER] (2s, while stopped)',     d:'Erase all fader automation; fader position resets to where it was when held'},
+  {s:'erase',  c:'hold [ERASE] + [FADER] (2s, while stopped)', d:'Erase all fader automation; fader position resets to where it was when held'},
   {s:'erase',  c:'[ERASE] + [FADER] (while playing)',         d:'Erase fader automation live while playing'},
   {s:'erase',  c:'[ERASE] + [FADER] + [PAD]',           d:'Erase one fader assignment\'s automation only',n:true},
   {s:'erase',  c:'[SHIFT] + [ERASE]',                   d:'Open system settings - velocity, scene sync, MIDI clock, scale, metronome (see system settings section)'},
