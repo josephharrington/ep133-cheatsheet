@@ -166,7 +166,10 @@ red logo. This isn't arbitrary — it's the core design intent, and changes shou
 - Section numbers use `((01))` format with double parens — a TE-ism referencing their UI style
 
 **What to avoid:**
-- Don't introduce blue, green, or other hues — the red/cream/black palette is closed
+- Don't introduce blue, green, or other hues — the palette is red/orange, cream, and black.
+  This is a working default, not a locked-in rule: it's held so far because it matches the
+  physical device, but revisit it if a better device-accurate reference turns up (as happened
+  when the accent shifted from red to orange after checking TE's own reference art)
 - Don't add rounded cards, shadows, or gradients — the design is deliberately flat and typographic
 - Don't switch to a sans-serif for labels or codes — monospace is load-bearing for the aesthetic
 - Don't make it look like a generic dark-mode developer tool or a Notion page

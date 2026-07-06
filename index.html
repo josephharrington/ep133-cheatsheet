@@ -69,6 +69,11 @@ h1.h-logo{margin:0;display:inline}
 #search::placeholder{color:var(--dim)}
 #search:focus{border-color:#888}
 .filters{display:flex;flex-wrap:wrap;gap:5px}
+.legend{display:flex;flex-wrap:wrap;gap:7px 18px;margin-top:9px;font-family:var(--mono);font-size:9.5px;color:var(--muted)}
+.legend-item{display:flex;align-items:center;gap:5px;padding-left:18px;position:relative}
+.legend-item:first-child{padding-left:0}
+.legend-item:first-child::before{content:none}
+.legend-item::before{content:'·';position:absolute;left:6px;color:var(--border2);font-size:13px}
 .filter{
   padding:4px 11px;
   font-family:var(--mono);font-size:9px;letter-spacing:.06em;
@@ -612,6 +617,12 @@ main{padding:0 24px}
   </div>
   <input id="search" type="text" placeholder="search shortcuts…" autocomplete="off" spellcheck="false">
   <div class="filters" id="filters"></div>
+  <div class="legend" id="legend">
+    <span class="legend-item"><span id="legend-key"></span> press</span>
+    <span class="legend-item"><span class="op">+</span> hold &amp; press together</span>
+    <span class="legend-item"><span class="op">→</span> then (release first)</span>
+    <span class="legend-item"><span id="legend-held"></span> extended / timed hold</span>
+  </div>
 </header>
 
 <!-- ORIENTATION -->
@@ -895,7 +906,7 @@ main{padding:0 24px}
       </div>
     </div>
 
-    <div class="qref-head qref-sep">fader modes - hold <span id="qref-fader-label"></span> + labeled pad</div>
+    <div class="qref-head qref-sep">fader modes - <span id="qref-fader-label"></span> + labeled pad</div>
     <div class="fader-table">
       <div class="fader-entry"><span class="fader-name def">level ★</span><span class="fader-def">group/pattern volume</span></div>
       <div class="fader-entry"><span class="fader-name">pitch</span><span class="fader-def">semitone pitch shift</span></div>
@@ -979,12 +990,12 @@ const DATA = [
   {s:'record',c:'[RECORD] + [ERASE] + [+]',             d:'Overwrite record - clears existing pattern, starts fresh'},
 // ── STEP SEQ ────────────────────────────────────────────────
   {s:'step',  c:'[−] / [+] (while stopped)',                  d:'Step backward / forward through the sequencer'},
-  {s:'step',  c:'hold [RECORD] + [PAD] (while stopped)',       d:'Write that pad\'s note to the current step'},
+  {s:'step',  c:'[RECORD] + [PAD] (while stopped)',            d:'Write that pad\'s note to the current step - tap for a short note, hold for a longer one'},
   {s:'step',  c:'hold [ERASE] + [PAD] (while stopped)',        d:'Erase all notes for that pad - hold until TRK blinks'},
   {s:'step',  c:'[ERASE] + [PAD] (while playing)',             d:'Live-erase pad notes as the pattern plays'},
   {s:'step',  c:'[SHIFT] + [PAD] + [−] / [+]',          d:'Nudge note - steps in quantize mode, ticks in free time'},
-  {s:'step',  c:'[SHIFT] + turn [KNOB X]',              d:'Set velocity for all notes at the current step'},
-  {s:'step',  c:'[SHIFT] + turn [KNOB Y]',              d:'Set duration for all notes at the current step'},
+  {s:'step',  c:'hold [SHIFT] + turn [KNOB X]',         d:'Set velocity for all notes at the current step'},
+  {s:'step',  c:'hold [SHIFT] + turn [KNOB Y]',         d:'Set duration for all notes at the current step'},
 // ── PATTERNS ────────────────────────────────────────────────
   {s:'patterns',c:'hold [GROUP] + [−] / [+]',           d:'Select pattern - or hold GROUP + type number on pads'},
   {s:'patterns',c:'hold [GROUP A] + [GROUP B] + [−] / [+]', d:'Hold multiple groups at once to scroll all their patterns together, locked to the same offset'},
@@ -993,11 +1004,11 @@ const DATA = [
 // ── SCENES ──────────────────────────────────────────────────
   {s:'scenes', c:'hold [MAIN] + [−] / [+]',             d:'Select scene 01–99'},
   {s:'scenes', c:'hold [MAIN] + numpad',                 d:'Jump directly to a scene by number'},
-  {s:'scenes', c:'hold [MAIN] + [PAD 1–9]',             d:'Switch project (9 projects total)'},
+  {s:'scenes', c:'[MAIN] + [PAD 1–9]',                  d:'Switch project (9 projects total)'},
   {s:'scenes', c:'[SHIFT] + [MAIN]',                    d:'Commit: duplicate scene, advance to next, keep editing'},
   {s:'scenes', c:'hold [ERASE] + [MAIN] (2s)',          d:'Clear scene contents, or delete if empty and not in song'},
 // ── SONG MODE ───────────────────────────────────────────────
-  {s:'song',   c:'hold [MAIN] → [ENTER]',               d:'Open song list editor - arrange committed scenes into a full song'},
+  {s:'song',   c:'[MAIN] + [ENTER]',                    d:'Open song list editor - arrange committed scenes into a full song'},
   {s:'song',   c:'[−] / [+] (in song editor)',              d:'Go to previous / next song position'},
   {s:'song',   c:'[SHIFT] + [A] (in song editor)',          d:'Add current scene to song list at this position'},
   {s:'song',   c:'[SHIFT] + [−] / [+] (in song editor)',   d:'Change which scene plays at the current position'},
@@ -1021,8 +1032,8 @@ const DATA = [
   {s:'erase',  c:'[SHIFT] + [ERASE]',                   d:'Open system settings - velocity, scene sync, MIDI clock, scale, metronome (see system settings section)'},
 // ── KEYS ────────────────────────────────────────────────────
   {s:'keys',   c:'[KEYS]',                              d:'Keys mode: selected pad plays chromatically across all 12 pads'},
-  {s:'keys',   c:'hold [KEYS] + [−] / [+]',             d:'Shift the keyboard layout up or down by one octave'},
-  {s:'keys',   c:'hold [KEYS] + [PAD]',                 d:'Set root note / transpose scale'},
+  {s:'keys',   c:'[KEYS] + [−] / [+]',                  d:'Shift the keyboard layout up or down by one octave'},
+  {s:'keys',   c:'[KEYS] + [PAD]',                      d:'Set root note / transpose scale'},
   {s:'keys',   c:'[SHIFT] + [ERASE] → pad → sca', d:'Change scale type in system settings: 12T (default), maj, min, dor, phr, lyd, mix, loc, ma.p, mi.p'},
   {s:'keys',   c:'[SHIFT] + [ERASE] → pad → key', d:'Change scale root key: C through B (12 options)'},
   {s:'keys',   c:'[KEYS] → hold [TIMING] + [PAD] [PAD]…',d:'Arpeggio - oneshot or legato sounds only',n:true},
@@ -1034,13 +1045,13 @@ const DATA = [
   {s:'timing', c:'[−] (in timing)',                         d:'Quantized mode - snaps recording to note interval'},
   {s:'timing', c:'[+] (in timing)',                         d:'Free time mode - records exactly as played'},
   {s:'timing', c:'hold [TIMING] + [PAD]',                d:'Note repeat at current interval (velocity sensitive)'},
-  {s:'timing', c:'[TIMING] → hold [SHIFT] + [PAD]',     d:'Latch note repeat on pad - same combo to toggle off'},
+  {s:'timing', c:'[TIMING] → [SHIFT] + [PAD]',          d:'Latch note repeat on pad - same combo to toggle off'},
   {s:'timing', c:'[SHIFT] + [TIMING]',                   d:'Open timing correct - tap any pad to snap all its notes to the current interval'},
   {s:'timing', c:'[PAD] (in timing correct, while stopped)',      d:'Quantize all notes on that pad to note interval'},
   {s:'timing', c:'hold [PAD] (in timing correct, while playing)', d:'Live-quantize notes on that pad while held'},
   {s:'timing', c:'hold [PAD] + [−] / [+] (in timing correct)', d:'Nudge all notes on that pad earlier or later by one step',n:true},
 // ── FADER ───────────────────────────────────────────────────
-  {s:'fader',  c:'hold [FADER] + [PAD]',                d:'Assign fader function - Level, Pitch, Time, LPF, HPF, →FX, ATK, REL, Pan, Tune, Vel, Mod (labeled above pads)'},
+  {s:'fader',  c:'[FADER] + [PAD]',                     d:'Assign fader function - Level, Pitch, Time, LPF, HPF, →FX, ATK, REL, Pan, Tune, Vel, Mod (labeled above pads)'},
   {s:'fader',  c:'hold [RECORD] + move [FADER]',        d:'Record fader movement into the pattern'},
   {s:'fader',  c:'[SHIFT] + [FADER]',                   d:'Reset fader to default; press again to recall previous'},
   {s:'fader',  c:'hold [GROUP] + move [FADER]',         d:'Adjust group project volume - not automatable, spans all patterns'},
@@ -1065,7 +1076,7 @@ const DATA = [
   {s:'sample', c:'[SHIFT] + [PAD] → [PLAY] (in resample)', d:'Resample the current pattern\'s full length'},
   {s:'sample', c:'[SHIFT] + [SAMPLE] → CHOP',           d:'Enter chop mode - slice a sample and spread chunks across group pads'},
   {s:'sample', c:'[GROUP] (in chop)',                       d:'Select destination group (resets that group\'s pads)'},
-  {s:'sample', c:'hold [GROUP] + [−] / [+] (in chop)',     d:'Switch: equal-length slices vs. attack-detection',n:true},
+  {s:'sample', c:'[GROUP] + [−] / [+] (in chop)',          d:'Switch: equal-length slices vs. attack-detection',n:true},
   {s:'sample', c:'[−] / [+] (in auto-chop)',               d:'Set number of equal-length slices to distribute across group pads'},
 // ── LOOP ────────────────────────────────────────────────────
   {s:'loop',   c:'[SHIFT] + [TEMPO]',                   d:'Create a loop at the current playhead'},
@@ -1184,11 +1195,13 @@ injectCombo('wf5',   '[−] / [+]  to step through');
 injectCombo('wf6',   '[GROUP B] / [GROUP C] / [GROUP D]');
 injectCombo('wf7',   '[SHIFT] + [MAIN]');
 injectCombo('wf9',   '[SAMPLE] → [SHIFT] + [PAD] → [PLAY]');
-injectCombo('wf10',  'hold [MAIN] → [ENTER]');
+injectCombo('wf10',  '[MAIN] + [ENTER]');
 
 // Quick ref inline labels
 document.getElementById('qref-fx-label').innerHTML    = renderCombo('[FX]');
 document.getElementById('qref-fader-label').innerHTML = renderCombo('[FADER]');
+document.getElementById('legend-key').innerHTML       = renderCombo('[KEY]');
+document.getElementById('legend-held').innerHTML      = renderCombo('hold [KEY]');
 
 // Tips inline chips
 injectCombo('tip-shift',  '[SHIFT]');
