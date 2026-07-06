@@ -69,11 +69,15 @@ h1.h-logo{margin:0;display:inline}
 #search::placeholder{color:var(--dim)}
 #search:focus{border-color:#888}
 .filters{display:flex;flex-wrap:wrap;gap:5px}
-.legend{display:flex;flex-wrap:wrap;gap:7px 18px;margin-top:9px;font-family:var(--mono);font-size:9.5px;color:var(--muted)}
-.legend-item{display:flex;align-items:center;gap:5px;padding-left:18px;position:relative}
-.legend-item:first-child{padding-left:0}
-.legend-item:first-child::before{content:none}
-.legend-item::before{content:'·';position:absolute;left:6px;color:var(--border2);font-size:13px}
+.legend{display:flex;flex-wrap:wrap;justify-content:space-between;gap:7px 18px;margin-top:9px;font-family:var(--mono);font-size:9.5px;color:var(--muted)}
+.legend-item{display:flex;align-items:center;gap:5px}
+.op-chip{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:16px;height:16px;padding:0 3px;
+  background:var(--card);border:1px solid var(--border2);border-radius:3px;
+  font-family:var(--mono);font-weight:700;font-size:10px;color:var(--sub);
+  line-height:1;
+}
 .filter{
   padding:4px 11px;
   font-family:var(--mono);font-size:9px;letter-spacing:.06em;
@@ -321,7 +325,7 @@ main{padding:0 24px}
   border-bottom-color:#b8380c;
   background:var(--red);
 }
-.op{color:var(--dim);font-family:var(--mono);font-size:11px;padding:0 1px;line-height:1}
+.op{color:var(--sub);font-family:var(--mono);font-size:12px;font-weight:700;padding:0 1px;line-height:1}
 .ctx{color:var(--muted);font-size:9.5px;font-style:italic;font-family:var(--sans)}
 
 .badge-new{
@@ -516,7 +520,8 @@ main{padding:0 24px}
     background:#f5e8e6;color:#b01808;
     border-color:#c03020;border-bottom-color:#c03020;
   }
-  .op{color:#aaa;font-size:10px}
+  .op{color:#555;font-size:10px;font-weight:700}
+  .op-chip{background:#eceae6;border-color:#999;color:#111}
   .ctx{color:#888;font-size:8.5px}
   .badge-new{font-size:6.5px;padding:1px 3px}
   .no-res{display:none!important}
@@ -590,7 +595,7 @@ main{padding:0 24px}
     font-family:var(--mono);letter-spacing:.02em;
   }
   .section-group.full-width .rows-grid .op{
-    color:#999;font-size:9px;padding:0 1px;
+    color:#555;font-size:9.5px;font-weight:700;padding:0 1px;
   }
   /* Group separators: slightly stronger border, matching section head weight */
   .section-group.full-width .rows-grid .sep-row{
@@ -619,8 +624,8 @@ main{padding:0 24px}
   <div class="filters" id="filters"></div>
   <div class="legend" id="legend">
     <span class="legend-item"><span id="legend-key"></span> press</span>
-    <span class="legend-item"><span class="op">+</span> hold &amp; press together</span>
-    <span class="legend-item"><span class="op">→</span> then (release first)</span>
+    <span class="legend-item"><span class="op-chip">+</span> hold &amp; press together</span>
+    <span class="legend-item"><span class="op-chip">→</span> then (release first)</span>
     <span class="legend-item"><span id="legend-held"></span> extended / timed hold</span>
   </div>
 </header>
