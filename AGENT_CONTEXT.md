@@ -142,7 +142,10 @@ red logo. This isn't arbitrary — it's the core design intent, and changes shou
 - `--card: #faf7f2` — slightly lighter cream for inset panels
 - `--key-bg: #1a1a18` — near-black for key chips (matches the device's rubber pads)
 - `--key-text: #ede8dd` — cream text on dark key chips
-- `--red: #d42e1e` — the TE logo red, used sparingly: section numbers, filter active state, SHIFT key
+- `--red: #f15a22` — TE's button/control accent orange (verified against TE's official illustration
+  assets), used sparingly: section numbers, filter active state, SHIFT key. The SHIFT key's darker
+  bottom-border shade (`#b8380c`) is a proportionally-darkened variant of this color — keep them in
+  sync if `--red` ever changes again.
 - `--muted / --dim` — warm grays for secondary text, never cool/blue-toned
 
 **Typography:**
