@@ -243,7 +243,7 @@ h1.h-logo{margin:0;display:inline}
 .section-group.full-width .rows-grid .row.sub-row .row-badge{order:4}
 
 /* Opener row (e.g. SHIFT+ERASE) - stronger separator from the settings list below it */
-.section-group.full-width .rows-grid .row.full-span{
+.section-group.full-width .row.full-span{
   border-bottom:2px solid var(--border2);
   padding-bottom:10px;margin-bottom:3px;
 }
@@ -549,13 +549,13 @@ main{padding:0 24px}
   }
   .sys-head-row .row-badge{order:4;width:24px}
   /* Opener row (SHIFT+ERASE) - stronger separator from the settings list below it */
-  .section-group.full-width .rows-grid .row.full-span{
+  .section-group.full-width .row.full-span{
     display:flex;align-items:center;
     padding:3px 0 7px;gap:8px;
     border-bottom:1.5px solid #999;
     margin-bottom:2px;
   }
-  .section-group.full-width .rows-grid .row.full-span .row-desc{
+  .section-group.full-width .row.full-span .row-desc{
     font-size:9px;color:#444;
   }
   /* Sub-rows: flex with code first */
@@ -1240,6 +1240,12 @@ function render() {
       <span class="s-head-label">${escH(sec.label)}</span>
     </div>`;
     if (isSystem) {
+      const opener = rows.find(d => !d.sub);
+      html += `<div class="row full-span">
+        <div class="row-combo">${renderCombo(opener.c)}</div>
+        <div class="row-desc">${escH(opener.d)}</div>
+        <div class="row-badge"></div>
+      </div>`;
       html += '<div class="rows-grid">';
       html += `<div class="row sys-head-row">
         <div class="row-code">code</div>
@@ -1248,11 +1254,10 @@ function render() {
         <div class="row-badge"></div>
       </div>`;
     }
-    rows.forEach(d => {
+    rows.filter(d => !isSystem || d.sub).forEach(d => {
       const cls = ['row'];
       if (d.sub) cls.push('sub-row');
       if (d.sep) cls.push('sep-row');
-      if (isSystem && !d.sub) cls.push('full-span');
       const codeEl = (isSystem && d.sub) ? `<div class="row-code">${d.code ? escH(d.code) : ''}</div>` : '';
       html += `<div class="${cls.join(' ')}">
         <div class="row-combo">${renderCombo(d.c)}</div>
