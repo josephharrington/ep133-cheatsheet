@@ -284,6 +284,7 @@ main{padding:0 24px}
 
 /* ── KEY CHIPS ───────────────────────────────────────────── */
 .key{
+  position:relative;
   display:inline-flex;align-items:center;
   font-family:var(--mono);font-size:9px;font-weight:700;
   letter-spacing:.04em;text-transform:uppercase;
@@ -292,6 +293,12 @@ main{padding:0 24px}
   border:1px solid #000;border-bottom:2px solid #000;
   border-radius:3px;color:var(--key-text);
   white-space:nowrap;line-height:1;
+}
+.key.held::after{
+  content:'';
+  position:absolute;top:-4px;left:-4px;
+  width:8px;height:8px;border-radius:50%;
+  background:var(--bg);border:1.3px solid var(--dim);
 }
 .key.ks{
   color:#fff;
@@ -454,16 +461,21 @@ main{padding:0 24px}
     break-inside:avoid;
     -webkit-column-break-inside:avoid;
   }
-  .s-head{padding:8px 0 3px;border-color:#ccc;border-bottom-width:1.5px}
+  .s-head{padding:6px 0 5px;border-color:#ccc;border-bottom-width:1.5px}
   .s-head-num{font-size:8px;color:#d42e1e}
   .s-head-label{font-size:8.5px;letter-spacing:.08em}
   .row{
-    grid-template-columns:auto 1fr auto;
-    gap:0 10px;padding:3px 0;border-color:#e4e4e4;
+    grid-template-columns:1fr 140px auto;
+    grid-template-rows:auto;
+    column-gap:10px;
+    padding:3px 0;border-color:#e4e4e4;
   }
-  .row-combo{gap:2px}
-  .row-desc{font-size:9px;color:#444}
-  .sub-row .row-combo{padding-left:12px}
+  .row-desc{grid-column:1;grid-row:1;font-size:9px;color:#333}
+  .row-combo{grid-column:2;grid-row:1;gap:2px;justify-content:flex-start}
+  .row-combo .bare{flex-basis:100%}
+  .row-badge{grid-column:3;grid-row:1;align-self:center}
+  .key.held::after{background:#fff;border-color:#999}
+  .sub-row .row-combo{padding-left:16px}
   .qref-sep{margin-top:8px;padding-top:8px;border-top:1px solid #ccc}
   .key{
     background:#eceae6;border:1px solid #999;border-bottom:2px solid #999;
@@ -1095,17 +1107,29 @@ function escH(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
+function ctxSpan(txt) {
+  const t = txt.trim();
+  const bare = t.length > 10 && t.includes(' ');
+  return `<span class="ctx${bare ? ' bare' : ''}">${escH(txt)}</span>`;
+}
 function renderCombo(str) {
   let html = '';
   const re = /\[([^\]]+)\]|(→|\+)|\(([^)]+)\)/g;
-  let last = 0, m;
+  let last = 0, m, pendingHold = false;
   while ((m = re.exec(str)) !== null) {
     if (m.index > last) {
       const txt = str.slice(last, m.index).trim();
-      if (txt) html += `<span class="ctx">${escH(txt)}</span>`;
+      if (txt === 'hold') {
+        pendingHold = true;
+      } else if (txt) {
+        html += ctxSpan(txt);
+      }
     }
     if (m[1]) {
-      html += `<span class="key${m[1]==='SHIFT'?' ks':''}">${escH(m[1])}</span>`;
+      const cls = ['key', m[1]==='SHIFT'?'ks':'', pendingHold?'held':''].filter(Boolean).join(' ');
+      const title = pendingHold ? ' title="hold"' : '';
+      html += `<span class="${cls}"${title}>${escH(m[1])}</span>`;
+      pendingHold = false;
     } else if (m[2]) {
       html += `<span class="op">${m[2]}</span>`;
     } else if (m[3]) {
@@ -1115,7 +1139,7 @@ function renderCombo(str) {
   }
   if (last < str.length) {
     const rest = str.slice(last).trim();
-    if (rest) html += `<span class="ctx">${escH(rest)}</span>`;
+    if (rest && rest !== 'hold') html += ctxSpan(rest);
   }
   return html;
 }

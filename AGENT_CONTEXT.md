@@ -6,7 +6,7 @@ A single self-contained HTML cheat sheet for the Teenage Engineering EP-133 K.O.
 Hosted (or to be hosted) on GitHub Pages. Designed to be both interactive in the browser and
 print-friendly (A4, 2-column layout). No build step, no dependencies except Google Fonts CDN.
 
-File: `ep133-cheatsheet.html` — everything is in this one file.
+File: `index.html` — everything is in this one file.
 
 ---
 
