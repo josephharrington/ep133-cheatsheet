@@ -50,14 +50,16 @@ h1.h-logo{margin:0;display:inline}
   background:rgba(212,46,30,.1);border:1px solid rgba(212,46,30,.35);
   border-radius:2px;color:var(--red);
 }
+.h-btn-group{margin-left:auto;display:flex;gap:6px}
 .h-print-btn{
-  margin-left:auto;
   padding:5px 12px;
   font-family:var(--mono);font-size:9px;letter-spacing:.06em;
   background:none;border:1px solid var(--border2);border-radius:3px;
   color:var(--muted);cursor:pointer;transition:all .1s;
 }
 .h-print-btn:hover{color:var(--text);border-color:#888}
+.legend-pop-wrap{position:relative}
+#legend-btn[aria-expanded="true"]{color:var(--text);border-color:#888;background:var(--card)}
 
 #search{
   display:block;width:100%;max-width:360px;
@@ -69,8 +71,15 @@ h1.h-logo{margin:0;display:inline}
 #search::placeholder{color:var(--dim)}
 #search:focus{border-color:#888}
 .filters{display:flex;flex-wrap:wrap;gap:5px}
-.legend{display:flex;flex-wrap:wrap;justify-content:space-between;gap:7px 18px;margin-top:9px;font-family:var(--mono);font-size:9.5px;color:var(--muted)}
-.legend-item{display:flex;align-items:center;gap:5px}
+.combo-legend{
+  display:none;flex-direction:column;align-items:flex-start;gap:8px;
+  position:absolute;top:calc(100% + 8px);right:0;min-width:230px;z-index:60;
+  padding:12px 14px;
+  background:var(--card);border:1px solid var(--border2);border-radius:3px;
+  font-family:var(--mono);font-size:9.5px;color:var(--muted);
+}
+.combo-legend.open{display:flex}
+.combo-legend-item{display:flex;align-items:center;gap:6px;white-space:nowrap}
 .op-chip{
   display:inline-flex;align-items:center;justify-content:center;
   min-width:16px;height:16px;padding:0 3px;
@@ -383,7 +392,7 @@ main{padding:0 24px}
   .row-combo{grid-column:1;grid-row:1}
   .row-badge{grid-column:2;grid-row:1;align-self:start}
   .row-desc{grid-column:1/3;grid-row:2}
-  header,main,.orient,.legend,.wf-details,.qref{padding-left:16px;padding-right:16px}
+  header,main,.orient,.legend,.combo-legend,.wf-details,.qref{padding-left:16px;padding-right:16px}
   .wf-summary,.wf-body{padding-left:16px;padding-right:16px}
 }
 
@@ -522,6 +531,12 @@ main{padding:0 24px}
   }
   .op{color:#555;font-size:10px;font-weight:700}
   .op-chip{background:#eceae6;border-color:#999;color:#111}
+  .combo-legend{
+    display:flex!important;position:static!important;
+    flex-direction:row;flex-wrap:wrap;justify-content:space-between;
+    min-width:0;gap:4px 14px;padding:0;margin-top:9px;
+    background:none;border:none;font-size:9px;color:#666;
+  }
   .ctx{color:#888;font-size:8.5px}
   .badge-new{font-size:6.5px;padding:1px 3px}
   .no-res{display:none!important}
@@ -618,16 +633,21 @@ main{padding:0 24px}
     <span class="h-dash">-</span>
     <span class="h-sub">cheat sheet</span>
     <span class="h-badge">v2.5</span>
-    <button class="h-print-btn" onclick="window.print()">print</button>
+    <div class="h-btn-group">
+      <div class="legend-pop-wrap">
+        <button class="h-print-btn" id="legend-btn" onclick="toggleLegend()" aria-expanded="false" aria-controls="legend">legend</button>
+        <div class="combo-legend" id="legend">
+          <span class="combo-legend-item"><span id="legend-key"></span> press</span>
+          <span class="combo-legend-item"><span class="op-chip">+</span> hold &amp; press together</span>
+          <span class="combo-legend-item"><span class="op-chip">→</span> then (release first)</span>
+          <span class="combo-legend-item"><span id="legend-held"></span> extended / timed hold</span>
+        </div>
+      </div>
+      <button class="h-print-btn" onclick="window.print()">print</button>
+    </div>
   </div>
   <input id="search" type="text" placeholder="search shortcuts…" autocomplete="off" spellcheck="false">
   <div class="filters" id="filters"></div>
-  <div class="legend" id="legend">
-    <span class="legend-item"><span id="legend-key"></span> press</span>
-    <span class="legend-item"><span class="op-chip">+</span> hold &amp; press together</span>
-    <span class="legend-item"><span class="op-chip">→</span> then (release first)</span>
-    <span class="legend-item"><span id="legend-held"></span> extended / timed hold</span>
-  </div>
 </header>
 
 <!-- ORIENTATION -->
@@ -986,7 +1006,7 @@ const DATA = [
   {s:'record',c:'[RECORD] → [PLAY]',                    d:'Start recording after a 4-beat count-in'},
   {s:'record',c:'[RECORD] + [PLAY]',                    d:'Start recording immediately - no count-in'},
   {s:'record',c:'[RECORD] → [SHIFT] + [PLAY]',          d:'Record from pattern start, not the current bar'},
-  {s:'record',c:'[PLAY] (while recording)',                    d:'Stop recording AND pause playback - full stop'},
+  {s:'record',c:'[PLAY] (while recording)',                    d:'Stop recording and pause playback - full stop'},
   {s:'record',c:'[RECORD] (while recording)',                  d:'Stop recording only - keeps the beat playing uninterrupted'},
   {s:'record',c:'[RECORD] + [−] / [+]',                 d:'Change pattern length on the fly while playing'},
   {s:'record',c:'[RECORD] → [−] / [+] (while stopped)',  d:'Set pattern length while record-armed'},
@@ -1003,8 +1023,8 @@ const DATA = [
   {s:'step',  c:'hold [SHIFT] + turn [KNOB Y]',         d:'Set duration for all notes at the current step'},
 // ── PATTERNS ────────────────────────────────────────────────
   {s:'patterns',c:'hold [GROUP] + [−] / [+]',           d:'Select pattern - or hold GROUP + type number on pads'},
-  {s:'patterns',c:'hold [GROUP A] + [GROUP B] + [−] / [+]', d:'Hold multiple groups at once to scroll all their patterns together, locked to the same offset'},
-  {s:'patterns',c:'[SHIFT] + [A]',                      d:'Jump to next available empty pattern'},
+  {s:'patterns',c:'hold [GROUP A] + [GROUP B] + [−] / [+]', d:'Hold multiple groups to scroll their patterns together, locked to the same offset'},
+  {s:'patterns',c:'[SHIFT] + [A]',                      d:'Jump to next empty pattern'},
   {s:'patterns',c:'[MAIN] + [TEMPO]',                   d:'Change time signature (X = numerator, Y = denominator)'},
 // ── SCENES ──────────────────────────────────────────────────
   {s:'scenes', c:'hold [MAIN] + [−] / [+]',             d:'Select scene 01–99'},
@@ -1020,7 +1040,7 @@ const DATA = [
   {s:'song',   c:'[SHIFT] + [C] (in song editor)',          d:'Cut scene from current song position to clipboard'},
   {s:'song',   c:'[SHIFT] + [D] (in song editor)',          d:'Insert / paste scene at current song position'},
   {s:'song',   c:'[PLAY] (in song editor)',                 d:'Play song from current position - exits song editor view'},
-  {s:'song',   c:'[SHIFT] + [PLAY] (in song editor)',       d:'Play song from the very beginning'},
+  {s:'song',   c:'[SHIFT] + [PLAY] (in song editor)',       d:'Play song from the beginning'},
 // ── COPY + PASTE ────────────────────────────────────────────
   {s:'edit',   c:'[SHIFT] + [C]',                       d:'Copy - once for current bar, twice for full pattern'},
   {s:'edit',   c:'[SHIFT] + [D]',                       d:'Paste copied bar or full pattern at the current position'},
@@ -1029,12 +1049,11 @@ const DATA = [
   {s:'edit',   c:'hold [PAD] → [SHIFT] + [C]',          d:'Copy just this pad\'s notes (per-pad)',n:true},
   {s:'edit',   c:'hold [PAD] → [SHIFT] + [D]',          d:'Paste just this pad\'s notes (per-pad)',n:true},
 // ── ERASE ───────────────────────────────────────────────────
-  {s:'erase',  c:'hold [ERASE] + [GROUP]',              d:'Erase entire current pattern - hold until PTN blinks'},
+  {s:'erase',  c:'hold [ERASE] + [GROUP]',              d:'Erase current pattern - hold until PTN blinks'},
   {s:'erase',  c:'[ERASE] + [SOUND]',                   d:'Permanently delete the currently selected sample'},
-  {s:'erase',  c:'hold [ERASE] + [FADER] (2s, while stopped)', d:'Erase all fader automation; fader position resets to where it was when held'},
+  {s:'erase',  c:'hold [ERASE] + [FADER] (2s, while stopped)', d:'Erase all fader automation - fader resets to the position it was held at'},
   {s:'erase',  c:'[ERASE] + [FADER] (while playing)',         d:'Erase fader automation live while playing'},
   {s:'erase',  c:'[ERASE] + [FADER] + [PAD]',           d:'Erase one fader assignment\'s automation only',n:true},
-  {s:'erase',  c:'[SHIFT] + [ERASE]',                   d:'Open system settings - velocity, scene sync, MIDI clock, scale, metronome (see system settings section)'},
 // ── KEYS ────────────────────────────────────────────────────
   {s:'keys',   c:'[KEYS]',                              d:'Keys mode: selected pad plays chromatically across all 12 pads'},
   {s:'keys',   c:'[KEYS] + [−] / [+]',                  d:'Shift the keyboard layout up or down by one octave'},
@@ -1058,7 +1077,7 @@ const DATA = [
 // ── FADER ───────────────────────────────────────────────────
   {s:'fader',  c:'[FADER] + [PAD]',                     d:'Assign fader function - Level, Pitch, Time, LPF, HPF, →FX, ATK, REL, Pan, Tune, Vel, Mod (labeled above pads)'},
   {s:'fader',  c:'hold [RECORD] + move [FADER]',        d:'Record fader movement into the pattern'},
-  {s:'fader',  c:'[SHIFT] + [FADER]',                   d:'Reset fader to default; press again to recall previous'},
+  {s:'fader',  c:'[SHIFT] + [FADER]',                   d:'Reset fader to default - press again to recall previous'},
   {s:'fader',  c:'hold [GROUP] + move [FADER]',         d:'Adjust group project volume - not automatable, spans all patterns'},
   {s:'fader',  c:'hold [SHIFT] + move [FADER]',         d:'Fine-tune fader position with higher precision'},
 // ── SOUND ───────────────────────────────────────────────────
@@ -1070,11 +1089,11 @@ const DATA = [
   {s:'sound',  c:'[SHIFT] + [SOUND]',                   d:'Enter sound edit - Trim, Envelope, Time, MIDI, Mute Group'},
   {s:'sound',  c:'hold [SHIFT] + [SOUND] (2s)',          d:'Save sound edits permanently to disk'},
   {s:'sound',  c:'[−] / [+] (in sound edit)',               d:'Navigate between edit sub-modes'},
-  {s:'sound',  c:'[SHIFT] + [SOUND] → mute group sub-mode', d:'Assign this pad to a mute group (1–4) - pads sharing a group cut each other off; perfect for hi-hats'},
+  {s:'sound',  c:'[SHIFT] + [SOUND] → mute group sub-mode', d:'Assign this pad to a mute group (1–4) - pads sharing a group cut each other off, great for hi-hats'},
   {s:'sound',  c:'(in time edit) → turn [KNOB X] to REV', d:'Reverse sample playback',n:true},
   {s:'sound',  c:'hold [SHIFT] + [SOUND] (in trim)',        d:'Crop sample to current trim points - permanent',n:true},
 // ── SAMPLE + CHOP ───────────────────────────────────────────
-  {s:'sample', c:'[SAMPLE]',                            d:'Enter sample mode - all pads blink; tap and hold any pad to record audio to it'},
+  {s:'sample', c:'[SAMPLE]',                            d:'Enter sample mode - all pads blink, tap and hold any to record audio'},
   {s:'sample', c:'hold [PAD] (in sample)',                  d:'Record audio to that pad - hold to capture, release to stop and auto-trim'},
   {s:'sample', c:'[−] / [+] (in sample)',                   d:'Switch input: mic, line mono/stereo, resample, USB'},
   {s:'sample', c:'[SHIFT] + [PAD] (in sample)',             d:'Hands-free sampling - k.o. ii holds the pad for you'},
@@ -1217,6 +1236,26 @@ injectCombo('tip-main',   '[MAIN]');
 injectCombo('tip-shift2', '[SHIFT]');
 injectCombo('tip-fx2',    '[FX]');
 injectCombo('tip-mute',   '[SHIFT] + [SOUND]');
+
+function toggleLegend() {
+  const el = document.getElementById('legend');
+  const btn = document.getElementById('legend-btn');
+  const open = el.classList.toggle('open');
+  btn.setAttribute('aria-expanded', open);
+}
+document.addEventListener('click', e => {
+  const wrap = document.querySelector('.legend-pop-wrap');
+  if (wrap && !wrap.contains(e.target)) {
+    document.getElementById('legend').classList.remove('open');
+    document.getElementById('legend-btn').setAttribute('aria-expanded', 'false');
+  }
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.getElementById('legend').classList.remove('open');
+    document.getElementById('legend-btn').setAttribute('aria-expanded', 'false');
+  }
+});
 
 let activeFilter = 'all';
 let searchTerm = '';
