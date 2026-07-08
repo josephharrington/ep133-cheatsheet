@@ -1249,7 +1249,8 @@ document.addEventListener('keydown', e => {
   }
 });
 
-let activeFilter = 'all';
+const FILTER_IDS = ['overview', ...SECTIONS.map(s => s.id)];
+let activeFilters = new Set(FILTER_IDS);
 let searchTerm = '';
 
 function render() {
@@ -1259,7 +1260,7 @@ function render() {
   const extras  = document.getElementById('extras');
   const qref    = document.getElementById('qref');
 
-  const showExtras = (activeFilter === 'all' && !searchTerm);
+  const showExtras = (activeFilters.has('overview') && !searchTerm);
   orient.style.display = showExtras ? '' : 'none';
   extras.style.display = showExtras ? '' : 'none';
   qref.style.display   = showExtras ? '' : 'none';
@@ -1272,7 +1273,7 @@ function render() {
     const isSystem = sec.id === 'system';
     const rows = DATA.filter(d => {
       if (d.s !== sec.id) return false;
-      if (activeFilter !== 'all' && d.s !== activeFilter) return false;
+      if (!activeFilters.has(d.s)) return false;
       if (searchTerm) {
         const q = searchTerm.toLowerCase();
         const plain = d.c.replace(/\[([^\]]+)\]/g,'$1').toLowerCase();
@@ -1330,20 +1331,33 @@ function render() {
   main.innerHTML = html;
 }
 
-// Filter buttons
+// Filter buttons (multi-select toggle, "all" selects/clears everything)
 (function() {
   const el = document.getElementById('filters');
-  const all = [{id:'all', label:'all'}, ...SECTIONS];
+  const pills = [{id:'all', label:'all'}, {id:'overview', label:'overview'}, ...SECTIONS];
   let html = '';
-  all.forEach(f => {
-    html += `<button class="filter${f.id==='all'?' on':''}" data-id="${f.id}">${escH(f.label)}</button>`;
+  pills.forEach(f => {
+    html += `<button class="filter on" data-id="${f.id}">${escH(f.label)}</button>`;
   });
   el.innerHTML = html;
+  const syncPillStates = () => {
+    el.querySelectorAll('.filter').forEach(b => {
+      const on = b.dataset.id === 'all' ? activeFilters.size === FILTER_IDS.length : activeFilters.has(b.dataset.id);
+      b.classList.toggle('on', on);
+    });
+  };
   el.addEventListener('click', e => {
     const btn = e.target.closest('.filter');
     if (!btn) return;
-    activeFilter = btn.dataset.id;
-    el.querySelectorAll('.filter').forEach(b => b.classList.toggle('on', b.dataset.id === activeFilter));
+    const id = btn.dataset.id;
+    if (id === 'all') {
+      activeFilters = activeFilters.size === FILTER_IDS.length ? new Set() : new Set(FILTER_IDS);
+    } else if (activeFilters.has(id)) {
+      activeFilters.delete(id);
+    } else {
+      activeFilters.add(id);
+    }
+    syncPillStates();
     render();
   });
 })();
