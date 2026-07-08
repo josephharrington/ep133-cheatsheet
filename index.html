@@ -717,6 +717,15 @@ main{padding:0 24px}
     <div class="wf-step">
       <div class="wf-num">①</div>
       <div>
+        <div class="wf-title">pick a project</div>
+        <div class="wf-combo" id="wf0"></div>
+        <div class="wf-desc">1–5 come populated, 6–9 are empty by default - hold MAIN to check which one you're in</div>
+      </div>
+    </div>
+
+    <div class="wf-step">
+      <div class="wf-num">②</div>
+      <div>
         <div class="wf-title">navigate to a scene</div>
         <div class="wf-combo" id="wf1"></div>
         <div class="wf-desc">or let SHIFT+MAIN advance you automatically after each build</div>
@@ -724,7 +733,7 @@ main{padding:0 24px}
     </div>
 
     <div class="wf-step">
-      <div class="wf-num">②</div>
+      <div class="wf-num">③</div>
       <div>
         <div class="wf-title">load sounds</div>
         <div class="wf-combo" id="wf2"></div>
@@ -733,7 +742,7 @@ main{padding:0 24px}
     </div>
 
     <div class="wf-step">
-      <div class="wf-num">③</div>
+      <div class="wf-num">④</div>
       <div>
         <div class="wf-title">set tempo &amp; length</div>
         <div class="wf-combo" id="wf3"></div>
@@ -742,7 +751,7 @@ main{padding:0 24px}
     </div>
 
     <div class="wf-step">
-      <div class="wf-num">④</div>
+      <div class="wf-num">⑤</div>
       <div>
         <div class="wf-title">record your pattern</div>
         <div class="wf-combo" id="wf4"></div>
@@ -751,7 +760,7 @@ main{padding:0 24px}
     </div>
 
     <div class="wf-step">
-      <div class="wf-num">⑤</div>
+      <div class="wf-num">⑥</div>
       <div>
         <div class="wf-title">fix with step sequencer</div>
         <div class="wf-combo" id="wf5"></div>
@@ -760,7 +769,7 @@ main{padding:0 24px}
     </div>
 
     <div class="wf-step">
-      <div class="wf-num">⑥</div>
+      <div class="wf-num">⑦</div>
       <div>
         <div class="wf-title">add more groups</div>
         <div class="wf-combo" id="wf6"></div>
@@ -769,7 +778,7 @@ main{padding:0 24px}
     </div>
 
     <div class="wf-step">
-      <div class="wf-num">⑦</div>
+      <div class="wf-num">⑧</div>
       <div>
         <div class="wf-title">commit the scene</div>
         <div class="wf-combo" id="wf7"></div>
@@ -778,7 +787,7 @@ main{padding:0 24px}
     </div>
 
     <div class="wf-step">
-      <div class="wf-num">⑧</div>
+      <div class="wf-num">⑨</div>
       <div>
         <div class="wf-title">vary the next scene</div>
         <div class="wf-desc" style="margin-top:0">change patterns in any group - drop a hi-hat, add a fill, mute a pad. commit again when ready</div>
@@ -786,7 +795,7 @@ main{padding:0 24px}
     </div>
 
     <div class="wf-step">
-      <div class="wf-num">⑨</div>
+      <div class="wf-num">⑩</div>
       <div>
         <div class="wf-title">resample your output</div>
         <div class="wf-combo" id="wf9"></div>
@@ -795,7 +804,7 @@ main{padding:0 24px}
     </div>
 
     <div class="wf-step">
-      <div class="wf-num">⑩</div>
+      <div class="wf-num">⑪</div>
       <div>
         <div class="wf-title">build the song</div>
         <div class="wf-combo" id="wf10"></div>
@@ -1193,6 +1202,7 @@ function injectCombo(id, str) {
   if (el) el.innerHTML = renderCombo(str);
 }
 
+injectCombo('wf0',   'hold [MAIN] + hold [PAD] (1–9)');
 injectCombo('wf1',   'hold [MAIN] + [−] / [+]');
 injectCombo('wf2',   '[SOUND] → select pad → [−] / [+]');
 injectCombo('wf3',   'tap [TEMPO]  or  [RECORD] → [−] / [+]');
