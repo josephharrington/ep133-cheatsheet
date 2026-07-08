@@ -277,16 +277,6 @@ h1.h-logo{margin:0;display:inline}
   position:absolute;left:-13px;top:-3px;line-height:1;
 }
 
-/* ── LEGEND ──────────────────────────────────────────────── */
-.legend{
-  display:flex;align-items:center;flex-wrap:wrap;gap:5px 20px;
-  padding:10px 24px;
-  border-bottom:1px solid var(--border2);
-  background:var(--card);
-}
-.legend-label{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.06em}
-.legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)}
-
 /* ── SHORTCUTS ───────────────────────────────────────────── */
 main{padding:0 24px}
 .section-group{margin-top:0}
@@ -392,7 +382,7 @@ main{padding:0 24px}
   .row-combo{grid-column:1;grid-row:1}
   .row-badge{grid-column:2;grid-row:1;align-self:start}
   .row-desc{grid-column:1/3;grid-row:2}
-  header,main,.orient,.legend,.combo-legend,.wf-details,.qref{padding-left:16px;padding-right:16px}
+  header,main,.orient,.combo-legend,.wf-details,.qref{padding-left:16px;padding-right:16px}
   .wf-summary,.wf-body{padding-left:16px;padding-right:16px}
 }
 
@@ -487,12 +477,6 @@ main{padding:0 24px}
   .tips-list{padding-left:11px}
   .tips-list li{font-size:8.5px;line-height:1.4}
   .tips-list li::before{left:-11px;font-size:13px;top:-2px}
-
-  .legend{
-    padding:5px 0;border-color:#ddd;gap:3px 14px;background:#fff;
-  }
-  .legend-label,.legend-item{font-size:9px}
-  .legend-item .key{font-size:7.5px;padding:1px 5px;background:#eceae6;border:1px solid #999;border-bottom:2px solid #999;color:#111}
 
   main{
     padding:0;
@@ -773,7 +757,7 @@ main{padding:0 24px}
       <div>
         <div class="wf-title">add more groups</div>
         <div class="wf-combo" id="wf6"></div>
-        <div class="wf-desc">press B, C, or D to switch groups. each runs a separate pattern simultaneously</div>
+        <div class="wf-desc">press A, B, C, or D to switch groups. each runs a separate pattern simultaneously</div>
       </div>
     </div>
 
@@ -970,15 +954,6 @@ main{padding:0 24px}
 
 </div>
 
-<!-- SHIFT+GROUP LEGEND -->
-<div class="legend">
-  <span class="legend-label">shift + group:</span>
-  <span class="legend-item"><span class="key">A</span> new pattern</span>
-  <span class="legend-item"><span class="key">B</span> undo</span>
-  <span class="legend-item"><span class="key">C</span> copy</span>
-  <span class="legend-item"><span class="key">D</span> paste</span>
-</div>
-
 <main id="main"></main>
 <div class="no-res" id="no-res">no shortcuts found</div>
 
@@ -1023,7 +998,7 @@ const DATA = [
   {s:'step',  c:'hold [SHIFT] + turn [KNOB Y]',         d:'Set duration for all notes at the current step'},
 // ── PATTERNS ────────────────────────────────────────────────
   {s:'patterns',c:'hold [GROUP] + [−] / [+]',           d:'Select pattern - or hold GROUP + type number on pads'},
-  {s:'patterns',c:'hold [GROUP A] + [GROUP B] + [−] / [+]', d:'Hold multiple groups to scroll their patterns together, locked to the same offset'},
+  {s:'patterns',c:'hold [A] + [B] + [−] / [+]',             d:'Hold multiple groups to scroll their patterns together, locked to the same offset'},
   {s:'patterns',c:'[SHIFT] + [A]',                      d:'Jump to next empty pattern'},
   {s:'patterns',c:'[MAIN] + [TEMPO]',                   d:'Change time signature (X = numerator, Y = denominator)'},
 // ── SCENES ──────────────────────────────────────────────────
@@ -1216,7 +1191,7 @@ injectCombo('wf2',   '[SOUND] → select pad → [−] / [+]');
 injectCombo('wf3',   'tap [TEMPO]  or  [RECORD] → [−] / [+]');
 injectCombo('wf4',   '[RECORD] → [PLAY]');
 injectCombo('wf5',   '[−] / [+]  to step through');
-injectCombo('wf6',   '[GROUP B] / [GROUP C] / [GROUP D]');
+injectCombo('wf6',   '[A] / [B] / [C] / [D]');
 injectCombo('wf7',   '[SHIFT] + [MAIN]');
 injectCombo('wf9',   '[SAMPLE] → [SHIFT] + [PAD] → [PLAY]');
 injectCombo('wf10',  '[MAIN] + [ENTER]');
