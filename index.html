@@ -352,7 +352,10 @@ main{padding:0 24px}
 .sep-row{border-top:1px solid var(--border2) !important;padding-top:5px;margin-top:4px}
 
 /* ── SYS-HEAD-ROW (column header, system settings only) ─────── */
-.sys-head-row{
+/* Scoped under .rows-grid so this beats the mobile ".row" override below on specificity,
+   the same way .sub-row's grid-template-columns already does - otherwise the header
+   row collapses to the generic 2-column mobile layout and its labels stack vertically. */
+.rows-grid .row.sys-head-row{
   display:grid;
   grid-template-columns:auto minmax(140px,auto) 1fr auto;
   padding:4px 0 3px;
@@ -364,10 +367,14 @@ main{padding:0 24px}
   font-family:var(--mono);font-size:8px;letter-spacing:.1em;
   color:var(--muted);text-transform:uppercase;
 }
-.sys-head-row .row-code{order:1}
-.sys-head-row .row-combo{order:2}
-.sys-head-row .row-desc{order:3}
-.sys-head-row .row-badge{order:4}
+/* Explicit placement (not just order) so this beats the mobile media query's
+   grid-column/grid-row overrides on .row-combo/.row-badge/.row-desc below -
+   those split combo+code onto row 1 and desc onto row 2, which is right for
+   data rows but wraps the header's SETTING label onto its own line. */
+.rows-grid .row.sys-head-row .row-code{grid-column:1;grid-row:1}
+.rows-grid .row.sys-head-row .row-combo{grid-column:2;grid-row:1}
+.rows-grid .row.sys-head-row .row-desc{grid-column:3;grid-row:1}
+.rows-grid .row.sys-head-row .row-badge{grid-column:4;grid-row:1}
 
 /* ── RESPONSIVE ──────────────────────────────────────────── */
 @media(max-width:800px){
