@@ -467,9 +467,9 @@ main{padding:0 24px}
   .fx-key{padding:4px 6px 5px;background:#f5f5f5;border-color:#ccc;min-width:56px}
   /* Bottom row: use a tinted fill instead of dark - dark doesn't print reliably */
   .fx-key.sp{background:#e8e4dc;border-color:#999;border-bottom-color:#999}
-  .fx-key.sp .fx-key-num{color:#777}
-  .fx-key.sp .fx-key-name{color:#111}
-  .fx-key.sp .fx-key-prs{color:#777}
+  .fx-key.sp .fx-key-num{color:#000}
+  .fx-key.sp .fx-key-name{color:#000}
+  .fx-key.sp .fx-key-prs{color:#000}
   .fx-key-num{font-size:7px}
   .fx-key-name{font-size:7.5px}
   .fx-key-prs{font-size:6.5px}
@@ -504,7 +504,7 @@ main{padding:0 24px}
     column-gap:10px;
     padding:3px 0;border-color:#e4e4e4;
   }
-  .row-desc{grid-column:1;grid-row:1;font-size:9px;color:#333}
+  .row-desc{grid-column:1;grid-row:1;font-size:9px;color:#000}
   .row-combo{grid-column:2;grid-row:1;gap:2px;justify-content:flex-start}
   .row-combo .bare{flex-basis:100%}
   .row-badge{grid-column:3;grid-row:1;align-self:center}
@@ -520,15 +520,15 @@ main{padding:0 24px}
     background:#f5e8e6;color:#b01808;
     border-color:#c03020;border-bottom-color:#c03020;
   }
-  .op{color:#555;font-size:10px;font-weight:700}
+  .op{color:#000;font-size:10px;font-weight:700}
   .op-chip{background:#eceae6;border-color:#999;color:#111}
   .combo-legend{
     display:flex!important;position:static!important;
     flex-direction:row;flex-wrap:wrap;justify-content:space-between;
     min-width:0;gap:4px 14px;padding:0;margin-top:9px;
-    background:none;border:none;font-size:9px;color:#666;
+    background:none;border:none;font-size:9px;color:#000;
   }
-  .ctx{color:#888;font-size:8.5px}
+  .ctx{color:#000;font-size:8.5px}
   .badge-new{font-size:6.5px;padding:1px 3px}
   .no-res{display:none!important}
   .s-head{break-after:avoid}
@@ -551,17 +551,17 @@ main{padding:0 24px}
   .sys-head-row .row-code{
     order:1;width:46px;flex-shrink:0;
     font-family:var(--mono);font-size:6.5px;letter-spacing:.1em;
-    color:#aaa;text-transform:uppercase;text-align:left;
+    color:#000;text-transform:uppercase;text-align:left;
   }
   .sys-head-row .row-combo{
     order:2;flex:0 0 178px;
     font-family:var(--mono);font-size:6.5px;letter-spacing:.1em;
-    color:#aaa;text-transform:uppercase;
+    color:#000;text-transform:uppercase;
   }
   .sys-head-row .row-desc{
     order:3;flex:1;
     font-family:var(--mono);font-size:6.5px;letter-spacing:.1em;
-    color:#aaa;text-transform:uppercase;
+    color:#000;text-transform:uppercase;
   }
   .sys-head-row .row-badge{order:4;width:24px}
   /* Opener row (SHIFT+ERASE) - stronger separator from the settings list below it */
@@ -572,7 +572,7 @@ main{padding:0 24px}
     margin-bottom:2px;
   }
   .section-group.full-width .row.full-span .row-desc{
-    font-size:9px;color:#444;
+    font-size:9px;color:#000;
   }
   /* Sub-rows: flex with code first */
   .section-group.full-width .rows-grid .row.sub-row{
@@ -584,30 +584,30 @@ main{padding:0 24px}
   .section-group.full-width .rows-grid .row.sub-row .row-code{
     order:1;width:46px;flex-shrink:0;
     font-family:var(--mono);font-size:7.5px;
-    color:#888;text-align:left;
+    color:#000;text-align:left;
   }
   .section-group.full-width .rows-grid .row.sub-row .row-combo{
     order:2;flex:0 0 178px;padding-left:0;
   }
   .section-group.full-width .rows-grid .row.sub-row .row-desc{
-    order:3;flex:1;font-size:9px;color:#444;line-height:1.3;
+    order:3;flex:1;font-size:9px;color:#000;line-height:1.3;
   }
   .section-group.full-width .rows-grid .row.sub-row .row-badge{
     order:4;width:24px;text-align:right;
   }
   /* Path text: readable monospace - upright, not italic/muted */
   .section-group.full-width .rows-grid .ctx{
-    color:#333;font-style:normal;font-size:8px;
+    color:#000;font-style:normal;font-size:8px;
     font-family:var(--mono);letter-spacing:.02em;
   }
   .section-group.full-width .rows-grid .op{
-    color:#555;font-size:9.5px;font-weight:700;padding:0 1px;
+    color:#000;font-size:9.5px;font-weight:700;padding:0 1px;
   }
   /* Group separators: slightly stronger border, matching section head weight */
   .section-group.full-width .rows-grid .sep-row{
     border-top:1px solid #ccc !important;
   }
-  .row-code{font-family:var(--mono);font-size:7px;color:#aaa;text-align:right;white-space:nowrap;align-self:center}
+  .row-code{font-family:var(--mono);font-size:7px;color:#000;text-align:right;white-space:nowrap;align-self:center}
   .sep-row{border-top:1px solid #bbb !important;padding-top:3px;margin-top:2px}
   /* Force backgrounds on key elements */
   .fader-name.def,.key{
