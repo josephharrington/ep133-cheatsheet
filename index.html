@@ -333,6 +333,12 @@ main{padding:0 24px}
   background:rgba(212,46,30,.09);border:1px solid rgba(212,46,30,.3);
   border-radius:2px;color:var(--red);white-space:nowrap;
 }
+.badge-old{
+  font-family:var(--mono);font-size:7px;font-weight:700;letter-spacing:.06em;
+  padding:2px 4px;
+  background:rgba(0,0,0,.05);border:1px solid rgba(0,0,0,.25);
+  border-radius:2px;color:var(--muted);white-space:nowrap;
+}
 
 .no-res{
   display:none;padding:60px 24px;
@@ -499,7 +505,7 @@ main{padding:0 24px}
   .s-head-num{font-size:8px;color:#d42e1e}
   .s-head-label{font-size:8.5px;letter-spacing:.08em}
   .row{
-    grid-template-columns:1fr 140px auto;
+    grid-template-columns:170px 1fr auto;
     grid-template-rows:auto;
     column-gap:10px;
     padding:3px 0;border-color:#e4e4e4;
@@ -507,7 +513,8 @@ main{padding:0 24px}
   .row-desc{grid-column:1;grid-row:1;font-size:9px;color:#000}
   .row-combo{grid-column:2;grid-row:1;gap:2px;justify-content:flex-start}
   .row-combo .bare{flex-basis:100%}
-  .row-badge{grid-column:3;grid-row:1;align-self:center}
+  .row-badge{grid-column:3;grid-row:1;align-self:center;width:auto}
+  .row-badge:empty{margin:0}
   .key.held::after{background:#fff;border-color:#888;border-width:1.8px}
   .sub-row .row-combo{padding-left:16px}
   .qref-sep{margin-top:8px;padding-top:8px;border-top:1px solid #ccc}
@@ -530,6 +537,7 @@ main{padding:0 24px}
   }
   .ctx{color:#000;font-size:8.5px}
   .badge-new{font-size:6.5px;padding:1px 3px}
+  .badge-old{font-size:6.5px;padding:1px 3px;color:#000}
   .no-res{display:none!important}
   .s-head{break-after:avoid}
 
@@ -977,10 +985,10 @@ const SECTIONS = [
   {id:'keys',     label:'keys'},
   {id:'timing',   label:'timing'},
   {id:'fader',    label:'fader'},
-  {id:'sound',    label:'sound'},
-  {id:'sample',   label:'sample + chop'},
   {id:'loop',     label:'loop'},
   {id:'tempo',    label:'tempo'},
+  {id:'sound',    label:'sound'},
+  {id:'sample',   label:'sample + chop'},
   {id:'system',   label:'system settings'},
 ];
 
@@ -999,7 +1007,8 @@ const DATA = [
 // ── STEP SEQ ────────────────────────────────────────────────
   {s:'step',  c:'[−] / [+] (while stopped)',                  d:'Step backward / forward through the sequencer'},
   {s:'step',  c:'[RECORD] + [PAD] (while stopped)',            d:'Write that pad\'s note to the current step - tap for a short note, hold for a longer one'},
-  {s:'step',  c:'hold [ERASE] + [PAD] (while stopped)',        d:'Erase all notes for that pad - hold until TRK blinks'},
+  {s:'step',  c:'[ERASE] + [PAD] (while stopped)',             d:'Erase that pad\'s note at the current step'},
+  {s:'step',  c:'hold [ERASE] + [PAD] (while stopped)',        d:'Erase all notes for that pad in the pattern - hold until TRK blinks'},
   {s:'step',  c:'[ERASE] + [PAD] (while playing)',             d:'Live-erase pad notes as the pattern plays'},
   {s:'step',  c:'[SHIFT] + [PAD] + [−] / [+]',          d:'Nudge note - steps in quantize mode, ticks in free time'},
   {s:'step',  c:'hold [SHIFT] + turn [KNOB X]',         d:'Set velocity for all notes at the current step'},
@@ -1041,29 +1050,27 @@ const DATA = [
   {s:'keys',   c:'[KEYS]',                              d:'Keys mode: selected pad plays chromatically across all 12 pads'},
   {s:'keys',   c:'[KEYS] + [−] / [+]',                  d:'Shift the keyboard layout up or down by one octave'},
   {s:'keys',   c:'[KEYS] + [PAD]',                      d:'Set root note / transpose scale'},
-  {s:'keys',   c:'[SHIFT] + [ERASE] → pad → sca', d:'Pre-2.5 only: change scale type in system settings: 12T (default), maj, min, dor, phr, lyd, mix, loc, ma.p, mi.p. Removed from the menu in 2.5 - use hold [KEYS] + [KNOB Y] instead'},
-  {s:'keys',   c:'[SHIFT] + [ERASE] → pad → key', d:'Pre-2.5 only: change scale root key: C through B (12 options). Removed from the menu in 2.5 (codes 320-331 now control LED brightness / pad-pot takeover) - use hold [KEYS] + [KNOB X] instead'},
   {s:'keys',   c:'hold [KEYS] + turn [KNOB X]',   d:'2.5+: set root key (replaces the old pad → key menu)',n:true},
-  {s:'keys',   c:'hold [KEYS] + turn [KNOB Y]',   d:'2.5+: set scale type (replaces the old pad → sca menu). Scale/key are now saved per-project, not global',n:true},
+  {s:'keys',   c:'hold [KEYS] + turn [KNOB Y]',   d:'2.5+: set scale type (replaces the old pad → sca menu), including 3 new scales - blues, harmonic minor, melodic minor. Scale/key are now saved per-project, not global',n:true},
   {s:'keys',   c:'[KEYS] → hold [TIMING] + [PAD] [PAD]…',d:'Arpeggio - oneshot or legato sounds only',n:true},
   {s:'keys',   c:'[RECORD] → [PLAY] (in keys)',              d:'Live record pitched notes into the pattern'},
 // ── TIMING ──────────────────────────────────────────────────
   {s:'timing', c:'[TIMING]',                            d:'Open timing mode (X = note interval, Y = swing)'},
-  {s:'timing', c:'turn [KNOB X] (in timing)',               d:'Note interval: 1/1, 1/2, 1/4, 1/8, 1/8T, 1/16, 1/16T, 1/32'},
-  {s:'timing', c:'turn [KNOB Y] (in timing)',               d:'Swing - applies to 1/8 and 1/16 only. Screen shows SWING'},
-  {s:'timing', c:'[−] (in timing)', d:'Quantized mode - snaps recording to note interval. Screen shows Q'},
-  {s:'timing', c:'[+] (in timing)', d:'Free time mode - records exactly as played. Screen shows FREE'},
+  {s:'timing', c:'turn [KNOB X] (in timing)',               d:'Note interval - 1/1 to 1/32, incl. triplets'},
+  {s:'timing', c:'turn [KNOB Y] (in timing)',               d:'Swing amount - applies to 1/8 and 1/16 only'},
+  {s:'timing', c:'[−] (in timing)', d:'Quantized mode - snaps recording to note interval'},
+  {s:'timing', c:'[+] (in timing)', d:'Free time mode - records exactly as played'},
   {s:'timing', c:'hold [TIMING] + [PAD]',                d:'Note repeat at current interval (velocity sensitive)'},
   {s:'timing', c:'[TIMING] → [SHIFT] + [PAD]',          d:'Latch note repeat on pad - same combo to toggle off'},
-  {s:'timing', c:'[SHIFT] + [TIMING]',                   d:'Open timing correct - tap any pad to snap all its notes to the current interval'},
+  {s:'timing', c:'[SHIFT] + [TIMING]',                   d:'Timing correct - tap a pad to snap all its notes to interval'},
   {s:'timing', c:'[PAD] (in timing correct, while stopped)',      d:'Quantize all notes on that pad to note interval'},
   {s:'timing', c:'hold [PAD] (in timing correct, while playing)', d:'Live-quantize notes on that pad while held'},
   {s:'timing', c:'hold [PAD] + [−] / [+] (in timing correct)', d:'Nudge all notes on that pad earlier or later by one step',n:true},
 // ── FADER ───────────────────────────────────────────────────
-  {s:'fader',  c:'[FADER] + [PAD]',                     d:'Assign fader function - Level, Pitch, Time, LPF, HPF, →FX, ATK, REL, Pan, Tune, Vel, Mod (labeled above pads)'},
+  {s:'fader',  c:'[FADER] + [PAD]',                     d:'Assign fader function (see labels above pads)'},
   {s:'fader',  c:'hold [RECORD] + move [FADER]',        d:'Record fader movement into the pattern'},
-  {s:'fader',  c:'[SHIFT] + [FADER]',                   d:'Reset fader to default - press again to recall previous'},
-  {s:'fader',  c:'hold [GROUP] + move [FADER]',         d:'Adjust group project volume - not automatable, spans all patterns'},
+  {s:'fader',  c:'[SHIFT] + [FADER]',                   d:'Reset fader - press again to recall previous (disabled during playback)'},
+  {s:'fader',  c:'hold [GROUP] + move [FADER]',         d:'Group project volume - not automatable, spans all patterns'},
   {s:'fader',  c:'hold [SHIFT] + move [FADER]',         d:'Fine-tune fader position with higher precision'},
 // ── SOUND ───────────────────────────────────────────────────
   {s:'sound',  c:'[SOUND]',                             d:'Enter sound mode - browse and assign samples to pads'},
@@ -1071,22 +1078,28 @@ const DATA = [
   {s:'sound',  c:'[SHIFT] + [−] / [+] (in sound)',         d:'Jump through sample library in tens'},
   {s:'sound',  c:'turn [KNOB X] (in sound)',                d:'Amplitude - sets this pad\'s volume relative to the other pads'},
   {s:'sound',  c:'turn [KNOB Y] (in sound)',                d:'Pitch - shifts this pad\'s sample up or down in semitones'},
-  {s:'sound',  c:'[SHIFT] + [SOUND]',                   d:'Enter sound edit - Trim, Envelope, Time, MIDI, Mute Group'},
+  {s:'sound',  c:'[SHIFT] + [SOUND]',                   d:'Enter sound edit - Sound, Trim, Envelope, Time, MIDI, Mute Group'},
   {s:'sound',  c:'hold [SHIFT] + [SOUND] (2s)',          d:'Save sound edits permanently to disk'},
   {s:'sound',  c:'[−] / [+] (in sound edit)',               d:'Navigate between edit sub-modes'},
+  {s:'sound',  c:'turn [KNOB X] / [Y] (in sound edit, sound sub-mode)', d:'Play mode - oneshot/key/legato (knobX), pan left/right (knobY)'},
   {s:'sound',  c:'[SHIFT] + [SOUND] → mute group sub-mode', d:'Assign this pad to a mute group (1–4) - pads sharing a group cut each other off, great for hi-hats'},
   {s:'sound',  c:'(in time edit) → turn [KNOB X] to REV', d:'Reverse sample playback',n:true},
   {s:'sound',  c:'hold [SHIFT] + [SOUND] (in trim)',        d:'Crop sample to current trim points - permanent',n:true},
+  {s:'sound',  c:'[SHIFT] + [C] → select pad → [SHIFT] + [D] (in sound)', d:'Copy/paste a single sound from one pad to another'},
+  {s:'sound',  c:'[SHIFT] + [C] ×2 → select group → [SHIFT] + [D] (in sound)', d:'Copy/paste all sounds in a group to another group'},
 // ── SAMPLE + CHOP ───────────────────────────────────────────
   {s:'sample', c:'[SAMPLE]',                            d:'Enter sample mode - all pads blink, tap and hold any to record audio'},
   {s:'sample', c:'hold [PAD] (in sample)',                  d:'Record audio to that pad - hold to capture, release to stop and auto-trim'},
   {s:'sample', c:'[−] / [+] (in sample)',                   d:'Switch input: mic, line mono/stereo, resample, USB'},
   {s:'sample', c:'[SHIFT] + [PAD] (in sample)',             d:'Hands-free sampling - k.o. ii holds the pad for you'},
-  {s:'sample', c:'[SHIFT] + [PAD] → [PLAY] (in sample)',   d:'With resample selected as input, capture the current pattern\'s full length hands-free'},
-  {s:'sample', c:'[SHIFT] + [SAMPLE] → CHOP',           d:'Enter chop mode - slice a sample and spread chunks across group pads'},
+  {s:'sample', c:'[SHIFT] + [PAD] → [PLAY] (in sample)',   d:'Resample input: capture the pattern\'s full length hands-free'},
+  {s:'sample', c:'[−] / [+] (hands-free sampling)',         d:'Select number of bars to resample per capture'},
+  {s:'sample', c:'[SHIFT] + [SAMPLE] → CHOP',           d:'Enter chop mode - slice a sample across group pads'},
   {s:'sample', c:'[GROUP] (in chop)',                       d:'Select destination group (resets that group\'s pads)'},
   {s:'sample', c:'[GROUP] + [−] / [+] (in chop)',          d:'Switch: equal-length slices vs. attack-detection',n:true},
-  {s:'sample', c:'[−] / [+] (in chop, equal-length mode)', d:'Set number of equal-length slices to distribute across group pads'},
+  {s:'sample', c:'[−] / [+] (in chop, equal-length)',       d:'Set number of equal-length slices per group'},
+  {s:'sample', c:'[PAD] (in chop, live mode)',              d:'LIVE CHOP - tap pads while sample plays; break length = time between taps'},
+  {s:'sample', c:'turn [KNOB X] / [Y] (chop, pad selected)', d:'Refine that chop\'s in/out points - hold SHIFT for finer control'},
 // ── LOOP ────────────────────────────────────────────────────
   {s:'loop',   c:'[SHIFT] + [TEMPO]',                   d:'Create a loop at the current playhead'},
   {s:'loop',   c:'hold [SHIFT] + [TEMPO]',              d:'Set loop length - starts on press, ends on release'},
@@ -1098,6 +1111,7 @@ const DATA = [
   {s:'tempo',  c:'[TEMPO]',                             d:'Enter tempo mode - display shows current BPM'},
   {s:'tempo',  c:'tap [TEMPO]',                         d:'Tap to set tempo'},
   {s:'tempo',  c:'turn [KNOB X] (in tempo)',                d:'Adjust BPM - 60–180 with knob, 40–399 by typing'},
+  {s:'tempo',  c:'turn [KNOB Y] (in tempo)',                d:'Record metronome volume'},
   {s:'tempo',  c:'hold [TEMPO] + numpad',               d:'Type exact BPM - use . for decimals e.g. 120.51'},
   {s:'tempo',  c:'[SAMPLE] + [TEMPO]',                  d:'Tempo match - listens to audio input and sets BPM'},
 // ── SYSTEM SETTINGS ─────────────────────────────────────────
@@ -1111,7 +1125,9 @@ const DATA = [
   {s:'system', c:'mid → chn → ch.1–16', sub:true,           code:'111–126', d:'Lock send + receive to a specific MIDI channel'},
   {s:'system', c:'mid → chn → off',     sub:true,           code:'127',     d:'Only send MIDI if a channel is assigned per-pad in sound edit'},
 // MIDI misc
+  {s:'system', c:'mid → thr → off',     sub:true,           code:'130',     d:'MIDI thru disabled (default)'},
   {s:'system', c:'mid → thr → on',      sub:true,           code:'131',     d:'MIDI thru - forward incoming MIDI signal through MIDI out'},
+  {s:'system', c:'mid → rst → off',     sub:true,           code:'140',     d:'Do not reset MIDI controllers on stop (default)'},
   {s:'system', c:'mid → rst → on',      sub:true,           code:'141',     d:'Reset all MIDI controllers on stop'},
 // Sync in
   {s:'system', c:'syn → in → 16',       sub:true, sep:true, code:'201',     d:'Sync in: 1/16 note pulse (default)'},
@@ -1126,19 +1142,17 @@ const DATA = [
   {s:'system', c:'pad → vel → hi',      sub:true,           code:'301',     d:'Pressure sensitive - soft touch'},
   {s:'system', c:'pad → vel → lo',      sub:true,           code:'302',     d:'Pressure sensitive - vigorous play'},
 // Scale type
-  {s:'system', c:'pad → sca → 12t',     sub:true, sep:true, code:'310',     d:'12-tone equal temperament (default)'},
-  {s:'system', c:'pad → sca → maj',     sub:true,           code:'311',     d:'Major (Ionian)'},
-  {s:'system', c:'pad → sca → min',     sub:true,           code:'312',     d:'Natural minor (Aeolian)'},
-  {s:'system', c:'pad → sca → dor',     sub:true,           code:'313',     d:'Dorian mode'},
-  {s:'system', c:'pad → sca → phr',     sub:true,           code:'314',     d:'Phrygian mode'},
-  {s:'system', c:'pad → sca → lyd',     sub:true,           code:'315',     d:'Lydian mode'},
-  {s:'system', c:'pad → sca → mix',     sub:true,           code:'316',     d:'Mixolydian mode'},
-  {s:'system', c:'pad → sca → loc',     sub:true,           code:'317',     d:'Locrian mode'},
-  {s:'system', c:'pad → sca → ma.p',    sub:true,           code:'318',     d:'Major pentatonic'},
-  {s:'system', c:'pad → sca → mi.p',    sub:true,           code:'319',     d:'Minor pentatonic'},
-// Scale key + auditioning
-  {s:'system', c:'pad → key → c (thru b)', sub:true,        code:'320–331', d:'Set scale root key - C through B'},
-  {s:'system', c:'pad → aud → on',         sub:true,        code:'340',     d:'Enable sample auditioning while tweaking values'},
+  {s:'system', c:'pad → sca → 12t',     sub:true, sep:true, code:'310',     d:'12-tone equal temperament (default) - only remaining scale code in 2.5+, other scale types moved to hold [KEYS] + [KNOB X]/[Y]'},
+  {s:'system', c:'pad → sca → maj…mi.p', sub:true,          code:'311–319', d:'Major, minor, dorian, phrygian, lydian, mixolydian, locrian, major pentatonic, minor pentatonic',o:true},
+// Scale key (removed in 2.5)
+  {s:'system', c:'pad → key → c (thru b)', sub:true,        code:'320–331', d:'Set scale root key - C through B. Removed in 2.5',o:true},
+// Pad LED brightness (new in 2.5, reassigned from old scale-key codes)
+  {s:'system', c:'pad → led → lo',      sub:true, sep:true, code:'320',     d:'LED brightness - low',n:true},
+  {s:'system', c:'pad → led → mid',     sub:true,           code:'321',     d:'LED brightness - mid',n:true},
+  {s:'system', c:'pad → led → high',    sub:true,           code:'322',     d:'LED brightness - high',n:true},
+// Pad/knob takeover mode (new in 2.5, reassigned from old scale-key codes)
+  {s:'system', c:'pad → pot → sca',     sub:true, sep:true, code:'330',     d:'Knob/fader takeover mode - scaling (default). Moving the control jumps the parameter straight to the knob\'s physical position (unconfirmed by TE docs, standard hardware-synth convention)',n:true},
+  {s:'system', c:'pad → pot → cat',     sub:true,           code:'331',     d:'Knob/fader takeover mode - catch. The parameter only updates once the knob passes through its current value, avoiding jumps (unconfirmed by TE docs, standard hardware-synth convention)',n:true},
 // Sequencer metronome
   {s:'system', c:'seq → met → rec',     sub:true, sep:true, code:'401',     d:'Metronome during record only (default)'},
   {s:'system', c:'seq → met → on',      sub:true,           code:'400',     d:'Metronome during record + playback'},
@@ -1147,6 +1161,19 @@ const DATA = [
   {s:'system', c:'seq → scn → tic',     sub:true,           code:'410',     d:'Scene change immediately on button press (default). Screen shows TIC'},
   {s:'system', c:'seq → scn → bar',     sub:true,           code:'411',     d:'Scene change waits for end of current bar. Screen shows BAR'},
   {s:'system', c:'seq → scn → ptn',     sub:true,           code:'412',     d:'Scene change waits for end of current pattern'},
+// Song loop
+  {s:'system', c:'seq → lop → off',     sub:true, sep:true, code:'420',     d:'Song loop off (default) - song mode stops at the end of the song list instead of repeating'},
+  {s:'system', c:'seq → lop → on',      sub:true,           code:'421',     d:'Song loop on - song list repeats back to the first position after reaching the end'},
+// Play from
+  {s:'system', c:'seq → ply → bar',     sub:true, sep:true, code:'430',     d:'Play from current bar - pressing [PLAY] resumes playback from whichever bar is currently selected'},
+  {s:'system', c:'seq → ply → ptn',     sub:true,           code:'431',     d:'Play from pattern start - pressing [PLAY] always restarts playback from the beginning of the pattern'},
+// Sample recording rate
+  {s:'system', c:'smp → rec → lo',      sub:true, sep:true, code:'500',     d:'Low sample recording rate - 26,250kHz'},
+  {s:'system', c:'smp → rec → mid',     sub:true,           code:'501',     d:'Mid sample recording rate - 32,000kHz'},
+  {s:'system', c:'smp → rec → high',    sub:true,           code:'502',     d:'High sample recording rate - 46,875kHz (default)'},
+// USB audio input mode
+  {s:'system', c:'smp → usb → rec',     sub:true, sep:true, code:'510',     d:'USB audio input mode - sampler only (default)'},
+  {s:'system', c:'smp → usb → mon',     sub:true,           code:'511',     d:'USB audio input mode - sampler + live monitoring'},
 ];
 
 function escH(s) {
@@ -1307,7 +1334,7 @@ function render() {
         <div class="row-combo">${renderCombo(d.c)}</div>
         <div class="row-desc">${escH(d.d)}</div>
         ${codeEl}
-        <div class="row-badge">${d.n ? '<span class="badge-new">2.5</span>' : ''}</div>
+        <div class="row-badge">${d.n ? '<span class="badge-new">2.5</span>' : d.o ? '<span class="badge-old">&lt;2.5</span>' : ''}</div>
       </div>`;
     });
     if (isSystem) html += '</div>';
