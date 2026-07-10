@@ -670,10 +670,10 @@ main{padding:0 24px}
         <div class="bug-form-backdrop" id="bug-backdrop" onclick="closeBugForm()"></div>
         <form class="bug-form" id="bug-form" onsubmit="submitBugForm(event)">
           <label>what did you notice?
-            <textarea name="notice" required></textarea>
+            <textarea name="notice" required placeholder="e.g. &quot;the print button doesn't work&quot; or &quot;step seq section is out of date&quot; - mention the section/page if you can"></textarea>
           </label>
-          <label>which section or page? (optional)
-            <input type="text" name="section">
+          <label>your email (optional, if you'd like a reply)
+            <input type="email" name="email" placeholder="you@example.com">
           </label>
           <input type="text" name="_hp" class="bug-hp" tabindex="-1" autocomplete="off">
           <div class="bug-form-actions">
@@ -1352,7 +1352,7 @@ async function submitBugForm(e) {
   if (!notice) return;
   const data = new FormData();
   data.append('notice', notice);
-  data.append('section', form.section.value.trim());
+  data.append('email', form.email.value.trim());
   data.append('page', location.href);
   status.className = 'bug-form-status';
   status.textContent = 'sending...';
