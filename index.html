@@ -87,15 +87,33 @@ h1.h-logo{margin:0;display:inline}
 .bug-form-status{font-family:var(--mono);font-size:9.5px;color:var(--muted);min-height:11px}
 .bug-form-status.error{color:var(--red)}
 
+.search-wrap{display:flex;align-items:center;gap:6px;width:100%;max-width:420px;margin-bottom:11px}
+.search-input-wrap{position:relative;flex:1;min-width:0}
 #search{
-  display:block;width:100%;max-width:360px;
-  padding:7px 12px;margin-bottom:11px;
+  display:block;width:100%;
+  padding:7px 30px 7px 12px;
   background:var(--card);border:1px solid var(--border2);border-radius:3px;
   color:var(--text);font-family:var(--mono);font-size:11px;
   outline:none;
 }
 #search::placeholder{color:var(--dim)}
 #search:focus{border-color:#888}
+#search-clear{
+  display:none;position:absolute;top:0;right:0;bottom:0;
+  width:28px;background:none;border:none;cursor:pointer;
+  color:var(--dim);font-size:13px;line-height:1;
+}
+#search-clear:hover{color:var(--muted)}
+#search-clear.show{display:block}
+#filters-toggle{
+  display:none;flex-shrink:0;
+  padding:7px 10px;
+  font-family:var(--mono);font-size:9px;letter-spacing:.06em;
+  background:none;border:1px solid var(--border2);border-radius:3px;
+  color:var(--muted);cursor:pointer;
+}
+#filters-toggle:hover{color:var(--text);border-color:#888}
+#filters-toggle[aria-expanded="true"]{color:var(--text);border-color:#888;background:var(--card)}
 .filters{display:flex;flex-wrap:wrap;gap:5px}
 .combo-legend{
   display:none;flex-direction:column;align-items:flex-start;gap:8px;
@@ -411,6 +429,9 @@ main{padding:0 24px}
 
 /* ── RESPONSIVE ──────────────────────────────────────────── */
 @media(max-width:800px){
+  #filters-toggle{display:inline-block}
+  .filters{display:none}
+  .filters.open{display:flex}
   .orient{grid-template-columns:1fr}
   .orient-panel{border-right:none;border-bottom:1px solid var(--border2)}
   .orient-panel:last-child{border-bottom:none}
@@ -443,7 +464,7 @@ main{padding:0 24px}
     border-bottom:2px solid #111;
     padding:0 0 6px;margin-bottom:0;
   }
-  #search,.filters,.h-print-btn,.h-btn-divider,.h-dash,.h-sub,.bug-form-backdrop,.bug-form{display:none}
+  #search,#search-clear,#filters-toggle,.filters,.h-print-btn,.h-btn-divider,.h-dash,.h-sub,.bug-form-backdrop,.bug-form{display:none}
   .h-row1{margin-bottom:0}
   .h-logo{font-size:11px}
   .h-badge{font-size:8px;padding:1px 4px}
@@ -699,7 +720,13 @@ main{padding:0 24px}
       <button class="h-print-btn" onclick="window.print()">print</button>
     </div>
   </div>
-  <input id="search" type="text" placeholder="search shortcuts…" autocomplete="off" spellcheck="false">
+  <div class="search-wrap">
+    <div class="search-input-wrap">
+      <input id="search" type="text" placeholder="search shortcuts…" autocomplete="off" spellcheck="false">
+      <button id="search-clear" type="button" aria-label="Clear search">✕</button>
+    </div>
+    <button id="filters-toggle" type="button" aria-expanded="false" aria-controls="filters">filters ▾</button>
+  </div>
   <div class="filters" id="filters"></div>
 </header>
 
@@ -1480,9 +1507,27 @@ function render() {
   });
 })();
 
-document.getElementById('search').addEventListener('input', e => {
+const searchInput = document.getElementById('search');
+const searchClear = document.getElementById('search-clear');
+searchInput.addEventListener('input', e => {
   searchTerm = e.target.value.trim();
+  searchClear.classList.toggle('show', searchTerm.length > 0);
   render();
+});
+searchClear.addEventListener('click', () => {
+  searchInput.value = '';
+  searchTerm = '';
+  searchClear.classList.remove('show');
+  searchInput.focus();
+  render();
+});
+
+const filtersToggle = document.getElementById('filters-toggle');
+const filtersEl = document.getElementById('filters');
+filtersToggle.addEventListener('click', () => {
+  const open = filtersEl.classList.toggle('open');
+  filtersToggle.setAttribute('aria-expanded', String(open));
+  filtersToggle.textContent = open ? 'filters ▴' : 'filters ▾';
 });
 
 render();
