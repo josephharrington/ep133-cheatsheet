@@ -684,7 +684,7 @@ main{padding:0 24px}
     <h1 class="h-logo">ep-133 k.o. ii</h1>
     <span class="h-dash">-</span>
     <span class="h-sub">cheat sheet</span>
-    <span class="h-badge">v2.5</span>
+    <span class="h-badge">Firmware v2.5</span>
     <div class="h-btn-group">
       <div class="bug-pop-wrap">
         <button class="h-print-btn" id="bug-btn" onclick="toggleBugForm()" aria-expanded="false" aria-controls="bug-form">found a bug?</button>
@@ -1435,7 +1435,7 @@ function render() {
       <span class="s-head-label">${escH(sec.label)}</span>
     </div>`;
     if (isSystem) {
-      const opener = rows.find(d => !d.sub);
+      const opener = DATA.find(d => d.s === sec.id && !d.sub);
       html += `<div class="row full-span">
         <div class="row-combo">${renderCombo(opener.c)}</div>
         <div class="row-desc">${escH(opener.d)}</div>
