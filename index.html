@@ -1066,6 +1066,7 @@ const SECTIONS = [
   {id:'keys',     label:'keys'},
   {id:'timing',   label:'timing'},
   {id:'fader',    label:'fader'},
+  {id:'effects',  label:'effects / fx'},
   {id:'loop',     label:'loop'},
   {id:'tempo',    label:'tempo'},
   {id:'sound',    label:'sound'},
@@ -1153,12 +1154,21 @@ const DATA = [
   {s:'fader',  c:'[SHIFT] + [FADER]',                   d:'Reset fader - press again to recall previous (disabled during playback)'},
   {s:'fader',  c:'hold [GROUP] + move [FADER]',         d:'Group project volume - not automatable, spans all patterns'},
   {s:'fader',  c:'hold [SHIFT] + move [FADER]',         d:'Fine-tune fader position with higher precision'},
+// ── EFFECTS ───────────────────────────────────────────────────
+  {s:'effects',c:'[FX] (while playing)',                 d:'Enter FX mode - choose delay, reverb, distortion, chorus, filter, or compressor'},
+  {s:'effects',c:'[−] / [+] (in fx)',                      d:'Choose the master effect'},
+  {s:'effects',c:'turn [KNOB X] / [Y] (in fx)',         d:'Adjust the selected effect parameters'},
+  {s:'effects',c:'move [FADER] (in fx)',                d:'Adjust FX send for the current group'},
+  {s:'effects',c:'hold [FX] + [PAD] (while playing)',   d:'Trigger pressure-sensitive punch-in FX - combine pads to layer effects'},
+  {s:'effects',c:'hold [FX] + [GROUP] (while playing)', d:'Momentarily solo that group - hold multiple groups to solo them together'},
+  {s:'effects',c:'[SHIFT] + [FX]',                      d:'Open output settings - master compressor and sidechain'},
 // ── SOUND ───────────────────────────────────────────────────
   {s:'sound',  c:'[SOUND]',                             d:'Enter sound mode - browse and assign samples to pads'},
+  {s:'sound',  c:'tap [PAD] (in sound)',                d:'Select that pad for editing - the last pad tapped stays selected, indicated by the light above it'},
   {s:'sound',  c:'[−] / [+] (in sound)',                   d:'Change sample on current pad'},
   {s:'sound',  c:'[SHIFT] + [−] / [+] (in sound)',         d:'Jump through sample library in tens'},
-  {s:'sound',  c:'turn [KNOB X] (in sound)',                d:'Amplitude - sets this pad\'s volume relative to the other pads'},
-  {s:'sound',  c:'turn [KNOB Y] (in sound)',                d:'Pitch - shifts this pad\'s sample up or down in semitones'},
+  {s:'sound',  c:'turn [KNOB X] (in sound)',             d:'Adjust the selected pad\'s amplitude/volume (AMP)'},
+  {s:'sound',  c:'turn [KNOB Y] (in sound)',             d:'Adjust the selected pad\'s pitch (PTC)'},
   {s:'sound',  c:'[SHIFT] + [SOUND]',                   d:'Enter sound edit - Sound, Trim, Envelope, Time, MIDI, Mute Group'},
   {s:'sound',  c:'hold [SHIFT] + [SOUND] (2s)',          d:'Save sound edits permanently to disk'},
   {s:'sound',  c:'[−] / [+] (in sound edit)',               d:'Navigate between edit sub-modes'},
@@ -1420,9 +1430,10 @@ function render() {
       if (d.s !== sec.id) return false;
       if (!activeFilters.has(d.s)) return false;
       if (searchTerm) {
-        const q = searchTerm.toLowerCase();
         const plain = d.c.replace(/\[([^\]]+)\]/g,'$1').toLowerCase();
-        if (!plain.includes(q) && !d.d.toLowerCase().includes(q) && !sec.label.includes(q)) return false;
+        const searchable = `${plain} ${d.d} ${sec.label}`.toLowerCase();
+        const terms = searchTerm.toLowerCase().split(/\s+/);
+        if (!terms.every(term => searchable.includes(term))) return false;
       }
       return true;
     });
