@@ -105,6 +105,10 @@ h1.h-logo{margin:0;display:inline}
 }
 #search-clear:hover{color:var(--muted)}
 #search-clear.show{display:block}
+.search-hit{
+  padding:0 1px;background:#f3cf57;color:inherit;border-radius:1px;
+  box-decoration-break:clone;-webkit-box-decoration-break:clone;
+}
 #filters-toggle{
   display:none;flex-shrink:0;
   padding:7px 10px;
@@ -333,7 +337,9 @@ main{padding:0 24px}
   padding:16px 0 5px;
   background:rgba(241,90,34,.06);
   border-bottom:1.5px solid var(--red);
+  scroll-margin-top:150px;
 }
+.page-rail-label,.sys-group-head{scroll-margin-top:150px}
 .s-head-num{font-family:var(--mono);font-size:8.5px;color:var(--red);font-weight:700;letter-spacing:.04em}
 .s-head-label{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:var(--muted);font-weight:700}
 
@@ -1498,8 +1504,79 @@ async function submitBugForm(e) {
 }
 
 const FILTER_IDS = ['overview', ...SECTIONS.map(s => s.id)];
-let activeFilters = new Set(FILTER_IDS);
-let searchTerm = '';
+const SEARCH_ALIASES = {
+  click:['click','metronome'],
+  ducking:['ducking','sidechain','duck'],
+  duplicate:['duplicate','copy','clone'],
+  quantize:['quantize','quantized','timing correct'],
+  snd:['snd','sound'],
+  ptn:['ptn','pattern'],
+  trk:['trk','track'],
+};
+
+function stateFromUrl() {
+  const params = new URLSearchParams(location.search);
+  const requested = params.get('sections');
+  const filters = requested === null
+    ? new Set(FILTER_IDS)
+    : new Set(requested.split(',').filter(id => FILTER_IDS.includes(id)));
+  return {filters, query:(params.get('q') || '').trim()};
+}
+
+const initialState = stateFromUrl();
+let activeFilters = initialState.filters;
+let searchTerm = initialState.query;
+let syncPillStates = () => {};
+
+function syncUrlState() {
+  const url = new URL(location.href);
+  searchTerm ? url.searchParams.set('q', searchTerm) : url.searchParams.delete('q');
+  if (activeFilters.size === FILTER_IDS.length) {
+    url.searchParams.delete('sections');
+  } else {
+    url.searchParams.set('sections', [...activeFilters].join(','));
+  }
+  history.replaceState(null, '', url);
+}
+
+function clearSearchHighlights(root) {
+  root.querySelectorAll('mark.search-hit').forEach(mark => mark.replaceWith(document.createTextNode(mark.textContent)));
+  root.normalize();
+}
+
+function highlightMatches(root, terms) {
+  if (!terms.length) return;
+  const escaped = terms
+    .filter(Boolean)
+    .sort((a,b) => b.length - a.length)
+    .map(term => term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  if (!escaped.length) return;
+  const pattern = new RegExp(`(${escaped.join('|')})`, 'gi');
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  const nodes = [];
+  while (walker.nextNode()) {
+    const node = walker.currentNode;
+    if (node.nodeValue.trim() && !node.parentElement.closest('mark,script,style')) nodes.push(node);
+  }
+  nodes.forEach(node => {
+    pattern.lastIndex = 0;
+    if (!pattern.test(node.nodeValue)) return;
+    pattern.lastIndex = 0;
+    const fragment = document.createDocumentFragment();
+    let last = 0;
+    node.nodeValue.replace(pattern, (match, _group, offset) => {
+      fragment.append(document.createTextNode(node.nodeValue.slice(last, offset)));
+      const mark = document.createElement('mark');
+      mark.className = 'search-hit';
+      mark.textContent = match;
+      fragment.append(mark);
+      last = offset + match.length;
+      return match;
+    });
+    fragment.append(document.createTextNode(node.nodeValue.slice(last)));
+    node.replaceWith(fragment);
+  });
+}
 
 function render() {
   const main    = document.getElementById('main');
@@ -1508,8 +1585,14 @@ function render() {
   const extras  = document.getElementById('extras');
   const qref    = document.getElementById('qref');
 
+  [orient, extras, qref].forEach(clearSearchHighlights);
   const searchTerms = searchTerm.toLowerCase().split(/\s+/).filter(Boolean);
-  const matchesSearch = el => searchTerms.every(term => el.textContent.toLowerCase().includes(term));
+  const searchGroups = searchTerms.map(term => SEARCH_ALIASES[term] || [term]);
+  const highlightTerms = [...new Set(searchGroups.flat())];
+  const matchesSearch = el => {
+    const text = el.textContent.toLowerCase();
+    return searchGroups.every(group => group.some(term => text.includes(term)));
+  };
   const overviewEnabled = activeFilters.has('overview');
   let overviewHasMatch = false;
 
@@ -1539,7 +1622,7 @@ function render() {
       if (searchTerm) {
         const plain = d.c.replace(/\[([^\]]+)\]/g,'$1').toLowerCase();
         const searchable = `${plain} ${plainDescription(d.d)} ${d.p || ''} ${sec.label}`.toLowerCase();
-        if (!searchTerms.every(term => searchable.includes(term))) return false;
+        if (!searchGroups.every(group => group.some(term => searchable.includes(term)))) return false;
       }
       return true;
     });
@@ -1617,6 +1700,7 @@ function render() {
   }
   noRes.style.display = 'none';
   main.innerHTML = html;
+  [orient, extras, qref, main].forEach(root => highlightMatches(root, highlightTerms));
 }
 
 // Filter buttons (multi-select toggle, "all" selects/clears everything)
@@ -1628,7 +1712,7 @@ function render() {
     html += `<button class="filter on" data-id="${f.id}">${escH(f.label)}</button>`;
   });
   el.innerHTML = html;
-  const syncPillStates = () => {
+  syncPillStates = () => {
     const allSelected = activeFilters.size === FILTER_IDS.length;
     el.classList.toggle('all-selected', allSelected);
     el.querySelectorAll('.filter').forEach(b => {
@@ -1643,12 +1727,15 @@ function render() {
     const id = btn.dataset.id;
     if (id === 'all') {
       activeFilters = activeFilters.size === FILTER_IDS.length ? new Set() : new Set(FILTER_IDS);
+    } else if (activeFilters.size === FILTER_IDS.length) {
+      activeFilters = new Set([id]);
     } else if (activeFilters.has(id)) {
       activeFilters.delete(id);
     } else {
       activeFilters.add(id);
     }
     syncPillStates();
+    syncUrlState();
     render();
   });
   syncPillStates();
@@ -1656,9 +1743,12 @@ function render() {
 
 const searchInput = document.getElementById('search');
 const searchClear = document.getElementById('search-clear');
+searchInput.value = searchTerm;
+searchClear.classList.toggle('show', searchTerm.length > 0);
 searchInput.addEventListener('input', e => {
   searchTerm = e.target.value.trim();
   searchClear.classList.toggle('show', searchTerm.length > 0);
+  syncUrlState();
   render();
 });
 searchClear.addEventListener('click', () => {
@@ -1666,6 +1756,17 @@ searchClear.addEventListener('click', () => {
   searchTerm = '';
   searchClear.classList.remove('show');
   searchInput.focus();
+  syncUrlState();
+  render();
+});
+
+window.addEventListener('popstate', () => {
+  const state = stateFromUrl();
+  activeFilters = state.filters;
+  searchTerm = state.query;
+  searchInput.value = searchTerm;
+  searchClear.classList.toggle('show', searchTerm.length > 0);
+  syncPillStates();
   render();
 });
 
@@ -1682,6 +1783,9 @@ if (window.matchMedia('(max-width: 800px)').matches) {
 }
 
 render();
+if (location.hash) {
+  requestAnimationFrame(() => document.querySelector(location.hash)?.scrollIntoView());
+}
 
 </script>
 </body>
