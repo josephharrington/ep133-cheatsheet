@@ -1,20 +1,23 @@
 # EP-133 K.O. II Cheat Sheet
 
-A printable reference for the Teenage Engineering EP-133 K.O. II sampler - button combos, system settings, and modes in one place.
+A mobile-friendly, searchable, and printable reference for the Teenage Engineering EP-133 K.O. II sampler. It covers firmware 2.5 button combinations, modes, system settings, effects, sampling, and sequencing workflows.
 
 **View it here:** https://josephharrington.github.io/ep133-cheatsheet/
 
 ## Using it
 
-- Use the search box or the filter buttons at the top to jump to a section (record, patterns, sound, sample, chop, and so on).
-- There's a print button in the top right if you'd rather have a paper copy next to your machine.
-- Easiest to read on a laptop or tablet, but it works on a phone too.
+- Search for one or more words to find a shortcut. Search checks every section, even when section filters are active.
+- Use the section picker to narrow the page to one or more topics such as recording, patterns, sound, sampling, or chopping.
+- On phones, sections collapse into a compact lookup view designed for use beside the device.
+- Use the print button for a five-page paper reference, including the overview and System Settings table.
 
 ## Found a mistake, or want something added?
 
-This is a volunteer project and it's only as good as the details in it - if something's wrong or missing, please say so.
+This is a volunteer project and it's only as good as the details in it. If something's wrong or missing, please say so.
 
-The best way is to [open an issue](../../issues/new) on this GitHub page. You don't need to know how to code:
+The quickest option is the **found a bug?** button on the cheat sheet. It does not require a GitHub account.
+
+You can also [open an issue](../../issues/new) on this GitHub page. You don't need to know how to code:
 
 1. Click the link above (or "Issues" near the top of this page, then "New issue").
 2. Describe what's wrong or what you'd like added - a sentence or two is plenty. If it's a factual error, mention where you found the correct info (the official manual, a forum post, testing it yourself, etc.) so it can be double-checked.
