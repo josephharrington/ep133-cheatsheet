@@ -119,6 +119,7 @@ h1.h-logo{margin:0;display:inline}
 #filters-toggle:hover{color:var(--text);border-color:#888}
 #filters-toggle[aria-expanded="true"]{color:var(--text);border-color:#888;background:var(--card)}
 .filters{display:flex;flex-wrap:wrap;gap:5px}
+.filters-backdrop,.filters-sheet-head{display:none}
 .combo-legend{
   display:none;flex-direction:column;align-items:flex-start;gap:8px;
   position:absolute;top:calc(100% + 8px);right:0;min-width:230px;z-index:60;
@@ -146,6 +147,10 @@ h1.h-logo{margin:0;display:inline}
 .filters.all-selected .filter.on:not([data-id="all"]){
   color:var(--muted);border-color:var(--border);background:none;
 }
+
+.mobile-overview{display:block}
+.mobile-overview-summary{display:none}
+.mobile-overview-body{display:block}
 
 /* ── ORIENTATION ─────────────────────────────────────────── */
 .orient{
@@ -339,6 +344,11 @@ main{padding:0 24px}
   border-bottom:1.5px solid var(--red);
   scroll-margin-top:150px;
 }
+.section-toggle{
+  display:flex;align-items:center;gap:10px;width:100%;min-width:0;
+  border:0;background:none;color:inherit;text-align:left;cursor:default;
+}
+.section-chevron{display:none;margin-left:auto;font-size:11px;color:var(--red)}
 .page-rail-label,.sys-group-head{scroll-margin-top:150px}
 .s-head-num{font-family:var(--mono);font-size:8.5px;color:var(--red);font-weight:700;letter-spacing:.04em}
 .s-head-label{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:var(--muted);font-weight:700}
@@ -399,16 +409,17 @@ main{padding:0 24px}
 .mode-ref{padding:0 2px}
 .page-ref{color:var(--muted)}
 .page-ref{font-size:7px;font-weight:600;letter-spacing:.03em}
-.page-rail{display:grid;grid-template-columns:105px minmax(0,1fr);border-bottom:1px solid var(--border)}
+.page-rail{display:block;border-bottom:1px solid var(--border)}
 .page-rail-label{
-  position:relative;padding:11px 12px 8px 12px;
-  font-family:var(--mono);font-size:7.5px;font-weight:700;line-height:1.35;
+  position:relative;padding:10px 12px 3px 12px;
+  font-family:var(--mono);font-size:8px;font-weight:700;line-height:1.35;
   letter-spacing:.07em;color:var(--sub);text-transform:uppercase;
 }
 .page-rail-label::before{
-  content:'';position:absolute;left:0;top:7px;bottom:7px;width:2px;
+  content:'';position:absolute;left:0;top:7px;bottom:0;width:2px;
   background:rgba(184,59,18,.7);
 }
+.page-rail-rows{padding-left:12px}
 .page-rail-rows .row{grid-template-columns:minmax(180px,auto) 1fr auto}
 .page-rail-rows .row:last-child{border-bottom:0}
 
@@ -469,9 +480,45 @@ main{padding:0 24px}
 
 /* ── RESPONSIVE ──────────────────────────────────────────── */
 @media(max-width:800px){
+  body{padding-top:var(--expanded-header-height,168px)}
+  header{position:fixed;left:0;right:0;width:100%;max-width:1100px;margin:0 auto}
+  header.compact{padding-top:8px;padding-bottom:8px}
+  header.compact .h-row1{display:none}
+  header.compact .search-wrap{margin-bottom:0}
+  .h-print-btn,#search,#filters-toggle{min-height:44px}
+  .h-icon-btn{min-width:44px}
+  #search-clear{width:44px}
   #filters-toggle{display:inline-block}
-  .filters{display:none}
+  .filters{
+    display:none;position:fixed;left:0;right:0;bottom:0;z-index:80;
+    max-height:min(72vh,620px);overflow-y:auto;align-content:flex-start;
+    gap:8px;padding:54px 16px max(20px,env(safe-area-inset-bottom));
+    background:var(--card);border-top:2px solid var(--text);
+    border-radius:12px 12px 0 0;box-shadow:0 -8px 30px rgba(0,0,0,.18);
+  }
   .filters.open{display:flex}
+  .filters-sheet-head{
+    display:flex;position:absolute;left:16px;right:12px;top:10px;
+    align-items:center;justify-content:space-between;
+    font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;
+  }
+  .filters-close{
+    width:44px;height:36px;border:0;background:none;color:var(--muted);
+    font-size:18px;cursor:pointer;
+  }
+  .filters-backdrop.open{
+    display:block;position:fixed;inset:0;z-index:79;background:rgba(0,0,0,.38);
+  }
+  .filter{min-height:44px;padding:9px 14px;font-size:10px}
+  body.filters-open{overflow:hidden}
+  .mobile-overview{border-bottom:1px solid var(--border2)}
+  .mobile-overview-summary{
+    display:flex;align-items:center;justify-content:space-between;min-height:48px;
+    padding:0 16px;background:var(--card);cursor:pointer;list-style:none;
+    font-family:var(--mono);font-size:9px;letter-spacing:.09em;color:var(--muted);
+  }
+  .mobile-overview-summary::-webkit-details-marker{display:none}
+  .mobile-overview[open] .mobile-overview-toggle{transform:rotate(180deg)}
   .orient{grid-template-columns:1fr}
   .orient-panel{border-right:none;border-bottom:1px solid var(--border2)}
   .orient-panel:last-child{border-bottom:none}
@@ -483,8 +530,8 @@ main{padding:0 24px}
   .row-combo{grid-column:1;grid-row:1}
   .row-badge{grid-column:2;grid-row:1;align-self:start}
   .row-desc{grid-column:1/3;grid-row:2}
-  .page-rail{grid-template-columns:82px minmax(0,1fr)}
-  .page-rail-label{padding:11px 8px 8px 10px;font-size:6.75px}
+  .page-rail-label{padding:10px 8px 3px 10px;font-size:7.5px}
+  .page-rail-rows{padding-left:10px}
   .page-rail-rows .row{grid-template-columns:1fr auto;grid-template-rows:auto auto}
   .risk-label{font-size:6.75px}
   header,main,.orient,.combo-legend,.wf-details,.qref{padding-left:16px;padding-right:16px}
@@ -494,6 +541,15 @@ main{padding:0 24px}
     position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
     width:calc(100vw - 32px);max-width:340px;max-height:80vh;overflow-y:auto;
   }
+  .s-head{
+    position:sticky;top:var(--sticky-header-height,62px);z-index:20;
+    padding:0;background:var(--bg);
+    scroll-margin-top:calc(var(--sticky-header-height,62px) + 8px);
+  }
+  .section-toggle{cursor:pointer;min-height:44px}
+  .section-chevron{display:inline-block;transition:transform .12s ease}
+  .section-group:not(.collapsed) .section-chevron{transform:rotate(180deg)}
+  .section-group.collapsed .section-body{display:none}
 }
 
 /* ── PRINT ───────────────────────────────────────────────── */
@@ -640,9 +696,10 @@ main{padding:0 24px}
   .ctx{color:#000;font-size:8.5px}
   .mode-ref,.page-ref{font-size:6.5px;color:#000}
   .page-ref{font-size:6px}
-  .page-rail{grid-template-columns:51px minmax(0,1fr);border-color:#e4e4e4;break-inside:avoid}
-  .page-rail-label{padding:5px 5px 3px 7px;font-size:6.25px;color:#000}
-  .page-rail-label::before{top:3px;bottom:3px;width:1px;background:#777}
+  .page-rail{border-color:#e4e4e4;break-inside:avoid}
+  .page-rail-label{padding:5px 5px 2px 7px;font-size:6.25px;color:#000}
+  .page-rail-label::before{top:3px;bottom:0;width:1px;background:#777}
+  .page-rail-rows{padding-left:7px}
   .page-rail-rows .row{grid-template-columns:119px 1fr auto}
   .risk-label{font-size:6px;color:#000;border-color:#777}
   .sys-group-head{padding:6px 0 2px;color:#000;border-color:#aaa;font-size:6.5px}
@@ -650,6 +707,10 @@ main{padding:0 24px}
   .badge-old{font-size:6.5px;padding:1px 3px;color:#000}
   .no-res{display:none!important}
   .s-head{break-after:avoid}
+  .mobile-overview-summary{display:none!important}
+  .mobile-overview-body{display:block!important}
+  .section-chevron{display:none!important}
+  .section-body{display:block!important}
 
   /* System settings: own page, full width, table layout */
   .section-group.full-width{
@@ -783,10 +844,18 @@ main{padding:0 24px}
       <input id="search" type="text" placeholder="search shortcuts…" aria-label="Search shortcuts" autocomplete="off" spellcheck="false">
       <button id="search-clear" type="button" aria-label="Clear search">✕</button>
     </div>
-    <button id="filters-toggle" type="button" aria-expanded="false" aria-controls="filters">filters ▾</button>
+    <button id="filters-toggle" type="button" aria-expanded="false" aria-controls="filters">sections ▾</button>
   </div>
-  <div class="filters" id="filters"></div>
+  <div class="filters-backdrop" id="filters-backdrop"></div>
+  <div class="filters" id="filters" aria-label="Section filters"></div>
 </header>
+
+<details class="mobile-overview" id="mobile-overview" open>
+<summary class="mobile-overview-summary">
+  <span>reference overview</span>
+  <span class="mobile-overview-toggle" aria-hidden="true">▾</span>
+</summary>
+<div class="mobile-overview-body">
 
 <!-- ORIENTATION -->
 <div class="orient" id="orient">
@@ -1108,6 +1177,9 @@ main{padding:0 24px}
   </div>
 
 </div>
+
+</div>
+</details>
 
 <main id="main"></main>
 <div class="no-res" id="no-res">no shortcuts found</div>
@@ -1527,6 +1599,8 @@ const initialState = stateFromUrl();
 let activeFilters = initialState.filters;
 let searchTerm = initialState.query;
 let syncPillStates = () => {};
+const mobileMedia = window.matchMedia('(max-width: 800px)');
+let expandedSections = new Set();
 
 function syncUrlState() {
   const url = new URL(location.href);
@@ -1584,6 +1658,7 @@ function render() {
   const orient  = document.getElementById('orient');
   const extras  = document.getElementById('extras');
   const qref    = document.getElementById('qref');
+  const overview = document.getElementById('mobile-overview');
 
   [orient, extras, qref].forEach(clearSearchHighlights);
   const searchTerms = searchTerm.toLowerCase().split(/\s+/).filter(Boolean);
@@ -1610,6 +1685,8 @@ function render() {
   extras.style.display = showWorkflow ? '' : 'none';
   if (showWorkflow && searchTerms.length) extras.open = true;
   overviewHasMatch ||= showWorkflow;
+  overview.style.display = overviewHasMatch ? '' : 'none';
+  if (overviewHasMatch && searchTerms.length) overview.open = true;
 
   let hasAny = overviewHasMatch;
   let html = '';
@@ -1629,11 +1706,16 @@ function render() {
     if (!rows.length) return;
     hasAny = true;
 
-    html += `<div class="section-group section-${sec.id}${isSystem ? ' full-width' : ''}">`;
+    const expanded = !mobileMedia.matches || searchTerms.length || activeFilters.size < FILTER_IDS.length || expandedSections.has(sec.id) || location.hash === `#section-${sec.id}`;
+    html += `<section class="section-group section-${sec.id}${isSystem ? ' full-width' : ''}${expanded ? '' : ' collapsed'}">`;
     html += `<h2 class="s-head" id="section-${escH(sec.id)}">
-      <span class="s-head-num">((${String(secIndex + 1).padStart(2,'0')}))</span>
-      <span class="s-head-label">${escH(sec.label)}</span>
+      <button class="section-toggle" type="button" data-section="${escH(sec.id)}" aria-expanded="${String(expanded)}" aria-controls="section-body-${escH(sec.id)}">
+        <span class="s-head-num">((${String(secIndex + 1).padStart(2,'0')}))</span>
+        <span class="s-head-label">${escH(sec.label)}</span>
+        <span class="section-chevron" aria-hidden="true">▾</span>
+      </button>
     </h2>`;
+    html += `<div class="section-body" id="section-body-${escH(sec.id)}">`;
     if (isSystem) {
       const opener = DATA.find(d => d.s === sec.id && !d.sub);
       html += `<div class="row full-span">
@@ -1690,7 +1772,7 @@ function render() {
       </div>`;
     }
     if (isSystem) html += '</div>';
-    html += `</div>`;
+    html += `</div></section>`;
   });
 
   if (!hasAny) {
@@ -1707,7 +1789,7 @@ function render() {
 (function() {
   const el = document.getElementById('filters');
   const pills = [{id:'all', label:'all'}, {id:'overview', label:'overview'}, ...SECTIONS];
-  let html = '';
+  let html = `<div class="filters-sheet-head"><span>browse sections</span><button class="filters-close" type="button" aria-label="Close sections">×</button></div>`;
   pills.forEach(f => {
     html += `<button class="filter on" data-id="${f.id}">${escH(f.label)}</button>`;
   });
@@ -1725,6 +1807,7 @@ function render() {
     const btn = e.target.closest('.filter');
     if (!btn) return;
     const id = btn.dataset.id;
+    const isolateSection = id !== 'all' && activeFilters.size === FILTER_IDS.length;
     if (id === 'all') {
       activeFilters = activeFilters.size === FILTER_IDS.length ? new Set() : new Set(FILTER_IDS);
     } else if (activeFilters.size === FILTER_IDS.length) {
@@ -1737,7 +1820,12 @@ function render() {
     syncPillStates();
     syncUrlState();
     render();
+    if (mobileMedia.matches && isolateSection && activeFilters.has(id)) {
+      closeFilters();
+      requestAnimationFrame(() => scrollToSection(id));
+    }
   });
+  el.querySelector('.filters-close').addEventListener('click', closeFilters);
   syncPillStates();
 })();
 
@@ -1772,19 +1860,72 @@ window.addEventListener('popstate', () => {
 
 const filtersToggle = document.getElementById('filters-toggle');
 const filtersEl = document.getElementById('filters');
+const filtersBackdrop = document.getElementById('filters-backdrop');
+function closeFilters() {
+  filtersEl.classList.remove('open');
+  filtersBackdrop.classList.remove('open');
+  document.body.classList.remove('filters-open');
+  filtersToggle.setAttribute('aria-expanded', 'false');
+  filtersToggle.textContent = 'sections ▾';
+}
 filtersToggle.addEventListener('click', () => {
   const open = filtersEl.classList.toggle('open');
+  filtersBackdrop.classList.toggle('open', open);
+  document.body.classList.toggle('filters-open', open);
   filtersToggle.setAttribute('aria-expanded', String(open));
-  filtersToggle.textContent = open ? 'filters ▴' : 'filters ▾';
+  filtersToggle.textContent = open ? 'sections ▴' : 'sections ▾';
+});
+filtersBackdrop.addEventListener('click', closeFilters);
+
+document.getElementById('main').addEventListener('click', e => {
+  const toggle = e.target.closest('.section-toggle');
+  if (!toggle || !mobileMedia.matches) return;
+  const section = toggle.closest('.section-group');
+  const willExpand = section.classList.contains('collapsed');
+  document.querySelectorAll('.section-group:not(.collapsed)').forEach(openSection => {
+    if (openSection === section) return;
+    openSection.classList.add('collapsed');
+    openSection.querySelector('.section-toggle')?.setAttribute('aria-expanded', 'false');
+    expandedSections.delete(openSection.querySelector('.section-toggle')?.dataset.section);
+  });
+  section.classList.toggle('collapsed', !willExpand);
+  toggle.setAttribute('aria-expanded', String(willExpand));
+  willExpand ? expandedSections.add(toggle.dataset.section) : expandedSections.delete(toggle.dataset.section);
 });
 
-if (window.matchMedia('(max-width: 800px)').matches) {
-  document.getElementById('extras').removeAttribute('open');
+const header = document.querySelector('header');
+function scrollToSection(id) {
+  const heading = document.getElementById(`section-${id}`);
+  if (!heading) return;
+  const section = heading.closest('.section-group');
+  scrollTo({top:Math.max(0,section.offsetTop - header.offsetHeight - 8),behavior:'smooth'});
+}
+const syncHeaderState = () => {
+  header.classList.toggle('compact', mobileMedia.matches && scrollY > 80);
+  requestAnimationFrame(syncHeaderHeight);
+};
+const syncHeaderHeight = () => {
+  const height = header.getBoundingClientRect().height;
+  document.documentElement.style.setProperty('--sticky-header-height', `${height}px`);
+  if (!header.classList.contains('compact')) {
+    document.documentElement.style.setProperty('--expanded-header-height', `${height}px`);
+  }
+};
+addEventListener('scroll', syncHeaderState, {passive:true});
+new ResizeObserver(syncHeaderHeight).observe(header);
+syncHeaderState();
+syncHeaderHeight();
+
+if (mobileMedia.matches) {
+  document.getElementById('mobile-overview').removeAttribute('open');
 }
 
 render();
 if (location.hash) {
-  requestAnimationFrame(() => document.querySelector(location.hash)?.scrollIntoView());
+  requestAnimationFrame(() => {
+    const id = decodeURIComponent(location.hash.slice(1));
+    id.startsWith('section-') ? scrollToSection(id.slice(8)) : document.getElementById(id)?.scrollIntoView();
+  });
 }
 
 </script>
