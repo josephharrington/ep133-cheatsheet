@@ -1,3 +1,5 @@
 reference/
 .DS_Store
 AGENT_CONTEXT.md
+.venv/
+.*.html

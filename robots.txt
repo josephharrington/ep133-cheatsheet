@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://josephharrington.github.io/ep133-cheatsheet/sitemap.xml
