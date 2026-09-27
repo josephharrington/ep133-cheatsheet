@@ -347,6 +347,17 @@ main{padding:0 24px}
 .row-combo{display:flex;flex-wrap:wrap;align-items:center;gap:3px}
 .row-desc{font-size:11.5px;font-weight:300;color:var(--sub);line-height:1.4}
 .row-badge{width:26px;text-align:right}
+.risk-label{
+  display:inline-block;margin-right:6px;padding:1px 4px;
+  border:1px solid rgba(184,59,18,.5);border-radius:2px;
+  color:var(--red);font-family:var(--mono);font-size:7px;font-weight:700;
+  letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;
+}
+.sys-group-head{
+  padding:10px 0 4px;border-bottom:1px solid var(--border2);
+  color:var(--red);font-family:var(--mono);font-size:8px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;
+}
 
 /* ── KEY CHIPS ───────────────────────────────────────────── */
 .key{
@@ -469,6 +480,7 @@ main{padding:0 24px}
   .page-rail{grid-template-columns:82px minmax(0,1fr)}
   .page-rail-label{padding:11px 8px 8px 10px;font-size:6.75px}
   .page-rail-rows .row{grid-template-columns:1fr auto;grid-template-rows:auto auto}
+  .risk-label{font-size:6.75px}
   header,main,.orient,.combo-legend,.wf-details,.qref{padding-left:16px;padding-right:16px}
   .wf-summary,.wf-body{padding-left:16px;padding-right:16px}
   .bug-form-backdrop.open{background:rgba(0,0,0,.4)}
@@ -626,6 +638,8 @@ main{padding:0 24px}
   .page-rail-label{padding:5px 5px 3px 7px;font-size:6.25px;color:#000}
   .page-rail-label::before{top:3px;bottom:3px;width:1px;background:#777}
   .page-rail-rows .row{grid-template-columns:119px 1fr auto}
+  .risk-label{font-size:6px;color:#000;border-color:#777}
+  .sys-group-head{padding:6px 0 2px;color:#000;border-color:#aaa;font-size:6.5px}
   .badge-new{font-size:6.5px;padding:1px 3px}
   .badge-old{font-size:6.5px;padding:1px 3px;color:#000}
   .no-res{display:none!important}
@@ -749,6 +763,7 @@ main{padding:0 24px}
         <button class="h-print-btn" id="legend-btn" onclick="toggleLegend()" aria-expanded="false" aria-controls="legend">legend</button>
         <div class="combo-legend" id="legend">
           <span class="combo-legend-item"><span id="legend-key"></span> press</span>
+          <span class="combo-legend-item"><span id="legend-pad"></span> numbered pad</span>
           <span class="combo-legend-item"><span class="op-chip">+</span> hold &amp; press together</span>
           <span class="combo-legend-item"><span class="op-chip">→</span> then (release first)</span>
           <span class="combo-legend-item"><span id="legend-held"></span> extended / timed hold</span>
@@ -1125,15 +1140,15 @@ const DATA = [
   {s:'record',c:'[RECORD] + [−] / [+]',                 d:'Change pattern length on the fly while playing'},
   {s:'record',c:'[RECORD] → [−] / [+] (while stopped)',  d:'Set pattern length while record-armed'},
   {s:'record',c:'[RECORD] → [SHIFT] + [+]',             d:'Double pattern length - duplicates all existing notes'},
-  {s:'record',c:'hold [RECORD] + [PAD] (while playing)', d:'Overdub: punch new notes into existing pattern'},
+  {s:'record',c:'hold [RECORD] + [#] (while playing)',   d:'Overdub: punch new notes into existing pattern'},
   {s:'record',c:'[RECORD] + [ERASE] + [+]',             d:'Overwrite record - clears existing pattern, starts fresh'},
 // ── STEP SEQ ────────────────────────────────────────────────
   {s:'step',  c:'[−] / [+] (while stopped)',                  d:'Step backward / forward through the sequencer'},
-  {s:'step',  c:'[RECORD] + [PAD] (while stopped)',            d:'Write that pad\'s note to the current step - tap for a short note, hold for a longer one'},
-  {s:'step',  c:'[ERASE] + [PAD] (while stopped)',             d:'Erase that pad\'s note at the current step'},
-  {s:'step',  c:'hold [ERASE] + hold [PAD] (while stopped)',   d:'Erase all notes for that pad in the pattern - hold until TRK blinks'},
-  {s:'step',  c:'[ERASE] + [PAD] (while playing)',             d:'Live-erase pad notes as the pattern plays'},
-  {s:'step',  c:'[SHIFT] + [PAD] + [−] / [+]',          d:'Nudge note - steps in quantize mode, ticks in free time'},
+  {s:'step',  c:'[RECORD] + [#] (while stopped)',        d:'Write that pad\'s note to the current step - tap for a short note, hold for a longer one'},
+  {s:'step',  c:'[ERASE] + [#] (while stopped)',         d:'Erase that pad\'s note at the current step'},
+  {s:'step',  c:'hold [ERASE] + hold [#] (while stopped)',d:'Erase all notes for that pad in the pattern - hold until TRK blinks'},
+  {s:'step',  c:'[ERASE] + [#] (while playing)',         d:'Live-erase pad notes as the pattern plays'},
+  {s:'step',  c:'[SHIFT] + [#] + [−] / [+]',             d:'Nudge note - steps in quantize mode, ticks in free time'},
   {s:'step',  c:'hold [SHIFT] + turn [KNOB X]',         d:'Set velocity for all notes at the current step'},
   {s:'step',  c:'hold [SHIFT] + turn [KNOB Y]',         d:'Set duration for all notes at the current step'},
 // ── PATTERNS ────────────────────────────────────────────────
@@ -1144,7 +1159,7 @@ const DATA = [
 // ── SCENES ──────────────────────────────────────────────────
   {s:'scenes', c:'hold [MAIN] + [−] / [+]',             d:'Select scene 01–99'},
   {s:'scenes', c:'hold [MAIN] + numpad',                 d:'Jump directly to a scene by number'},
-  {s:'scenes', c:'hold [MAIN] + hold [PAD] (1–9)',      d:'Switch project (1 of 9) - 1–5 come populated, 6–9 are empty by default'},
+  {s:'scenes', c:'hold [MAIN] + hold [#] (1–9)',        d:'Switch project (1 of 9) - 1–5 come populated, 6–9 are empty by default'},
   {s:'scenes', c:'[SHIFT] + [MAIN]',                    d:'Commit: duplicate scene, advance to next, keep editing'},
   {s:'scenes', c:'hold [ERASE] + hold [MAIN] (2s)',     d:'Clear scene contents, or delete if empty and not in song'},
 // ── SONG MODE ───────────────────────────────────────────────
@@ -1161,21 +1176,21 @@ const DATA = [
   {s:'edit',   c:'[SHIFT] + [D]',                       d:'Paste copied bar or full pattern at the current position'},
   {s:'edit',   c:'[SHIFT] + [B]',                       d:'Undo - umbrella icon lights up when available'},
   {s:'edit',   c:'[SHIFT] + [−] / [+] (while copying)',        d:'Navigate to a different bar before copying'},
-  {s:'edit',   c:'hold [PAD] → [SHIFT] + [C]',          d:'Copy just this pad\'s notes (per-pad)',n:true},
-  {s:'edit',   c:'hold [PAD] → [SHIFT] + [D]',          d:'Paste just this pad\'s notes (per-pad)',n:true},
+  {s:'edit',   c:'hold [#] → [SHIFT] + [C]',            d:'Copy just this pad\'s notes (per-pad)',n:true},
+  {s:'edit',   c:'hold [#] → [SHIFT] + [D]',            d:'Paste just this pad\'s notes (per-pad)',n:true},
 // ── ERASE ───────────────────────────────────────────────────
   {s:'erase',  c:'hold [ERASE] + hold [GROUP]',         d:'Erase current pattern - hold until PTN blinks'},
-  {s:'erase',  c:'hold [ERASE] + hold [SOUND]',         d:'Permanently delete the selected sample - hold until SND blinks'},
+  {s:'erase',  c:'hold [ERASE] + hold [SOUND]',         d:'Permanently delete the selected sample - hold until SND blinks',risk:'permanent'},
   {s:'erase',  c:'hold [ERASE] + hold [FADER] (2s, while stopped)', d:'Erase all fader automation - fader resets to the position it was held at'},
   {s:'erase',  c:'[ERASE] + [FADER] (while playing)',         d:'Erase fader automation live while playing'},
-  {s:'erase',  c:'[ERASE] + [FADER] + [PAD]',           d:'Erase one fader assignment\'s automation only',n:true},
+  {s:'erase',  c:'[ERASE] + [FADER] + [#]',             d:'Erase one fader assignment\'s automation only',n:true},
 // ── KEYS ────────────────────────────────────────────────────
   {s:'keys',   c:'[KEYS]',                              d:'Enter {mode:Keys} mode: the selected pad plays chromatically across all 12 pads'},
   {s:'keys',   c:'[KEYS] + [−] / [+]',                  d:'Shift the keyboard layout up or down by one octave'},
-  {s:'keys',   c:'[KEYS] + [PAD]',                      d:'Transpose the current scale from that pad'},
+  {s:'keys',   c:'[KEYS] + [#]',                        d:'Transpose the current scale from that pad'},
   {s:'keys',   c:'hold [KEYS] + turn [KNOB X]',         d:'Set root key (replaces the old pad → key menu)',n:true},
   {s:'keys',   c:'hold [KEYS] + turn [KNOB Y]',         d:'Set scale type (replaces the old pad → sca menu), including blues, harmonic minor, and melodic minor. Scale and key are saved per project',n:true},
-  {s:'keys',   c:'[KEYS] → hold [TIMING] + [PAD] [PAD]…',d:'Arpeggio - oneshot or legato sounds only',n:true},
+  {s:'keys',   c:'[KEYS] → hold [TIMING] + [#] [#]…',  d:'Arpeggio - oneshot or legato sounds only',n:true},
   {s:'keys',   c:'[RECORD] → [PLAY]',                   d:'Live record pitched notes into the pattern'},
 // ── TIMING ──────────────────────────────────────────────────
   {s:'timing', c:'[TIMING]',                            d:'Open {mode:Timing} mode (X = note interval, Y = swing)'},
@@ -1183,17 +1198,17 @@ const DATA = [
   {s:'timing', c:'turn [KNOB Y]',                       d:'Swing amount - applies to 1/8 and 1/16 only'},
   {s:'timing', c:'[−]',                                 d:'Select quantized recording - new notes snap to the displayed interval'},
   {s:'timing', c:'[+]',                                 d:'Select free-time recording - new notes keep the timing you played'},
-  {s:'timing', c:'hold [TIMING] + hold [PAD]',           d:'Repeat that pad while held at the displayed interval. With pad velocity enabled, pressure controls the repeated-note velocity'},
-  {s:'timing', c:'[TIMING] → [SHIFT] + [PAD]',          d:'Latch hands-free note repeat on that pad at the displayed interval; repeat the same combination on that pad to stop'},
+  {s:'timing', c:'hold [TIMING] + hold [#]',             d:'Repeat that pad while held at the displayed interval. With pad velocity enabled, pressure controls the repeated-note velocity'},
+  {s:'timing', c:'[TIMING] → [SHIFT] + [#]',            d:'Latch hands-free note repeat on that pad at the displayed interval; repeat the same combination on that pad to stop'},
 // ── TIMING CORRECT ──────────────────────────────────────────
   {s:'timing-correct', c:'[SHIFT] + [TIMING]',          d:'Enter {mode:Timing Correct}'},
   {s:'timing-correct', c:'turn [KNOB X]',               d:'Set the note interval used for correction'},
   {s:'timing-correct', c:'turn [KNOB Y]',               d:'Set swing when the interval is 1/8 or 1/16'},
-  {s:'timing-correct', c:'[PAD] (while stopped)',       d:'Quantize all notes on that pad to note interval'},
-  {s:'timing-correct', c:'hold [PAD] (while playing)',  d:'Live-quantize notes on that pad while held'},
-  {s:'timing-correct', c:'hold [PAD] + [−] / [+]',      d:'Nudge all notes on that pad earlier or later by one step',n:true},
+  {s:'timing-correct', c:'[#] (while stopped)',         d:'Quantize all notes on that pad to note interval'},
+  {s:'timing-correct', c:'hold [#] (while playing)',    d:'Live-quantize notes on that pad while held'},
+  {s:'timing-correct', c:'hold [#] + [−] / [+]',        d:'Nudge all notes on that pad earlier or later by one step',n:true},
 // ── FADER ───────────────────────────────────────────────────
-  {s:'fader',  c:'[FADER] + [PAD]',                     d:'Assign fader function (see labels above pads)'},
+  {s:'fader',  c:'[FADER] + [#]',                       d:'Assign fader function (see labels above pads)'},
   {s:'fader',  c:'hold [RECORD] + move [FADER]',        d:'Record fader movement into the pattern'},
   {s:'fader',  c:'[SHIFT] + [FADER]',                   d:'Reset every virtual fader assignment in the current group (RES); press again to restore them (SET). Disabled during playback'},
   {s:'fader',  c:'hold [GROUP] + move [FADER]',         d:'Group project volume - not automatable, spans all patterns'},
@@ -1201,20 +1216,20 @@ const DATA = [
 // ── EFFECTS ───────────────────────────────────────────────────
   {s:'effects',c:'[FX] (while playing)',                 d:'Enter {mode:FX} mode - choose delay, reverb, distortion, chorus, filter, or compressor'},
   {s:'effects',c:'[−] / [+]',                            d:'Choose the master effect'},
-  {s:'effects',c:'turn [KNOB X] / [Y]',                 d:'Delay: length / feedback · Reverb: length / color · Distortion: drive / color'},
-  {s:'effects',c:'turn [KNOB X] / [Y]',                 d:'Chorus: modulation / feedback · Filter: cutoff / resonance · Compressor: drive / speed'},
+  {s:'effects',c:'turn [KNOB X] / [Y]',                 d:'Delay - X: length · Y: feedback · Reverb - X: length · Y: color · Distortion - X: drive · Y: color'},
+  {s:'effects',c:'turn [KNOB X] / [Y]',                 d:'Chorus - X: modulation · Y: feedback · Filter - X: cutoff · Y: resonance · Compressor - X: drive · Y: speed'},
   {s:'effects',c:'move [FADER]',                        d:'Adjust FX send for the current group'},
-  {s:'effects',c:'hold [FX] + [PAD] (while playing)',   d:'Trigger pressure-sensitive punch-in FX - combine pads to layer effects'},
+  {s:'effects',c:'hold [FX] + [#] (while playing)',     d:'Trigger pressure-sensitive punch-in FX - combine pads to layer effects'},
   {s:'effects',c:'hold [FX] + [GROUP] (while playing)', d:'Momentarily solo that group - hold multiple groups to solo them together'},
 // ── OUTPUT SETTINGS ─────────────────────────────────────────
   {s:'output', c:'[SHIFT] + [FX]',                      d:'Enter {mode:Output Settings} - Knob X controls master-compressor drive; Knob Y controls speed'},
   {s:'output', c:'[+]',                                 d:'Open {page:Sidechain} settings'},
-  {s:'output', c:'hold [GROUP] + select [PAD]',         d:'Add that sound as a sidechain trigger source',p:'sidechain'},
+  {s:'output', c:'hold [GROUP] + select [#]',           d:'Add that sound as a sidechain trigger source',p:'sidechain'},
   {s:'output', c:'[SHIFT] + [GROUP]',                   d:'Add that group as a sidechain destination',p:'sidechain'},
-  {s:'output', c:'turn [KNOB X] / [Y]',                 d:'Adjust duck length / shape',p:'sidechain'},
+  {s:'output', c:'turn [KNOB X] / [Y]',                 d:'X: duck length · Y: duck shape',p:'sidechain'},
 // ── SOUND ───────────────────────────────────────────────────
   {s:'sound',  c:'[SOUND]',                             d:'Enter {mode:Sound} mode - browse and assign samples to pads'},
-  {s:'sound',  c:'tap [PAD]',                           d:'Select that pad for editing - the last pad tapped stays selected, indicated by the light above it'},
+  {s:'sound',  c:'tap [#]',                             d:'Select that pad for editing - the last pad tapped stays selected, indicated by the light above it'},
   {s:'sound',  c:'[−] / [+]',                           d:'Change sample on current pad'},
   {s:'sound',  c:'[SHIFT] + [−] / [+]',                 d:'Jump through sample library in tens'},
   {s:'sound',  c:'turn [KNOB X]',                       d:'Adjust the selected pad\'s amplitude/volume (AMP)'},
@@ -1222,34 +1237,34 @@ const DATA = [
   {s:'sound-edit', c:'[SHIFT] + [SOUND]',               d:'Enter {mode:Sound Edit}; use − / + to move through {page:Sound}, {page:Trim}, {page:Envelope}, {page:Time}, {page:MIDI}, and {page:Mute Group}'},
   {s:'sound-edit', c:'hold [SHIFT] + hold [SOUND] (2s)', d:'Save sound edits permanently to disk'},
   {s:'sound-edit', c:'[−] / [+]',                       d:'Move to the previous / next Sound Edit page'},
-  {s:'sound-edit', c:'turn [KNOB X] / [Y]',             d:'Set play mode (oneshot, key, or legato) / pan left or right',p:'sound'},
-  {s:'sound-edit', c:'turn [KNOB X] / [Y]',             d:'Adjust sample start / length',p:'trim'},
-  {s:'sound-edit', c:'hold [SHIFT] + [SOUND]',          d:'Crop sample to current trim points - permanent',p:'trim',n:true},
-  {s:'sound-edit', c:'turn [KNOB X] / [Y]',             d:'Adjust attack / release',p:'envelope'},
-  {s:'sound-edit', c:'turn [KNOB X] / [Y]',             d:'Choose BPM, BAR, or reverse mode / set sample tempo or bar length',p:'time'},
+  {s:'sound-edit', c:'turn [KNOB X] / [Y]',             d:'X: play mode (oneshot, key, or legato) · Y: pan',p:'sound'},
+  {s:'sound-edit', c:'turn [KNOB X] / [Y]',             d:'X: sample start · Y: sample length',p:'trim'},
+  {s:'sound-edit', c:'hold [SHIFT] + [SOUND]',          d:'Crop sample to current trim points - permanent',p:'trim',n:true,risk:'permanent'},
+  {s:'sound-edit', c:'turn [KNOB X] / [Y]',             d:'X: attack · Y: release',p:'envelope'},
+  {s:'sound-edit', c:'turn [KNOB X] / [Y]',             d:'X: choose BPM, BAR, or reverse mode · Y: set sample tempo or bar length',p:'time'},
   {s:'sound-edit', c:'turn [KNOB X] to REV',            d:'Reverse sample playback',p:'time',n:true},
-  {s:'sound-edit', c:'turn [KNOB X] / [Y]',             d:'Set the pad\'s MIDI channel / MIDI root note',p:'midi'},
-  {s:'sound-edit', c:'tap [PAD]',                       d:'Toggle that pad in the current A–D group\'s single mute group - members light up; when none are assigned, all pads flash. The last-played member cuts off the others',p:'mute group'},
+  {s:'sound-edit', c:'turn [KNOB X] / [Y]',             d:'X: MIDI channel · Y: MIDI root note',p:'midi'},
+  {s:'sound-edit', c:'tap [#]',                         d:'Toggle that pad in the current A–D group\'s single mute group - members light up; when none are assigned, all pads flash. The last-played member cuts off the others',p:'mute group'},
   {s:'sound',  c:'[SHIFT] + [C] → select pad → [SHIFT] + [D]', d:'Copy/paste a single sound from one pad to another'},
   {s:'sound',  c:'[SHIFT] + [C] ×2 → select group → [SHIFT] + [D]', d:'Copy/paste all sounds in a group to another group'},
 // ── SAMPLE + CHOP ───────────────────────────────────────────
   {s:'sample', c:'[SAMPLE]',                            d:'Enter {mode:Sample} mode - all pads blink, tap and hold any to record audio'},
-  {s:'sample', c:'hold [PAD]',                           d:'Record audio to that pad - hold to capture, release to stop and auto-trim'},
+  {s:'sample', c:'hold [#]',                             d:'Record audio to that pad - hold to capture, release to stop and auto-trim'},
   {s:'sample', c:'[−] / [+]',                           d:'Switch input: mic, line mono/stereo, resample, USB'},
   {s:'sample', c:'turn [KNOB X]',                       d:'Adjust input level'},
   {s:'sample', c:'turn [KNOB Y]',                       d:'Adjust the recording-start threshold'},
   {s:'sample', c:'[SAMPLE] (after capture)',              d:'Discard that take and record the sample again'},
   {s:'sample', c:'[SAMPLE] (while hands-free recording)', d:'Stop recording'},
   {s:'sample', c:'[MAIN]',                              d:'Exit Sample mode'},
-  {s:'sample', c:'[SHIFT] + [PAD]',                    d:'Hands-free sampling - k.o. ii holds the pad for you'},
-  {s:'sample', c:'[SHIFT] + [PAD] → [PLAY]',           d:'Resample input: capture the pattern\'s full length hands-free'},
+  {s:'sample', c:'[SHIFT] + [#]',                      d:'Hands-free sampling - k.o. ii holds the pad for you'},
+  {s:'sample', c:'[SHIFT] + [#] → [PLAY]',             d:'Resample input: capture the pattern\'s full length hands-free'},
   {s:'sample', c:'[−] / [+] (hands-free sampling)',         d:'Select number of bars to resample per capture'},
   {s:'chop',   c:'[SHIFT] + [SAMPLE] → CHOP',           d:'Enter {mode:Chop} mode - slice a sample across group pads'},
-  {s:'chop',   c:'[GROUP]',                             d:'Select destination group (resets that group\'s pads)'},
+  {s:'chop',   c:'[GROUP]',                             d:'Select destination group (resets that group\'s pads)',risk:'clears group'},
   {s:'chop',   c:'[GROUP] + [−] / [+]',                 d:'Switch: equal-length slices vs. attack-detection',n:true},
   {s:'chop',   c:'[−] / [+] (equal-length)',             d:'Set number of equal-length slices per group'},
-  {s:'chop',   c:'[PAD] (live mode)',                    d:'LIVE CHOP - tap pads while sample plays; break length = time between taps'},
-  {s:'chop',   c:'turn [KNOB X] / [Y] (pad selected)',   d:'Refine that chop\'s in/out points - hold SHIFT for finer control'},
+  {s:'chop',   c:'[#] (live mode)',                      d:'LIVE CHOP - tap pads while sample plays; break length = time between taps'},
+  {s:'chop',   c:'turn [KNOB X] / [Y] (pad selected)',   d:'X: chop in point · Y: chop out point - hold SHIFT for finer control'},
 // ── LOOP ────────────────────────────────────────────────────
   {s:'loop',   c:'[SHIFT] + [TEMPO]',                   d:'Create a loop at the current playhead'},
   {s:'loop',   c:'hold [SHIFT] + [TEMPO]',              d:'Set loop length - starts on press, ends on release'},
@@ -1368,8 +1383,8 @@ function renderCombo(str) {
     }
     if (m[1]) {
       const cls = ['key', m[1]==='SHIFT'?'ks':'', pendingHold?'held':''].filter(Boolean).join(' ');
-      const title = pendingHold ? ' title="hold"' : '';
-      html += `<span class="${cls}"${title}>${escH(m[1])}</span>`;
+      const holdAttrs = pendingHold ? ` title="hold" aria-label="hold ${escH(m[1])}"` : '';
+      html += `<span class="${cls}"${holdAttrs}>${escH(m[1])}</span>`;
       pendingHold = false;
     } else if (m[2]) {
       html += `<span class="op">${m[2]}</span>`;
@@ -1391,7 +1406,7 @@ function injectCombo(id, str) {
   if (el) el.innerHTML = renderCombo(str);
 }
 
-injectCombo('wf0',   'hold [MAIN] + hold [PAD] (1–9)');
+injectCombo('wf0',   'hold [MAIN] + hold [#] (1–9)');
 injectCombo('wf1',   'hold [MAIN] + [−] / [+]');
 injectCombo('wf2',   '[SOUND] → select pad → [−] / [+]');
 injectCombo('wf3',   'tap [TEMPO]  or  [RECORD] → [−] / [+]');
@@ -1399,13 +1414,14 @@ injectCombo('wf4',   '[RECORD] → [PLAY]');
 injectCombo('wf5',   '[−] / [+]  to step through');
 injectCombo('wf6',   '[A] / [B] / [C] / [D]');
 injectCombo('wf7',   '[SHIFT] + [MAIN]');
-injectCombo('wf9',   '[SAMPLE] → [SHIFT] + [PAD] → [PLAY]');
+injectCombo('wf9',   '[SAMPLE] → [SHIFT] + [#] → [PLAY]');
 injectCombo('wf10',  '[MAIN] + [ENTER]');
 
 // Quick ref inline labels
 document.getElementById('qref-fx-label').innerHTML    = renderCombo('[FX]');
 document.getElementById('qref-fader-label').innerHTML = renderCombo('[FADER]');
 document.getElementById('legend-key').innerHTML       = renderCombo('[KEY]');
+document.getElementById('legend-pad').innerHTML       = renderCombo('[#]');
 document.getElementById('legend-held').innerHTML      = renderCombo('hold [KEY]');
 
 // Tips inline chips
@@ -1531,10 +1547,10 @@ function render() {
     hasAny = true;
 
     html += `<div class="section-group section-${sec.id}${isSystem ? ' full-width' : ''}">`;
-    html += `<div class="s-head">
+    html += `<h2 class="s-head" id="section-${escH(sec.id)}">
       <span class="s-head-num">((${String(secIndex + 1).padStart(2,'0')}))</span>
       <span class="s-head-label">${escH(sec.label)}</span>
-    </div>`;
+    </h2>`;
     if (isSystem) {
       const opener = DATA.find(d => d.s === sec.id && !d.sub);
       html += `<div class="row full-span">
@@ -1555,16 +1571,25 @@ function render() {
       if (d.sub) cls.push('sub-row');
       if (d.sep) cls.push('sep-row');
       const codeEl = (isSystem && d.sub) ? `<div class="row-code">${d.code ? escH(d.code) : ''}</div>` : '';
+      const riskEl = d.risk ? `<span class="risk-label">${escH(d.risk)}</span>` : '';
       return `<div class="${cls.join(' ')}">
         <div class="row-combo">${renderCombo(d.c)}</div>
-        <div class="row-desc">${renderDescription(d.d)}</div>
+        <div class="row-desc">${riskEl}${renderDescription(d.d)}</div>
         ${codeEl}
         <div class="row-badge">${d.n ? '<span class="badge-new">2.5</span>' : d.o ? '<span class="badge-old">&lt;2.5</span>' : ''}</div>
       </div>`;
     };
     const sectionRows = rows.filter(d => !isSystem || d.sub);
+    let lastSystemCategory = '';
     for (let rowIndex = 0; rowIndex < sectionRows.length;) {
       const row = sectionRows[rowIndex];
+      if (isSystem) {
+        const category = ({mid:'midi',syn:'sync',pad:'pads',seq:'sequencer',smp:'sampling'})[row.c.slice(0,3)] || '';
+        if (category && category !== lastSystemCategory) {
+          html += `<h3 class="sys-group-head">${escH(category)}</h3>`;
+          lastSystemCategory = category;
+        }
+      }
       if (!row.p) {
         html += renderDataRow(row);
         rowIndex += 1;
@@ -1575,8 +1600,9 @@ function render() {
         pageRows.push(sectionRows[rowIndex]);
         rowIndex += 1;
       }
-      html += `<div class="page-rail">
-        <div class="page-rail-label">${escH(row.p)}</div>
+      const railId = `page-${sec.id}-${row.p.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+      html += `<div class="page-rail" aria-labelledby="${escH(railId)}">
+        <h3 class="page-rail-label" id="${escH(railId)}">${escH(row.p)}</h3>
         <div class="page-rail-rows">${pageRows.map(renderDataRow).join('')}</div>
       </div>`;
     }
