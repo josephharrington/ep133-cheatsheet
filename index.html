@@ -120,22 +120,6 @@ h1.h-logo{margin:0;display:inline}
 #filters-toggle[aria-expanded="true"]{color:var(--text);border-color:#888;background:var(--card)}
 .filters{display:flex;flex-wrap:wrap;gap:5px}
 .filters-backdrop,.filters-sheet-head{display:none}
-.pinned-strip{
-  display:flex;align-items:center;gap:7px;margin:-3px 0 10px;min-width:0;
-}
-.pinned-strip[hidden]{display:none}
-.pinned-label{
-  flex-shrink:0;font-family:var(--mono);font-size:7.5px;font-weight:700;
-  letter-spacing:.08em;color:var(--red);text-transform:uppercase;
-}
-.pinned-items{display:flex;gap:5px;min-width:0;overflow-x:auto;scrollbar-width:thin}
-.pinned-item{
-  flex:0 0 auto;min-height:30px;padding:5px 8px;border:1px solid var(--border2);
-  border-radius:3px;background:var(--card);color:var(--sub);cursor:pointer;
-  font-family:var(--mono);font-size:8px;letter-spacing:.03em;white-space:nowrap;
-}
-.pinned-item:hover{border-color:var(--red);color:var(--text)}
-.pinned-item-section{color:var(--red);font-weight:700}
 .combo-legend{
   display:none;flex-direction:column;align-items:flex-start;gap:8px;
   position:absolute;top:calc(100% + 8px);right:0;min-width:230px;z-index:60;
@@ -378,17 +362,7 @@ main{padding:0 24px}
 }
 .row-combo{display:flex;flex-wrap:wrap;align-items:center;gap:3px}
 .row-desc{font-size:11.5px;font-weight:300;color:var(--sub);line-height:1.4}
-.row-badge{display:flex;align-items:center;justify-content:flex-end;gap:5px;min-width:26px;text-align:right}
-.pin-shortcut{
-  width:30px;height:30px;flex:0 0 auto;border:0;background:none;border-radius:50%;
-  color:var(--dim);font-size:17px;line-height:1;cursor:pointer;
-}
-.pin-shortcut:hover,.pin-shortcut[aria-pressed="true"]{color:var(--red);background:rgba(184,59,18,.08)}
-.row{scroll-margin-top:calc(var(--sticky-header-height,62px) + 52px)}
-@media(min-width:801px){
-  .pin-shortcut{opacity:0}
-  .row:hover .pin-shortcut,.pin-shortcut:focus-visible,.pin-shortcut[aria-pressed="true"]{opacity:1}
-}
+.row-badge{width:26px;text-align:right}
 .risk-label{
   display:inline-block;margin-right:6px;padding:1px 4px;
   border:1px solid rgba(184,59,18,.5);border-radius:2px;
@@ -511,13 +485,9 @@ main{padding:0 24px}
   header.compact{padding-top:8px;padding-bottom:8px}
   header.compact .h-row1{display:none}
   header.compact .search-wrap{margin-bottom:0}
-  header.compact .pinned-strip{display:none}
   .h-print-btn,#search,#filters-toggle{min-height:44px}
   .h-icon-btn{min-width:44px}
   #search-clear{width:44px}
-  .pinned-strip{margin-top:-2px;margin-bottom:8px}
-  .pinned-item{min-height:40px;padding:8px 10px}
-  .pin-shortcut{width:40px;height:40px}
   #filters-toggle{display:inline-block}
   .filters{
     display:none;position:fixed;left:0;right:0;bottom:0;z-index:80;
@@ -735,7 +705,6 @@ main{padding:0 24px}
   .sys-group-head{padding:6px 0 2px;color:#000;border-color:#aaa;font-size:6.5px}
   .badge-new{font-size:6.5px;padding:1px 3px}
   .badge-old{font-size:6.5px;padding:1px 3px;color:#000}
-  .pinned-strip,.pin-shortcut{display:none!important}
   .no-res{display:none!important}
   .s-head{break-after:avoid}
   .mobile-overview-summary{display:none!important}
@@ -876,10 +845,6 @@ main{padding:0 24px}
       <button id="search-clear" type="button" aria-label="Clear search">✕</button>
     </div>
     <button id="filters-toggle" type="button" aria-expanded="false" aria-controls="filters">sections ▾</button>
-  </div>
-  <div class="pinned-strip" id="pinned-strip" hidden>
-    <span class="pinned-label">pinned</span>
-    <div class="pinned-items" id="pinned-items"></div>
   </div>
   <div class="filters-backdrop" id="filters-backdrop"></div>
   <div class="filters" id="filters" aria-label="Section filters"></div>
@@ -1458,49 +1423,6 @@ function escH(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
-const PIN_STORAGE_KEY = 'ep133-pinned-shortcuts-v1';
-function shortcutId(d) {
-  const value = `${d.s}|${d.p || ''}|${d.c}|${plainDescription(d.d)}`;
-  let hash = 2166136261;
-  for (let index = 0; index < value.length; index += 1) {
-    hash ^= value.charCodeAt(index);
-    hash = Math.imul(hash, 16777619);
-  }
-  return `${d.s}-${(hash >>> 0).toString(36)}`;
-}
-function loadPinnedShortcuts() {
-  try {
-    return new Set(JSON.parse(localStorage.getItem(PIN_STORAGE_KEY) || '[]'));
-  } catch (_error) {
-    return new Set();
-  }
-}
-let pinnedShortcuts = loadPinnedShortcuts();
-function savePinnedShortcuts() {
-  try {
-    localStorage.setItem(PIN_STORAGE_KEY, JSON.stringify([...pinnedShortcuts]));
-  } catch (_error) {}
-}
-function renderPinButton(d) {
-  const id = shortcutId(d);
-  const pinned = pinnedShortcuts.has(id);
-  return `<button class="pin-shortcut" type="button" data-shortcut-id="${escH(id)}" aria-label="${pinned ? 'Unpin' : 'Pin'} shortcut" aria-pressed="${String(pinned)}">${pinned ? '★' : '☆'}</button>`;
-}
-function renderPinnedShortcuts() {
-  const strip = document.getElementById('pinned-strip');
-  const items = document.getElementById('pinned-items');
-  const pinnedRows = [...pinnedShortcuts]
-    .map(id => ({id,row:DATA.find(d => shortcutId(d) === id)}))
-    .filter(item => item.row);
-  strip.hidden = pinnedRows.length === 0;
-  items.innerHTML = pinnedRows.map(({id,row}) => {
-    const section = SECTIONS.find(sec => sec.id === row.s);
-    const combo = row.c.replace(/\[([^\]]+)\]/g, '$1').replace(/\s+/g, ' ').trim();
-    const context = row.p ? `${row.p}: ` : '';
-    return `<button class="pinned-item" type="button" data-shortcut-id="${escH(id)}"><span class="pinned-item-section">${escH(section.label)}</span> · ${escH(context + combo)}</button>`;
-  }).join('');
-}
-
 function ctxSpan(txt) {
   const t = txt.trim();
   const bare = t.length > 10 && t.includes(' ');
@@ -1796,10 +1718,10 @@ function render() {
     html += `<div class="section-body" id="section-body-${escH(sec.id)}">`;
     if (isSystem) {
       const opener = DATA.find(d => d.s === sec.id && !d.sub);
-      html += `<div class="row full-span" id="shortcut-${escH(shortcutId(opener))}">
+      html += `<div class="row full-span">
         <div class="row-combo">${renderCombo(opener.c)}</div>
         <div class="row-desc">${renderDescription(opener.d)}</div>
-        <div class="row-badge">${renderPinButton(opener)}</div>
+        <div class="row-badge"></div>
       </div>`;
       html += '<div class="rows-grid">';
       html += `<div class="row sys-head-row">
@@ -1815,11 +1737,11 @@ function render() {
       if (d.sep) cls.push('sep-row');
       const codeEl = (isSystem && d.sub) ? `<div class="row-code">${d.code ? escH(d.code) : ''}</div>` : '';
       const riskEl = d.risk ? `<span class="risk-label">${escH(d.risk)}</span>` : '';
-      return `<div class="${cls.join(' ')}" id="shortcut-${escH(shortcutId(d))}">
+      return `<div class="${cls.join(' ')}">
         <div class="row-combo">${renderCombo(d.c)}</div>
         <div class="row-desc">${riskEl}${renderDescription(d.d)}</div>
         ${codeEl}
-        <div class="row-badge">${d.n ? '<span class="badge-new">2.5</span>' : d.o ? '<span class="badge-old">&lt;2.5</span>' : ''}${renderPinButton(d)}</div>
+        <div class="row-badge">${d.n ? '<span class="badge-new">2.5</span>' : d.o ? '<span class="badge-old">&lt;2.5</span>' : ''}</div>
       </div>`;
     };
     const sectionRows = rows.filter(d => !isSystem || d.sub);
@@ -1956,21 +1878,6 @@ filtersToggle.addEventListener('click', () => {
 filtersBackdrop.addEventListener('click', closeFilters);
 
 document.getElementById('main').addEventListener('click', e => {
-  const pin = e.target.closest('.pin-shortcut');
-  if (pin) {
-    const id = pin.dataset.shortcutId;
-    pinnedShortcuts.has(id) ? pinnedShortcuts.delete(id) : pinnedShortcuts.add(id);
-    savePinnedShortcuts();
-    document.querySelectorAll(`.pin-shortcut[data-shortcut-id="${CSS.escape(id)}"]`).forEach(button => {
-      const pinned = pinnedShortcuts.has(id);
-      button.textContent = pinned ? '★' : '☆';
-      button.setAttribute('aria-label', `${pinned ? 'Unpin' : 'Pin'} shortcut`);
-      button.setAttribute('aria-pressed', String(pinned));
-    });
-    renderPinnedShortcuts();
-    syncHeaderHeight();
-    return;
-  }
   const toggle = e.target.closest('.section-toggle');
   if (!toggle || !mobileMedia.matches) return;
   const section = toggle.closest('.section-group');
@@ -1984,23 +1891,6 @@ document.getElementById('main').addEventListener('click', e => {
   section.classList.toggle('collapsed', !willExpand);
   toggle.setAttribute('aria-expanded', String(willExpand));
   willExpand ? expandedSections.add(toggle.dataset.section) : expandedSections.delete(toggle.dataset.section);
-});
-
-document.getElementById('pinned-items').addEventListener('click', e => {
-  const item = e.target.closest('.pinned-item');
-  if (!item) return;
-  const row = DATA.find(d => shortcutId(d) === item.dataset.shortcutId);
-  if (!row) return;
-  activeFilters = new Set([row.s]);
-  expandedSections.add(row.s);
-  searchTerm = '';
-  searchInput.value = '';
-  searchClear.classList.remove('show');
-  syncPillStates();
-  syncUrlState();
-  closeFilters();
-  render();
-  requestAnimationFrame(() => document.getElementById(`shortcut-${item.dataset.shortcutId}`)?.scrollIntoView({block:'center',behavior:'smooth'}));
 });
 
 const header = document.querySelector('header');
@@ -2031,7 +1921,6 @@ if (mobileMedia.matches) {
 }
 
 render();
-renderPinnedShortcuts();
 if (location.hash) {
   requestAnimationFrame(() => {
     const id = decodeURIComponent(location.hash.slice(1));
