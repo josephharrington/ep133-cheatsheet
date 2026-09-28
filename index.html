@@ -412,6 +412,14 @@ main{padding:0 24px}
 .row-combo{display:flex;flex-wrap:wrap;align-items:center;gap:3px}
 .row-desc{font-size:11.5px;font-weight:300;color:var(--sub);line-height:1.4}
 .row-badge{width:26px;text-align:right}
+.connection-row .row-combo .ctx{
+  color:var(--sub);font-family:var(--mono);font-size:8.5px;font-style:normal;
+  font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+}
+.connection-row .row-combo .op{
+  padding:0 4px;color:var(--red);font-family:var(--sans);font-size:14px;
+  font-weight:800;line-height:.8;
+}
 .risk-label{
   display:inline-block;margin-right:6px;padding:1px 4px;
   border:1px solid rgba(184,59,18,.5);border-radius:2px;
@@ -458,6 +466,16 @@ main{padding:0 24px}
 .mode-ref{padding:0 2px}
 .page-ref{color:var(--muted)}
 .page-ref{font-size:7px;font-weight:600;letter-spacing:.03em}
+.label-ref{
+  color:var(--muted);font-family:var(--mono);font-size:7px;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;
+}
+.label-ref::after{content:':'}
+.code-ref{
+  padding:1px 3px;border-radius:2px;background:rgba(0,0,0,.055);
+  color:var(--sub);font-family:var(--mono);font-size:9px;font-weight:700;
+  letter-spacing:.02em;line-height:1;white-space:nowrap;
+}
 .page-rail{position:relative;display:block;border-bottom:1px solid var(--border)}
 .page-rail::before{
   content:'';position:absolute;left:0;top:7px;bottom:6px;width:2px;
@@ -613,7 +631,7 @@ main{padding:0 24px}
 
 /* ── PRINT ───────────────────────────────────────────────── */
 @media print{
-  @page{margin:8mm 10mm;size:A4}
+  @page{margin:8mm 10mm;size:Letter}
 
   html{background:#fff;color:#111;font-size:10px}
   body{max-width:none;padding:0}
@@ -766,6 +784,9 @@ main{padding:0 24px}
   .ctx{color:#000;font-size:8.5px}
   .mode-ref,.page-ref{font-size:6.5px;color:#000}
   .page-ref{font-size:6px}
+  .label-ref{color:#000;font-size:6px}
+  .code-ref{color:#000;font-size:7.5px;background:#eee}
+  .detail-break{display:none}
   .page-rail{border-color:#e4e4e4;break-inside:avoid}
   .page-rail-label{padding:5px 5px 2px 7px;font-size:6.25px;color:#000}
   .page-screen-code{font-size:8px;color:#000}
@@ -1282,6 +1303,7 @@ const SECTIONS = [
   {id:'sound-edit', label:'sound edit'},
   {id:'sample',   label:'sample'},
   {id:'chop',     label:'chop'},
+  {id:'connections', label:'midi + sync setups'},
   {id:'system',   label:'system settings'},
 ];
 
@@ -1447,6 +1469,15 @@ const DATA = [
   {s:'tempo',  c:'turn [KNOB Y]',                      d:'Adjust how loud the metronome is while recording; System Settings controls whether it also plays during playback'},
   {s:'tempo',  c:'hold [TEMPO] + numpad',               d:'Type an exact BPM; use the decimal key for values such as 120.51'},
   {s:'tempo',  c:'[SAMPLE] + [TEMPO]',                  d:'Match tempo by listening to the audio input and setting BPM'},
+// ── MIDI + SYNC SETUPS ───────────────────────────────────
+  {s:'connections', c:'[SHIFT] + [ERASE]', d:'{label:codes} Open System Settings, then type any three-digit setting below. {label:clock} Choose one path: USB/TRS MIDI carries clock and transport; SYNC carries analog pulses and start/stop',entry:true},
+  {s:'connections', c:'computer / DAW ↔ K.O. II', d:'{label:connect} Connect the K.O. II directly to the computer with USB-C. {label:clock} Use {code:101} when the K.O. II should follow the DAW, {code:102} when it should lead, or {code:100} to disable MIDI clock. {label:DAW} Enable MIDI clock and transport for the K.O. II port in the DAW’s MIDI settings. {label:USB audio} The same connection sends stereo audio to and from the K.O. II and carries MIDI transport messages such as play and stop',route:true},
+  {s:'connections', c:'MIDI keyboard → K.O. II', d:'{label:connect} Connect the keyboard’s MIDI OUT to the K.O. II MIDI IN with a Type A TRS-compatible cable or DIN adapter. A USB-only controller requires a computer or USB MIDI host between the devices. {label:channel} Use {code:110} to receive on every MIDI channel, or {code:111–126} to receive on one matching channel. {label:play} Press KEYS to play the selected K.O. II sound chromatically from the keyboard',route:true},
+  {s:'connections', c:'K.O. II → MIDI instrument', d:'{label:connect} Connect the K.O. II MIDI OUT to the instrument’s MIDI IN, or connect a compatible USB MIDI device over USB-C. {label:channel} Assign the pad’s channel in Sound Edit → MIDI, then set the receiving instrument to that same channel. {label:MIDI-only pad} Assign sample {code:000} so the pad sends MIDI without playing a K.O. II voice. {label:clock} Use {code:102} if the K.O. II should also provide MIDI clock',route:true},
+  {s:'connections', c:'MIDI controller → K.O. II → MIDI gear', d:'{label:connect} Connect the controller’s MIDI OUT to the K.O. II MIDI IN, then connect the K.O. II MIDI OUT to the next instrument’s MIDI IN. {label:thru} Use {code:131} to forward incoming MIDI to MIDI OUT and USB, or {code:130} to stop forwarding it. {label:clock} MIDI Thru does not choose the clock source; set that separately with {code:101} or {code:102}',route:true},
+  {s:'connections', c:'K.O. II → K.O. II', d:'{label:connect} Connect the first unit’s SYNC OUT to the second unit’s SYNC IN with a 3.5 mm cable. {label:set} Set both units to 1/16 sync: use {code:211} on the leader and {code:201} on the follower',route:true},
+  {s:'connections', c:'K.O. II → Pocket Operator', d:'{label:connect} Connect K.O. II SYNC OUT to the Pocket Operator’s left input with a 3.5 mm cable. {label:set} Use {code:210} on the K.O. II and set the Pocket Operator to {code:SY2}. {label:start} Press play on the Pocket Operator first, then press PLAY on the K.O. II',route:true},
+  {s:'connections', c:'Pocket Operator → K.O. II', d:'{label:connect} Use a stereo-to-dual-mono breakout cable: connect the tip channel to K.O. II SYNC IN and the ring channel to its audio input. {label:set} Set the Pocket Operator to {code:SY1} and use {code:200} on the K.O. II. {label:start} Press play on the Pocket Operator first, then press PLAY on the K.O. II',route:true},
 // ── SYSTEM SETTINGS ─────────────────────────────────────────
   {s:'system', c:'[SHIFT] + [ERASE]',        d:'Enter {mode:System Settings}; navigate with −/+, confirm with ENTER, go back with SHIFT+ENTER, or exit with MAIN',entry:true},
 // MIDI clock
@@ -1519,15 +1550,17 @@ function ctxSpan(txt) {
   return `<span class="ctx${bare ? ' bare' : ''}">${escH(txt)}</span>`;
 }
 function plainDescription(str) {
-  return str.replace(/\{(?:mode|page):([^}]+)\}/g, '$1');
+  return str.replace(/\{(?:mode|page|label|code):([^}]+)\}/g, '$1');
 }
 function renderDescription(str) {
   let html = '';
   let last = 0;
-  const re = /\{(mode|page):([^}]+)\}/g;
+  let labelsSeen = 0;
+  const re = /\{(mode|page|label|code):([^}]+)\}/g;
   let match;
   while ((match = re.exec(str)) !== null) {
     html += escH(str.slice(last, match.index));
+    if (match[1] === 'label' && labelsSeen++ > 0) html += '<br class="detail-break">';
     html += `<span class="${match[1]}-ref">${escH(match[2])}</span>`;
     last = match.index + match[0].length;
   }
@@ -1538,7 +1571,7 @@ function renderContext(txt) {
 }
 function renderCombo(str) {
   let html = '';
-  const re = /\[([^\]]+)\]|(→|\+)|\(([^)]+)\)/g;
+  const re = /\[([^\]]+)\]|(→|↔|\+)|\(([^)]+)\)/g;
   let last = 0, m, pendingHold = false;
   while ((m = re.exec(str)) !== null) {
     if (m.index > last) {
@@ -1667,9 +1700,13 @@ async function submitBugForm(e) {
 
 const FILTER_IDS = ['overview', ...SECTIONS.map(s => s.id)];
 const SEARCH_ALIASES = {
+  ableton:['ableton','daw'],
   click:['click','metronome'],
   ducking:['ducking','sidechain','duck'],
   duplicate:['duplicate','copy','clone'],
+  garageband:['garageband','daw'],
+  logic:['logic','daw'],
+  po:['pocket operator'],
   quantize:['quantize','quantized','timing correct'],
   snd:['snd','sound'],
   sch:['sch','s.ch','sidechain'],
@@ -1861,6 +1898,7 @@ function render() {
       const cls = ['row'];
       if (d.sub) cls.push('sub-row');
       if (d.sep) cls.push('sep-row');
+      if (d.route) cls.push('connection-row');
       const codeEl = (isSystem && d.sub) ? `<div class="row-code">${d.code ? escH(d.code) : ''}</div>` : '';
       const riskEl = d.risk ? `<span class="risk-label">${escH(d.risk)}</span>` : '';
       return `<div class="${cls.join(' ')}">
