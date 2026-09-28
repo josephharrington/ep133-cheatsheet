@@ -1,0 +1,200 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
+  <title id="title">EP-133 K.O. II Cheat Sheet</title>
+  <desc id="description">A cream, black, and red social preview for the searchable EP-133 K.O. II reference.</desc>
+  <defs>
+    <pattern id="paper" width="8" height="8" patternUnits="userSpaceOnUse">
+      <circle cx="1" cy="1" r="0.65" fill="#111111" opacity="0.055"/>
+    </pattern>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#111111" flood-opacity="0.16"/>
+    </filter>
+    <pattern id="speaker-holes" x="305" y="34" width="12" height="12" patternUnits="userSpaceOnUse">
+      <circle cx="6" cy="6" r="3.5" fill="#ffffff"/>
+    </pattern>
+    <radialGradient id="speaker-depth" cx="371" cy="89" r="86" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#222222"/>
+      <stop offset=".58" stop-color="#292929"/>
+      <stop offset="1" stop-color="#5b6060"/>
+    </radialGradient>
+    <mask id="speaker-mask" maskUnits="userSpaceOnUse" x="305" y="34" width="132" height="110">
+      <rect x="305" y="34" width="132" height="110" fill="url(#speaker-holes)"/>
+    </mask>
+    <path id="segment-a" d="m5 0 4-3h20l5 3-5 4H9Z"/>
+    <path id="segment-b" d="m30 6 4-4 4 4v21l-4 4-4-4Z"/>
+    <path id="segment-c" d="m30 36 4-4 4 4v21l-4 4-4-4Z"/>
+    <path id="segment-d" d="m5 62 4-4h20l5 4-5 3H9Z"/>
+    <path id="segment-e" d="m0 36 4-4 4 4v21l-4 4-4-4Z"/>
+    <path id="segment-f" d="m0 6 4-4 4 4v21l-4 4-4-4Z"/>
+    <g id="segment-g">
+      <path d="m4 31 4-3h10l3 3-3 4H8Z"/>
+      <path d="m21 31 3-3h6l4 3-5 4h-5Z"/>
+    </g>
+    <path id="segment-h" d="m9 8 3-2 7 18-1 4-3-3Z"/>
+    <path id="segment-i" d="m18 6 3-3 3 3v18l-3 4-3-4Z"/>
+    <path id="segment-j" d="m27 5 6 3-9 19-5 3v-7Z"/>
+    <path id="segment-k" d="m24 37 7 17-3 2-7-17v-4Z"/>
+    <path id="segment-l" d="m18 38 3-3 3 4v17l-3 4-3-4Z"/>
+    <path id="segment-m" d="m15 34 6 3-9 20-5 2 1-7Z"/>
+  </defs>
+
+  <rect width="1200" height="630" fill="#f0ebe0"/>
+  <rect width="1200" height="630" fill="url(#paper)"/>
+  <rect x="28" y="28" width="1144" height="574" rx="8" fill="none" stroke="#111111" stroke-width="3"/>
+
+  <g font-family="Menlo, Monaco, 'Courier New', monospace">
+    <rect x="68" y="67" width="81" height="33" rx="3" fill="#b83b12"/>
+    <text x="108.5" y="89" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="700" letter-spacing="1.8">EP-133</text>
+    <text x="165" y="90" fill="#111111" font-size="19" font-weight="700" letter-spacing="2.1">K.O. II</text>
+
+    <text x="65" y="246" fill="#111111" font-size="92" font-weight="700" letter-spacing="-4">CHEAT</text>
+    <text x="65" y="345" fill="#111111" font-size="92" font-weight="700" letter-spacing="-4">SHEET</text>
+
+    <text x="70" y="411" fill="#3a3530" font-size="20" letter-spacing="0.6">SEARCHABLE SHORTCUT &amp; WORKFLOW GUIDE</text>
+
+    <rect x="68" y="466" width="161" height="37" rx="4" fill="#faf7f2" stroke="#b8a895" stroke-width="2"/>
+    <text x="148.5" y="490" text-anchor="middle" fill="#b83b12" font-size="14" font-weight="700" letter-spacing="1.3">FIRMWARE v2.5</text>
+
+    <text x="70" y="552" fill="#625b53" font-size="14" letter-spacing="0.45">josephharrington.github.io/ep133-cheatsheet</text>
+  </g>
+
+  <!-- Simplified reconstruction based on the physical EP-133 faceplate. -->
+  <g transform="translate(760 76) scale(.78)" filter="url(#shadow)">
+    <rect width="442" height="628" rx="2" fill="#d1d3d3" stroke="#111111" stroke-width="2.5"/>
+
+    <!-- top connection strip -->
+    <rect x="1" y="1" width="440" height="29" fill="#d1d3d3"/>
+    <rect x="60" y="1" width="55" height="29" fill="#f15a2a"/>
+    <rect x="115" y="1" width="147" height="29" fill="#201f20"/>
+    <rect x="262" y="1" width="99" height="29" fill="#929b9e"/>
+    <line x1="60" y1="1" x2="60" y2="30" stroke="#111111"/>
+    <line x1="115" y1="1" x2="115" y2="30" stroke="#111111"/>
+    <line x1="262" y1="1" x2="262" y2="30" stroke="#111111"/>
+    <line x1="361" y1="1" x2="361" y2="30" stroke="#111111"/>
+    <!-- logo plate and speaker -->
+    <rect x="1" y="30" width="300" height="118" fill="#ebeae5" stroke="#111111" stroke-width="1"/>
+    <rect x="301" y="30" width="140" height="118" fill="#9fa3a3" stroke="#111111" stroke-width="1"/>
+    <rect x="305" y="34" width="132" height="110" fill="url(#speaker-depth)" mask="url(#speaker-mask)"/>
+    <g fill="#ebeae5" stroke="#757575" stroke-width="1">
+      <circle cx="11" cy="40" r="6"/>
+      <circle cx="291" cy="40" r="6"/>
+      <circle cx="11" cy="137" r="6"/>
+      <circle cx="291" cy="137" r="6"/>
+    </g>
+    <!-- display -->
+    <rect x="1" y="148" width="440" height="117" fill="#111111" stroke="#111111" stroke-width="1"/>
+    <g transform="translate(150 176)">
+      <!-- unlit segment scaffolds -->
+      <g fill="#4a5255" opacity=".2">
+        <g>
+          <use href="#segment-a"/><use href="#segment-b"/><use href="#segment-c"/><use href="#segment-d"/>
+          <use href="#segment-e"/><use href="#segment-f"/><use href="#segment-g"/>
+          <use href="#segment-h"/><use href="#segment-i"/><use href="#segment-j"/>
+          <use href="#segment-k"/><use href="#segment-l"/><use href="#segment-m"/>
+        </g>
+        <g transform="translate(52)">
+          <use href="#segment-a"/><use href="#segment-b"/><use href="#segment-c"/><use href="#segment-d"/>
+          <use href="#segment-e"/><use href="#segment-f"/><use href="#segment-g"/>
+          <use href="#segment-h"/><use href="#segment-i"/><use href="#segment-j"/>
+          <use href="#segment-k"/><use href="#segment-l"/><use href="#segment-m"/>
+        </g>
+        <g transform="translate(104)">
+          <use href="#segment-a"/><use href="#segment-b"/><use href="#segment-c"/><use href="#segment-d"/>
+          <use href="#segment-e"/><use href="#segment-f"/><use href="#segment-g"/>
+          <use href="#segment-h"/><use href="#segment-i"/><use href="#segment-j"/>
+          <use href="#segment-k"/><use href="#segment-l"/><use href="#segment-m"/>
+        </g>
+      </g>
+      <!-- illuminated v2.5 -->
+      <g fill="#65777e" opacity=".3">
+        <use href="#segment-e"/><use href="#segment-f"/><use href="#segment-j"/><use href="#segment-m"/>
+        <g transform="translate(52)">
+          <use href="#segment-a"/><use href="#segment-b"/><use href="#segment-d"/><use href="#segment-e"/><use href="#segment-g"/>
+        </g>
+        <circle cx="97" cy="61" r="4.2"/>
+        <g transform="translate(104)">
+          <use href="#segment-a"/><use href="#segment-c"/><use href="#segment-d"/><use href="#segment-f"/><use href="#segment-g"/>
+        </g>
+      </g>
+    </g>
+
+    <!-- control surface -->
+    <line x1="1" y1="265" x2="441" y2="265" stroke="#111111" stroke-width="1.5"/>
+    <g>
+      <circle cx="41" cy="311" r="20" fill="#e9e8e3" stroke="#777777"/>
+      <circle cx="41" cy="311" r="10" fill="none" stroke="#999999"/>
+      <circle cx="341" cy="311" r="20" fill="#f15a2a" stroke="#b83b12"/>
+      <circle cx="341" cy="311" r="10" fill="none" stroke="#b83b12"/>
+      <circle cx="401" cy="311" r="20" fill="#242223" stroke="#111111"/>
+      <circle cx="401" cy="311" r="10" fill="none" stroke="#737373"/>
+    </g>
+    <g>
+      <rect x="335" y="336" width="12" height="11" rx="1" fill="#f15a2a"/>
+      <rect x="395" y="336" width="12" height="11" rx="1" fill="#242223"/>
+    </g>
+
+    <!-- mode buttons -->
+    <g font-family="Arial, sans-serif" font-size="7" text-anchor="middle">
+      <rect x="81" y="291" width="42" height="41" fill="#2a2829" stroke="#111111"/>
+      <rect x="81" y="312" width="42" height="20" fill="#e8e7e2"/>
+
+      <rect x="141" y="291" width="42" height="41" fill="#2a2829" stroke="#111111"/>
+      <rect x="141" y="312" width="42" height="20" fill="#f15a2a"/>
+
+      <rect x="201" y="291" width="42" height="41" fill="#2a2829" stroke="#111111"/>
+      <rect x="201" y="312" width="42" height="20" fill="#8a9498"/>
+
+      <rect x="321" y="350" width="39" height="41" fill="#f15a2a" stroke="#111111"/>
+      <rect x="321" y="370" width="39" height="21" fill="#e8e7e2"/>
+
+      <rect x="381" y="350" width="39" height="41" fill="#2a2829" stroke="#111111"/>
+      <rect x="381" y="370" width="39" height="21" fill="#e8e7e2"/>
+    </g>
+
+    <!-- left controls and fader -->
+    <g font-family="Arial, sans-serif" font-size="7" text-anchor="middle">
+      <rect x="21" y="350" width="40" height="20" fill="#292728" stroke="#111111"/>
+      <rect x="21" y="390" width="40" height="20" fill="#292728" stroke="#111111"/>
+      <line x1="41" y1="432" x2="41" y2="552" stroke="#292728" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="41" cy="482" r="11" fill="#929b9e" stroke="#5d6365"/>
+      <rect x="21" y="585" width="40" height="20" fill="#929b9e" stroke="#111111"/>
+    </g>
+
+    <!-- pads -->
+    <g stroke="#111111" stroke-width="1.5">
+      <g fill="#aab2b5">
+        <rect x="81" y="350" width="42" height="42" rx="2"/>
+        <rect x="81" y="421" width="42" height="42" rx="2"/>
+        <rect x="81" y="492" width="42" height="42" rx="2"/>
+        <rect x="81" y="563" width="42" height="42" rx="2"/>
+      </g>
+      <g fill="#252324">
+        <rect x="141" y="350" width="42" height="42" rx="2"/>
+        <rect x="201" y="350" width="42" height="42" rx="2"/>
+        <rect x="261" y="350" width="42" height="42" rx="2"/>
+        <rect x="141" y="421" width="42" height="42" rx="2"/>
+        <rect x="201" y="421" width="42" height="42" rx="2"/>
+        <rect x="261" y="421" width="42" height="42" rx="2"/>
+        <rect x="141" y="492" width="42" height="42" rx="2"/>
+        <rect x="201" y="492" width="42" height="42" rx="2"/>
+        <rect x="261" y="492" width="42" height="42" rx="2"/>
+        <rect x="141" y="563" width="42" height="42" rx="2"/>
+        <rect x="201" y="563" width="42" height="42" rx="2"/>
+        <rect x="261" y="563" width="42" height="42" rx="2"/>
+      </g>
+      <g fill="#e8e7e2">
+        <rect x="321" y="492" width="39" height="42" rx="2"/>
+        <rect x="381" y="492" width="39" height="42" rx="2"/>
+      </g>
+      <rect x="321" y="563" width="39" height="42" rx="2" fill="#f15a2a"/>
+      <rect x="381" y="563" width="39" height="42" rx="2" fill="#929b9e"/>
+    </g>
+
+    <!-- utility keys -->
+    <g font-family="Arial, sans-serif" font-size="7" text-anchor="middle">
+      <rect x="321" y="421" width="39" height="42" fill="#292728" stroke="#111111"/>
+      <rect x="321" y="441" width="39" height="22" fill="#e8e7e2"/>
+      <rect x="381" y="421" width="39" height="42" fill="#292728" stroke="#111111"/>
+      <rect x="381" y="441" width="39" height="22" fill="#e8e7e2"/>
+    </g>
+  </g>
+</svg>
