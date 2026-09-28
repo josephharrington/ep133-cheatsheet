@@ -1232,6 +1232,10 @@ main{padding:0 24px}
 <main id="main"></main>
 <div class="no-res" id="no-res">no shortcuts found</div>
 
+<script id="goatcounter-script"
+        data-goatcounter="https://ep133-cheat-sheet.goatcounter.com/count"
+        data-goatcounter-settings='{"no_onload":true}'
+        async src="https://gc.zgo.at/count.js"></script>
 <script>
 const SECTIONS = [
   {id:'record',   label:'record'},
@@ -1664,6 +1668,30 @@ let searchTerm = initialState.query;
 let syncPillStates = () => {};
 const mobileMedia = window.matchMedia('(max-width: 800px)');
 let expandedSections = new Set();
+let analyticsReady = false;
+const pendingAnalyticsEvents = new Map();
+
+function sendAnalyticsEvent(path, title) {
+  if (!analyticsReady) {
+    pendingAnalyticsEvents.set(path, title);
+    return;
+  }
+  window.goatcounter.count({path, title, event:true, referrer:''});
+}
+
+function configureAnalytics() {
+  if (analyticsReady || !window.goatcounter?.get_data) return;
+  const getData = window.goatcounter.get_data;
+  window.goatcounter.get_data = vars => {
+    const data = getData(vars);
+    delete data.q;
+    return data;
+  };
+  analyticsReady = true;
+  window.goatcounter.count({path:location.pathname});
+  pendingAnalyticsEvents.forEach((title, path) => sendAnalyticsEvent(path, title));
+  pendingAnalyticsEvents.clear();
+}
 
 function syncUrlState() {
   const url = new URL(location.href);
@@ -1842,12 +1870,13 @@ function render() {
   if (!hasAny) {
     main.innerHTML = '';
     noRes.style.display = 'block';
-    return;
+    return false;
   }
   noRes.style.display = 'none';
   main.innerHTML = html;
   [orient, extras, qref].forEach(root => highlightMatches(root, highlightTerms));
   main.querySelectorAll('.row-desc').forEach(desc => highlightMatches(desc, highlightTerms));
+  return true;
 }
 
 // Filter buttons (multi-select toggle, "all" selects/clears everything)
@@ -1896,17 +1925,27 @@ function render() {
 
 const searchInput = document.getElementById('search');
 const searchClear = document.getElementById('search-clear');
+let searchAnalyticsTimer;
+function scheduleSearchAnalytics(hasResults) {
+  clearTimeout(searchAnalyticsTimer);
+  if (!searchTerm) return;
+  searchAnalyticsTimer = setTimeout(() => {
+    sendAnalyticsEvent('search-used', 'Search used');
+    if (!hasResults) sendAnalyticsEvent('search-no-results', 'Search returned no results');
+  }, 750);
+}
 searchInput.value = searchTerm;
 searchClear.classList.toggle('show', searchTerm.length > 0);
 searchInput.addEventListener('input', e => {
   searchTerm = e.target.value.trim();
   searchClear.classList.toggle('show', searchTerm.length > 0);
   syncUrlState();
-  render();
+  scheduleSearchAnalytics(render());
 });
 searchClear.addEventListener('click', () => {
   searchInput.value = '';
   searchTerm = '';
+  clearTimeout(searchAnalyticsTimer);
   searchClear.classList.remove('show');
   searchInput.focus();
   syncUrlState();
@@ -1920,7 +1959,7 @@ window.addEventListener('popstate', () => {
   searchInput.value = searchTerm;
   searchClear.classList.toggle('show', searchTerm.length > 0);
   syncPillStates();
-  render();
+  scheduleSearchAnalytics(render());
 });
 
 const filtersToggle = document.getElementById('filters-toggle');
@@ -1985,13 +2024,17 @@ if (mobileMedia.matches) {
   document.getElementById('mobile-overview').removeAttribute('open');
 }
 
-render();
+scheduleSearchAnalytics(render());
 if (location.hash) {
   requestAnimationFrame(() => {
     const id = decodeURIComponent(location.hash.slice(1));
     id.startsWith('section-') ? scrollToSection(id.slice(8)) : document.getElementById(id)?.scrollIntoView();
   });
 }
+
+const goatCounterScript = document.getElementById('goatcounter-script');
+goatCounterScript.addEventListener('load', configureAnalytics);
+configureAnalytics();
 
 </script>
 </body>
