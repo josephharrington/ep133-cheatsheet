@@ -3,6 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<script>
+if (new URLSearchParams(location.search).has('mobile-preview') && window.top === window.self) {
+  document.documentElement.classList.add('mobile-preview-shell');
+  document.addEventListener('DOMContentLoaded', () => {
+    const previewUrl = new URL(location.href);
+    previewUrl.searchParams.delete('mobile-preview');
+    const frame = document.createElement('iframe');
+    frame.title = 'Mobile preview';
+    frame.src = previewUrl;
+    document.body.replaceChildren(frame);
+    document.body.classList.add('mobile-preview-body');
+  });
+}
+</script>
 <meta name="google-site-verification" content="C6xgakCYd0p9PGKtWBw_n8mGzUQbLKoci0neRLlc2C8">
 <meta name="msvalidate.01" content="80574578F40C5C43B5D4ADA454616811">
 <title>EP-133 K.O. II (KO2) Cheat Sheet and Shortcut Guide</title>
@@ -50,6 +64,17 @@
 
 html{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13px;line-height:1.5}
 body{max-width:1100px;margin:0 auto;padding-bottom:60px}
+html.mobile-preview-shell{background:#292724}
+html.mobile-preview-shell body:not(.mobile-preview-body){visibility:hidden}
+body.mobile-preview-body{
+  visibility:visible;display:grid;place-items:center;max-width:none;min-height:100vh;
+  padding:16px;background:#292724;
+}
+body.mobile-preview-body iframe{
+  width:390px;max-width:100%;height:min(844px,calc(100vh - 32px));
+  border:1px solid #5c5750;border-radius:12px;background:var(--bg);
+  box-shadow:0 16px 50px rgba(0,0,0,.35);
+}
 
 /* ── HEADER ───────────────────────────────────────────────── */
 header{
@@ -1238,7 +1263,7 @@ main{padding:0 24px}
         async src="https://gc.zgo.at/count.js"></script>
 <script>
 const SECTIONS = [
-  {id:'record',   label:'record'},
+  {id:'record',   label:'play + record'},
   {id:'step',     label:'step seq'},
   {id:'patterns', label:'patterns'},
   {id:'scenes',   label:'scenes'},
@@ -1267,6 +1292,7 @@ const DATA = [
   {s:'record',c:'[RECORD] → [SHIFT] + [PLAY]',          d:'Record from pattern start, not the current bar'},
   {s:'record',c:'[PLAY] (while recording)',                    d:'Stop recording and pause playback completely'},
   {s:'record',c:'[RECORD] (while recording)',                  d:'Stop recording but keep playback running'},
+  {s:'record',c:'hold [−] / [+] (while playing)',       d:'Temporarily nudge playback slower or faster; release to return to the set BPM'},
   {s:'record',c:'[RECORD] + [−] / [+]',                 d:'Change pattern length on the fly while playing'},
   {s:'record',c:'[RECORD] → [−] / [+] (while stopped)',  d:'Set pattern length while record-armed'},
   {s:'record',c:'[RECORD] → [SHIFT] + [+]',             d:'Double the pattern length and duplicate all existing notes'},
@@ -1277,7 +1303,7 @@ const DATA = [
   {s:'step',  c:'[RECORD] + [#] (while stopped)',        d:'Write that pad to the current step: tap for a short note or hold for a longer one'},
   {s:'step',  c:'[ERASE] + [#] (while stopped)',         d:'Erase that pad\'s note at the current step'},
   {s:'step',  c:'hold [ERASE] + hold [#] (while stopped)',d:'Erase every note for that pad in the pattern; hold until TRK blinks'},
-  {s:'step',  c:'[ERASE] + [#] (while playing)',         d:'Live-erase pad notes as the pattern plays'},
+  {s:'step',  c:'[ERASE] + [#] (while playing)',         d:'Live-erase that pad’s notes as the pattern plays; hold multiple pads to erase several tracks at once, including notes recorded in Keys mode'},
   {s:'step',  c:'[SHIFT] + [#] + [−] / [+]',             d:'Nudge the note by steps in quantize mode or ticks in free-time mode'},
   {s:'step',  c:'hold [SHIFT] + turn [KNOB X]',         d:'Set the playback velocity (strength) of every note at the current step'},
   {s:'step',  c:'hold [SHIFT] + turn [KNOB Y]',         d:'Set how long every note at the current step is held'},
@@ -1339,7 +1365,8 @@ const DATA = [
   {s:'timing-correct', c:'hold [#] + [−] / [+]',        d:'Nudge all notes on that pad earlier or later by one step',n:true},
 // ── FADER ───────────────────────────────────────────────────
   {s:'fader',  c:'[FADER] + [#]',                       d:'Assign the fader function shown above that pad'},
-  {s:'fader',  c:'hold [RECORD] + move [FADER]',        d:'Record fader movement into the pattern'},
+  {s:'fader',  c:'hold [FADER]',                        d:'Show the current fader assignments; assignments with active automation blink'},
+  {s:'fader',  c:'hold [RECORD] + move [FADER]',        d:'Record continuous fader movement during playback; while step sequencing, latch the current fader position onto the current step'},
   {s:'fader',  c:'[SHIFT] + [FADER]',                   d:'Reset every virtual fader assignment in the current group (RES); press again to restore them (SET). Disabled during playback'},
   {s:'fader',  c:'hold [GROUP] + move [FADER]',         d:'Adjust that group\'s project-wide volume; this spans all patterns and cannot be automated'},
   {s:'fader',  c:'hold [SHIFT] + move [FADER]',         d:'Fine-tune fader position with higher precision'},
@@ -1355,7 +1382,8 @@ const DATA = [
   {s:'effects',c:'move [FADER]',                        d:'Adjust FX send for the current group'},
   {s:'effects',c:'turn [KNOB X] / [KNOB Y] (in MAIN)', d:'X adjusts the live input volume; Y adjusts how much of the live input is sent to the selected master effect'},
   {s:'effects',c:'hold [FX] + [#] (while playing)',     d:'Trigger a pressure-sensitive punch-in FX; combine pads to layer effects'},
-  {s:'effects',c:'hold [FX] + [GROUP] (while playing)', d:'Solo that group momentarily; hold multiple groups to solo them together'},
+  {s:'effects',c:'hold [FX] + [2] (while playing)',     d:'Apply tape stop; the slowdown also affects outgoing MIDI clock, so synchronized gear follows it'},
+  {s:'effects',c:'hold [FX] + [GROUP] (while playing)', d:'Momentarily solo that group and make it the selected group for editing; hold multiple groups to solo them together'},
 // ── OUTPUT SETTINGS ─────────────────────────────────────────
   {s:'output', c:'[SHIFT] + [FX]',                      d:'Enter {mode:Output Settings} (X: compressor drive/amount · Y: response speed)',entry:true},
   {s:'output', c:'[+]',                                 d:'Open {page:Sidechain} settings'},
@@ -1365,8 +1393,10 @@ const DATA = [
 // ── SOUND ───────────────────────────────────────────────────
   {s:'sound',  c:'[SOUND]',                             d:'Enter {mode:Sound} mode to browse and assign samples to pads',entry:true},
   {s:'sound',  c:'tap [#]',                             d:'Select that pad for editing; the last pad tapped remains selected, indicated by the light above it'},
+  {s:'sound',  c:'hold [#]',                            d:'Show the selected pad’s sample name on screen'},
   {s:'sound',  c:'[−] / [+]',                           d:'Change the sample on the selected pad'},
   {s:'sound',  c:'[SHIFT] + [−] / [+]',                 d:'Move through the sample library in increments of ten'},
+  {s:'sound',  c:'numpad → [ENTER]',                    d:'Type a sample number and assign that library slot directly to the selected pad'},
   {s:'sound',  c:'turn [KNOB X]',                       d:'Set the selected pad\'s level relative to the other pads (AMP); the edited sound plays as you turn'},
   {s:'sound',  c:'turn [KNOB Y]',                       d:'Raise or lower the selected pad\'s pitch (PTC); the edited sound plays as you turn'},
   {s:'sound-edit', c:'[SHIFT] + [SOUND]',               d:'Enter {mode:Sound Edit}; use −/+ to move through {page:Sound}, {page:Trim}, {page:Envelope}, {page:Time}, {page:MIDI}, and {page:Mute Group}',entry:true},
@@ -1374,6 +1404,7 @@ const DATA = [
   {s:'sound-edit', c:'[−] / [+]',                       d:'Move to the previous or next Sound Edit page'},
   {s:'sound-edit', c:'turn [KNOB X] / [KNOB Y]',        d:'X chooses playback behavior: oneshot plays the full sample monophonically, key allows overlapping voices, and legato continues from the current position; Y places the sound left, center, or right',p:'sound'},
   {s:'sound-edit', c:'turn [KNOB X] / [KNOB Y]',        d:'X moves where playback begins; Y changes the playback length from that start point',p:'trim'},
+  {s:'sound-edit', c:'hold [#]',                         d:'Show the sample’s current playback position in seconds while it plays',p:'trim',n:true},
   {s:'sound-edit', c:'hold [SHIFT] + [SOUND]',          d:'Crop to the current trim points; this overwrites the sample file and cannot be undone',p:'trim',n:true,risk:'permanent'},
   {s:'sound-edit', c:'turn [KNOB X] / [KNOB Y]',        d:'X sets how gradually the sample fades in; Y sets how long it continues after you release the pad',p:'envelope'},
   {s:'sound-edit', c:'turn [KNOB X] / [KNOB Y]',        d:'X chooses BPM, BAR, or reverse mode; Y sets the sample’s source BPM in BPM mode or its target length in BAR mode',p:'time'},
@@ -1385,6 +1416,7 @@ const DATA = [
 // ── SAMPLE + CHOP ───────────────────────────────────────────
   {s:'sample', c:'[SAMPLE]',                            d:'Enter {mode:Sample} mode; all pads blink, and holding any pad records audio to it',entry:true},
   {s:'sample', c:'hold [#]',                             d:'Record audio to that pad; hold to capture, then release to stop and auto-trim'},
+  {s:'sample', c:'[#] (after capture)',                  d:'Audition the sample you just recorded'},
   {s:'sample', c:'[−] / [+]',                           d:'Choose the input: mic, mono or stereo line input, resample, or USB'},
   {s:'sample', c:'turn [KNOB X]',                       d:'Raise or lower the incoming audio level before it is recorded'},
   {s:'sample', c:'turn [KNOB Y]',                       d:'Set how loud the input must be before recording starts'},
@@ -1393,6 +1425,7 @@ const DATA = [
   {s:'sample', c:'[MAIN]',                              d:'Exit Sample mode'},
   {s:'sample', c:'[SHIFT] + [#]',                      d:'Start hands-free sampling; K.O. II holds the pad for you'},
   {s:'sample', c:'[SHIFT] + [#] → [PLAY]',             d:'Resample input: capture the pattern\'s full length hands-free'},
+  {s:'sample', c:'hold [FX] + turn [KNOB X] / [KNOB Y] (latched resampling)', d:'Adjust the selected effect live while the hands-free resample is being captured',n:true},
   {s:'sample', c:'[−] / [+] (hands-free sampling)',         d:'Select the number of bars to resample per capture'},
   {s:'chop',   c:'[SHIFT] + [SAMPLE] → CHOP',           d:'Enter {mode:Chop} mode to slice a sample across a group\'s pads',entry:true},
   {s:'chop',   c:'[GROUP]',                             d:'Select the destination group. This resets its pad assignments, so use an empty group or one you are willing to overwrite',risk:'overwrites pads'},
@@ -1680,6 +1713,7 @@ function sendAnalyticsEvent(path, title) {
 }
 
 function configureAnalytics() {
+  if (document.documentElement.classList.contains('mobile-preview-shell')) return;
   if (analyticsReady || !window.goatcounter?.get_data) return;
   const getData = window.goatcounter.get_data;
   window.goatcounter.get_data = vars => {
@@ -1765,7 +1799,8 @@ function render() {
   [[orient, '.orient-panel'], [qref, '.qref-panel']].forEach(([container, selector]) => {
     let containerHasMatch = false;
     container.querySelectorAll(selector).forEach(panel => {
-      const show = overviewEnabled && (!searchTerms.length || matchesSearch(panel));
+      const searchable = container !== qref;
+      const show = overviewEnabled && (!searchTerms.length || (searchable && matchesSearch(panel)));
       panel.style.display = show ? '' : 'none';
       containerHasMatch ||= show;
     });
@@ -1942,7 +1977,7 @@ searchInput.addEventListener('input', e => {
   syncUrlState();
   scheduleSearchAnalytics(render());
 });
-searchClear.addEventListener('click', () => {
+function clearSearch() {
   searchInput.value = '';
   searchTerm = '';
   clearTimeout(searchAnalyticsTimer);
@@ -1950,7 +1985,14 @@ searchClear.addEventListener('click', () => {
   searchInput.focus();
   syncUrlState();
   render();
+}
+searchInput.addEventListener('keydown', e => {
+  if (e.key !== 'Escape') return;
+  e.preventDefault();
+  e.stopPropagation();
+  clearSearch();
 });
+searchClear.addEventListener('click', clearSearch);
 
 window.addEventListener('popstate', () => {
   const state = stateFromUrl();
