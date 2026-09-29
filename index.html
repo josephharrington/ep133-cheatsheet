@@ -412,7 +412,8 @@ main{padding:0 24px}
 .row-combo{display:flex;flex-wrap:wrap;align-items:center;gap:3px}
 .row-desc{font-size:11.5px;font-weight:300;color:var(--sub);line-height:1.4}
 .row-badge{width:26px;text-align:right}
-.connection-row .row-combo .ctx{
+.connection-row .row-combo .ctx,
+.sample-source-row .row-combo .ctx{
   color:var(--sub);font-family:var(--mono);font-size:8.5px;font-style:normal;
   font-weight:700;letter-spacing:.04em;text-transform:uppercase;
 }
@@ -475,6 +476,10 @@ main{padding:0 24px}
   padding:1px 3px;border-radius:2px;background:rgba(0,0,0,.055);
   color:var(--sub);font-family:var(--mono);font-size:9px;font-weight:700;
   letter-spacing:.02em;line-height:1;white-space:nowrap;
+}
+.screen-ref{
+  color:var(--red);font-family:var(--display);font-size:11px;
+  letter-spacing:.1em;line-height:1;white-space:nowrap;
 }
 .page-rail{position:relative;display:block;border-bottom:1px solid var(--border)}
 .page-rail::before{
@@ -734,7 +739,8 @@ main{padding:0 24px}
   .section-erase,
   .section-timing-correct,
   .section-sound,
-  .section-sound-edit{
+  .section-sound-edit,
+  .section-sample{
     break-inside:auto;
     -webkit-column-break-inside:auto;
   }
@@ -786,6 +792,7 @@ main{padding:0 24px}
   .page-ref{font-size:6px}
   .label-ref{color:#000;font-size:6px}
   .code-ref{color:#000;font-size:7.5px;background:#eee}
+  .screen-ref{color:#000;font-size:8px}
   .detail-break{display:none}
   .page-rail{border-color:#e4e4e4;break-inside:avoid}
   .page-rail-label{padding:5px 5px 2px 7px;font-size:6.25px;color:#000}
@@ -1437,16 +1444,20 @@ const DATA = [
   {s:'sound',  c:'[SHIFT] + [C] ×2 → select group → [SHIFT] + [D]', d:'Copy/paste all sounds in a group to another group'},
 // ── SAMPLE + CHOP ───────────────────────────────────────────
   {s:'sample', c:'[SAMPLE]',                            d:'Enter {mode:Sample} mode; all pads blink, and holding any pad records audio to it',entry:true},
-  {s:'sample', c:'hold [#]',                             d:'Record audio to that pad; hold to capture, then release to stop and auto-trim'},
+  {s:'sample', c:'hold [#]',                             d:'Record audio to that pad; hold to capture, then release to stop and auto-trim. The recording is saved in the next available library slot and assigned to that pad. If the pad already has a sound, its assignment is replaced and existing pattern notes on that pad play the new sample; the previous library sample is not deleted. The library has up to 999 numbered slots, subject to available storage',risk:'reassigns pad'},
   {s:'sample', c:'[#] (after capture)',                  d:'Audition the sample you just recorded'},
-  {s:'sample', c:'[−] / [+]',                           d:'Choose the input: mic, mono or stereo line input, resample, or USB'},
+  {s:'sample', c:'[−] / [+]',                           d:'Choose the recording source and, where available, mono or stereo capture. Screen icons indicate whether the selected source records mono or stereo; compare the options below'},
+  {s:'sample', c:'[−] / [+] → {screen:MIC}',                     d:'{label:input} Use the built-in microphone; no cable is required. {label:channels} Records mono. {label:maximum} Up to 40 seconds per sample',source:true},
+  {s:'sample', c:'[−] / [+] → {screen:IN} / {screen:L.IN} / {screen:R.IN}', d:'{label:connect} Use the 3.5 mm stereo input; these source choices appear only while something is connected to the input jack. {label:choose} IN mono or stereo, L.IN for left-only, or R.IN for right-only. {label:maximum} Mono captures up to 40 seconds; stereo captures up to 20 seconds',source:true},
+  {s:'sample', c:'[−] / [+] → {screen:RSP}',                     d:'{label:input} Capture K.O. II playback internally; no cable is required. {label:choose} Resample in mono or stereo. {label:maximum} Mono captures up to 40 seconds; stereo captures up to 20 seconds. {label:record} Hold a destination pad to capture manually and release it to stop; use the hands-free and pattern shortcuts below when you need both hands. {label:use for} Combine sounds or chords, or capture the current pattern as a new sample',source:true},
+  {s:'sample', c:'[−] / [+] → {screen:USB}',                     d:'{label:connect} Use USB-C with a class-compliant phone or computer host, then select the K.O. II as that host’s audio output before choosing USB as the sample source. {label:choose} Capture USB audio in mono or stereo. {label:maximum} Mono captures up to 40 seconds; stereo captures up to 20 seconds. {label:monitoring} System code {code:510} sends USB audio only to the sampler; {code:511} also monitors it live',source:true,n:true},
   {s:'sample', c:'turn [KNOB X]',                       d:'Raise or lower the incoming audio level before it is recorded'},
   {s:'sample', c:'turn [KNOB Y]',                       d:'Set how loud the input must be before recording starts'},
   {s:'sample', c:'[SAMPLE] (after capture)',              d:'Discard that take and record the sample again'},
   {s:'sample', c:'[SAMPLE] (while hands-free recording)', d:'Stop recording'},
   {s:'sample', c:'[MAIN]',                              d:'Exit Sample mode'},
   {s:'sample', c:'[SHIFT] + [#]',                      d:'Start hands-free sampling; K.O. II holds the pad for you'},
-  {s:'sample', c:'[SHIFT] + [#] → [PLAY]',             d:'Resample input: capture the pattern\'s full length hands-free'},
+  {s:'sample', c:'{screen:RSP} → [SHIFT] + [#] → [PLAY]', d:'Capture the current pattern\'s full length to that destination pad, hands-free'},
   {s:'sample', c:'hold [FX] + turn [KNOB X] / [KNOB Y] (latched resampling)', d:'Adjust the selected effect live while the hands-free resample is being captured',n:true},
   {s:'sample', c:'[−] / [+] (hands-free sampling)',         d:'Select the number of bars to resample per capture'},
   {s:'chop',   c:'[SHIFT] + [SAMPLE] → CHOP',           d:'Enter {mode:Chop} mode to slice a sample across a group\'s pads',entry:true},
@@ -1571,7 +1582,7 @@ function renderContext(txt) {
 }
 function renderCombo(str) {
   let html = '';
-  const re = /\[([^\]]+)\]|(→|↔|\+)|\(([^)]+)\)/g;
+  const re = /\[([^\]]+)\]|(→|↔|\+)|\(([^)]+)\)|\{screen:([^}]+)\}/g;
   let last = 0, m, pendingHold = false;
   while ((m = re.exec(str)) !== null) {
     if (m.index > last) {
@@ -1591,6 +1602,8 @@ function renderCombo(str) {
       html += `<span class="op">${m[2]}</span>`;
     } else if (m[3]) {
       html += renderContext(m[3]);
+    } else if (m[4]) {
+      html += `<span class="screen-ref">${escH(m[4])}</span>`;
     }
     last = m.index + m[0].length;
   }
@@ -1706,8 +1719,13 @@ const SEARCH_ALIASES = {
   duplicate:['duplicate','copy','clone'],
   garageband:['garageband','daw'],
   logic:['logic','daw'],
+  mic:['mic','microphone'],
+  microphone:['microphone','mic'],
   po:['pocket operator'],
   quantize:['quantize','quantized','timing correct'],
+  resample:['resample','resampling','rsp'],
+  resampling:['resample','resampling','rsp'],
+  rsp:['resample','resampling','rsp'],
   snd:['snd','sound'],
   sch:['sch','s.ch','sidechain'],
   ptn:['ptn','pattern'],
@@ -1859,7 +1877,7 @@ function render() {
     const sectionData = DATA.filter(d => d.s === sec.id);
     const matchesRowSearch = d => {
       const plain = d.c.replace(/\[([^\]]+)\]/g,'$1').toLowerCase();
-      const searchable = `${plain} ${plainDescription(d.d)} ${d.p || ''} ${PAGE_DISPLAY_CODES[d.p] || ''} ${sec.label}`.toLowerCase();
+      const searchable = `${plain} ${plainDescription(d.d)} ${d.risk || ''} ${d.p || ''} ${PAGE_DISPLAY_CODES[d.p] || ''} ${sec.label}`.toLowerCase();
       return searchGroups.every(group => group.some(term => searchable.includes(term)));
     };
     const directMatches = searchTerms.length ? sectionData.filter(matchesRowSearch) : [];
@@ -1899,6 +1917,7 @@ function render() {
       if (d.sub) cls.push('sub-row');
       if (d.sep) cls.push('sep-row');
       if (d.route) cls.push('connection-row');
+      if (d.source) cls.push('sample-source-row');
       const codeEl = (isSystem && d.sub) ? `<div class="row-code">${d.code ? escH(d.code) : ''}</div>` : '';
       const riskEl = d.risk ? `<span class="risk-label">${escH(d.risk)}</span>` : '';
       return `<div class="${cls.join(' ')}">
