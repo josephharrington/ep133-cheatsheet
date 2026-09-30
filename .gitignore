@@ -2,4 +2,5 @@ reference/
 .DS_Store
 AGENT_CONTEXT.md
 .venv/
+node_modules/
 .*.html
