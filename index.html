@@ -3,7 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" id="theme-color" content="#f0ebe0">
 <script>
+try {
+  const savedTheme = localStorage.getItem('ep133-theme');
+  const theme = savedTheme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  document.documentElement.dataset.theme = theme;
+} catch {}
 if (new URLSearchParams(location.search).has('mobile-preview') && window.top === window.self) {
   document.documentElement.classList.add('mobile-preview-shell');
   document.addEventListener('DOMContentLoaded', () => {
@@ -46,10 +52,11 @@ if (new URLSearchParams(location.search).has('mobile-preview') && window.top ===
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
   /* device-inspired palette - cream body, black pads, red logo */
-  --bg:#f0ebe0;
-  --card:#faf7f2;
-  --border:#d4cabb;
-  --border2:#b8a895;
+  --bg:#f2ede4;
+  --card:#fbf8f2;
+  --header-bg:#e8e0d3;
+  --border:#cec3b3;
+  --border2:#aa9b87;
   --text:#111111;
   --sub:#3a3530;
   --muted:#625b53;
@@ -57,9 +64,35 @@ if (new URLSearchParams(location.search).has('mobile-preview') && window.top ===
   --red:#b83b12;
   --key-bg:#1a1a18;
   --key-text:#ede8dd;
+  --device-orange:#f15a22;
+  --device-gray:#989fa5;
+  --device-light:#cacdcb;
+  --device-white:#f1f2f2;
+  --device-ink:#231f20;
   --mono:'Space Mono','Courier New',monospace;
   --display:'DSEG14 Classic','Space Mono',monospace;
   --sans:'Inter',system-ui,sans-serif;
+}
+
+html[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#08070d;
+  --card:#11101a;
+  --border:#29263a;
+  --border2:#48415f;
+  --text:#fbf8ff;
+  --sub:#ddd7e9;
+  --muted:#aaa2bc;
+  --dim:#7f778f;
+  --red:#ff5a3d;
+  --key-bg:#211d2b;
+  --key-text:#f5f0ff;
+  --neon-cyan:#4cecff;
+  --neon-pink:#ff55d7;
+  --neon-violet:#b68cff;
+  --neon-lime:#b8ff5a;
+  --neon-orange:#ff9a45;
+  --neon-blue:#6c9cff;
 }
 
 html{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:13px;line-height:1.5}
@@ -106,6 +139,10 @@ h1.h-logo{margin:0;display:inline}
 }
 .h-print-btn.h-icon-btn{display:inline-flex}
 .h-print-btn:hover{color:var(--text);border-color:#888}
+.h-theme-btn svg{width:13px;height:13px}
+.theme-icon-sun{display:none}
+html[data-theme="dark"] .theme-icon-sun{display:block}
+html[data-theme="dark"] .theme-icon-moon{display:none}
 .legend-pop-wrap{position:relative}
 #legend-btn[aria-expanded="true"]{color:var(--text);border-color:#888;background:var(--card)}
 
@@ -563,6 +600,194 @@ main{padding:0 24px}
   text-align:center;font-family:var(--mono);font-size:11px;color:var(--muted);
 }
 
+@media screen{
+/* ── LIGHT / DEVICE THEME ────────────────────────────────── */
+html:not([data-theme="dark"]) body:not(.mobile-preview-body){background:var(--bg)}
+html:not([data-theme="dark"]) header{
+  background:var(--header-bg);
+  border-bottom-color:var(--text);
+  box-shadow:0 2px 8px rgba(53,42,30,.07);
+}
+html:not([data-theme="dark"]) :is(.h-print-btn,#filters-toggle){
+  border-color:color-mix(in srgb,var(--border2) 68%,var(--card));
+  color:var(--muted);background:rgba(255,255,255,.13);
+}
+html:not([data-theme="dark"]) :is(.h-print-btn,#filters-toggle):hover,
+html:not([data-theme="dark"]) :is(.h-print-btn,#filters-toggle):focus-visible{
+  border-color:var(--border2);color:var(--text);background:rgba(255,255,255,.34);
+}
+html:not([data-theme="dark"]) #search{
+  border-color:color-mix(in srgb,var(--border2) 68%,var(--card));
+  background:rgba(251,248,242,.82);
+}
+html:not([data-theme="dark"]) #search:focus{
+  border-color:var(--border2);box-shadow:0 0 0 1px rgba(58,53,48,.08);
+}
+html:not([data-theme="dark"]) :is(.key,.commit-key){
+  background:linear-gradient(#242421,#151513);
+  border-color:#11110f;border-bottom-color:#050504;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 1px 1px rgba(48,38,27,.2);
+}
+html:not([data-theme="dark"]) :is(.fx-key.sp,.fader-name.def){
+  background:linear-gradient(#242421,#151513);
+  border-color:#11110f;border-bottom-color:#050504;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 1px 1px rgba(48,38,27,.18);
+}
+html:not([data-theme="dark"]) .section-group .s-head{
+  background:linear-gradient(90deg,color-mix(in srgb,var(--red) 6%,var(--bg)),var(--bg) 58%);
+}
+
+/* ── DARK / BLACK-LIGHT THEME ────────────────────────────── */
+html[data-theme="dark"] body{
+  background:
+    radial-gradient(circle at 10% 0,rgba(76,236,255,.045),transparent 28rem),
+    radial-gradient(circle at 90% 20%,rgba(255,85,215,.035),transparent 32rem),
+    var(--bg);
+}
+html[data-theme="dark"] header{
+  background:rgba(8,7,13,.94);
+  border-bottom-color:transparent;
+  border-image:linear-gradient(90deg,var(--neon-cyan),var(--neon-pink) 28%,var(--neon-violet) 48%,var(--neon-lime) 68%,var(--neon-orange) 84%,var(--neon-blue)) 1;
+  box-shadow:0 2px 14px rgba(182,140,255,.12);
+  backdrop-filter:blur(10px);
+}
+html[data-theme="dark"] .h-logo{text-shadow:0 0 10px rgba(76,236,255,.22)}
+html[data-theme="dark"] .h-badge{
+  color:var(--neon-orange);border-color:rgba(255,154,69,.5);
+  background:rgba(255,154,69,.08);box-shadow:inset 0 0 10px rgba(255,154,69,.06);
+}
+html[data-theme="dark"] .h-print-btn:hover,
+html[data-theme="dark"] .h-print-btn:focus-visible{
+  border-color:var(--neon-cyan);color:var(--text);
+  box-shadow:0 0 10px rgba(76,236,255,.14);
+}
+html[data-theme="dark"] .h-theme-btn{color:var(--neon-cyan)}
+html[data-theme="dark"] .bug-form textarea,
+html[data-theme="dark"] .bug-form input[type=text],
+html[data-theme="dark"] .bug-form input[type=email]{background:var(--bg)}
+html[data-theme="dark"] #search:focus{border-color:var(--neon-cyan);box-shadow:0 0 0 1px rgba(76,236,255,.16)}
+html[data-theme="dark"] .search-hit{background:var(--neon-lime);color:#111018}
+html[data-theme="dark"] .filter{--filter-accent:var(--neon-pink)}
+html[data-theme="dark"] .filter:is([data-id="record"],[data-id="step"],[data-id="patterns"],[data-id="scenes"],[data-id="song"],[data-id="edit"]){--filter-accent:var(--neon-cyan)}
+html[data-theme="dark"] .filter:is([data-id="erase"],[data-id="keys"],[data-id="timing"],[data-id="timing-correct"]){--filter-accent:var(--neon-pink)}
+html[data-theme="dark"] .filter:is([data-id="fader"],[data-id="effects"],[data-id="output"]){--filter-accent:var(--neon-violet)}
+html[data-theme="dark"] .filter:is([data-id="loop"],[data-id="tempo"]){--filter-accent:var(--neon-lime)}
+html[data-theme="dark"] .filter:is([data-id="sound"],[data-id="sound-edit"],[data-id="sample"],[data-id="chop"]){--filter-accent:var(--neon-orange)}
+html[data-theme="dark"] .filter:is([data-id="connections"],[data-id="system"]){--filter-accent:var(--neon-blue)}
+html[data-theme="dark"] .filter:hover{border-color:var(--filter-accent)}
+html[data-theme="dark"] .filter.on{
+  color:#09070d;border-color:var(--filter-accent);background:var(--filter-accent);
+  box-shadow:0 0 9px color-mix(in srgb,var(--filter-accent) 22%,transparent);
+}
+html[data-theme="dark"] .filters.all-selected .filter.on:not([data-id="all"]){
+  color:var(--muted);border-color:var(--border);background:none;box-shadow:none;
+}
+html[data-theme="dark"] .code-ref{background:rgba(255,255,255,.065)}
+html[data-theme="dark"] .badge-old{background:rgba(255,255,255,.045);border-color:var(--border2)}
+html[data-theme="dark"] :is(.key,.commit-key){
+  border-color:#574d69;border-bottom-color:#302a3d;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.09),0 1px 2px rgba(0,0,0,.45);
+}
+html[data-theme="dark"] :is(.fx-key.sp,.fader-name.def){
+  border-color:#574d69;border-bottom-color:#302a3d;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 1px 2px rgba(0,0,0,.4);
+}
+
+html[data-theme="dark"] .section-group{--section-accent:var(--neon-cyan)}
+html[data-theme="dark"] :is(.section-record,.section-step,.section-patterns,.section-scenes,.section-song,.section-edit){--section-accent:var(--neon-cyan)}
+html[data-theme="dark"] :is(.section-erase,.section-keys,.section-timing,.section-timing-correct){--section-accent:var(--neon-pink)}
+html[data-theme="dark"] :is(.section-fader,.section-effects,.section-output){--section-accent:var(--neon-violet)}
+html[data-theme="dark"] :is(.section-loop,.section-tempo){--section-accent:var(--neon-lime)}
+html[data-theme="dark"] :is(.section-sound,.section-sound-edit,.section-sample,.section-chop){--section-accent:var(--neon-orange)}
+html[data-theme="dark"] :is(.section-connections,.section-system){--section-accent:var(--neon-blue)}
+html[data-theme="dark"] .section-group .s-head{
+  border-bottom-color:var(--section-accent);
+  background:linear-gradient(90deg,color-mix(in srgb,var(--section-accent) 9%,transparent),transparent 56%);
+  box-shadow:0 1px 0 color-mix(in srgb,var(--section-accent) 18%,transparent);
+}
+html[data-theme="dark"] .section-group :is(.s-head-num,.section-chevron,.mode-ref,.screen-ref,.page-screen-code,.concept-label,.sys-group-head){
+  color:var(--section-accent);
+}
+html[data-theme="dark"] .section-group .page-rail::before{background:var(--section-accent);box-shadow:0 0 8px color-mix(in srgb,var(--section-accent) 35%,transparent)}
+html[data-theme="dark"] .section-group .concept-row{
+  border-left-color:var(--section-accent);
+  background:color-mix(in srgb,var(--section-accent) 5%,transparent);
+}
+html[data-theme="dark"] .section-group .signal-diagram :is(.flow-wire,.flow-box.accent){stroke:var(--section-accent)}
+html[data-theme="dark"] .section-group .signal-diagram .flow-arrowhead{fill:var(--section-accent)}
+html[data-theme="dark"] .section-group .signal-diagram :is(.flow-node-text.accent,.flow-stage-label){fill:var(--section-accent)}
+html[data-theme="dark"] .section-group .connection-row .row-combo .op{color:var(--section-accent)}
+html[data-theme="dark"] .section-group .badge-new{
+  color:var(--section-accent);border-color:color-mix(in srgb,var(--section-accent) 42%,transparent);
+  background:color-mix(in srgb,var(--section-accent) 8%,transparent);
+}
+
+html[data-theme] :is(.key,.commit-key):is(.ks,.key-shift){
+  color:var(--device-ink);
+  background:linear-gradient(#d8dad9,var(--device-light));
+  border-color:#929897;border-bottom-color:#747a79;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.65),0 1px 2px rgba(0,0,0,.22);
+}
+html[data-theme] .key.key-orange{
+  color:#fff;background:linear-gradient(#fa6830,var(--device-orange));
+  border-color:#d84212;border-bottom-color:#a6310e;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.22),0 1px 2px rgba(0,0,0,.24);
+}
+html[data-theme] .key.key-gray{
+  color:var(--device-ink);background:linear-gradient(#aab2b6,var(--device-gray));
+  border-color:#717a7e;border-bottom-color:#586064;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 1px 2px rgba(0,0,0,.22);
+}
+html[data-theme] .key.key-light,
+html[data-theme] .key.key-white,
+html[data-theme] .key.key-group{
+  color:var(--device-ink);background:linear-gradient(#f8f6ef,var(--device-white));
+  border-color:#a8aaa9;border-bottom-color:#7f8382;
+  box-shadow:inset 0 1px 0 #fff,0 1px 2px rgba(0,0,0,.18);
+}
+html[data-theme] .key.key-group,
+html[data-theme] .key.key-pad,
+html[data-theme] .key.key-white:is([data-key="−"],[data-key="+"]){
+  justify-content:center;min-width:22px;height:22px;padding:0;
+}
+html[data-theme] .key.key-pad{font-size:10px}
+html[data-theme] .key:is([data-key="#"],[data-key="−"],[data-key="+"]){
+  letter-spacing:0;line-height:1;
+}
+html[data-theme] .key:is([data-key="−"],[data-key="+"]){font-size:14px;font-weight:400}
+html[data-theme] .key[data-key="#"]{font-size:0}
+html[data-theme] .key[data-key="#"]::before{
+  content:'';width:9px;height:9px;
+  background:
+    linear-gradient(currentColor,currentColor) 2px 0 / 1px 100% no-repeat,
+    linear-gradient(currentColor,currentColor) 6px 0 / 1px 100% no-repeat,
+    linear-gradient(currentColor,currentColor) 0 2px / 100% 1px no-repeat,
+    linear-gradient(currentColor,currentColor) 0 6px / 100% 1px no-repeat;
+}
+html[data-theme] .key[data-key="A–D"]{min-width:28px;padding:0 4px}
+html[data-theme] .key.key-knob{border-radius:999px;padding-left:8px;padding-right:8px}
+html[data-theme="dark"] .key.key-orange{
+  color:#ffd8bd;background:linear-gradient(#74301f,#421a16);
+  border-color:#ff7841;border-bottom-color:#a83c20;
+  box-shadow:inset 0 1px 0 rgba(255,190,145,.18),0 0 8px rgba(255,120,65,.2);
+}
+html[data-theme="dark"] .key:is(.key-white,.key-group){
+  color:#f4effc;background:linear-gradient(#5d5867,#403b4a);
+  border-color:#81788f;border-bottom-color:#5d5669;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.13),0 1px 2px rgba(0,0,0,.4);
+}
+html[data-theme="dark"] :is(.key,.commit-key):is(.ks,.key-shift){
+  color:#f5efff;background:linear-gradient(#746d80,#50495c);
+  border-color:#978ba8;border-bottom-color:#665e73;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.16),0 0 6px rgba(182,140,255,.1);
+}
+html[data-theme="dark"] .key.key-gray{
+  color:#f2f7fa;background:linear-gradient(#78848a,#555f65);
+  border-color:#929fa5;border-bottom-color:#606b70;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.16),0 1px 2px rgba(0,0,0,.4);
+}
+}
+
 /* ── SUB-ROW (system settings indent) ─────────────────────── */
 .sub-row .row-combo{padding-left:14px}
 
@@ -602,7 +827,7 @@ main{padding:0 24px}
 .rows-grid .row.sys-head-row .row-badge{grid-column:4;grid-row:1}
 
 /* ── RESPONSIVE ──────────────────────────────────────────── */
-@media(max-width:800px){
+@media screen and (max-width:800px){
   body{padding-top:var(--expanded-header-height,168px)}
   header{position:fixed;left:0;right:0;width:100%;max-width:1100px;margin:0 auto}
   header.compact{padding-top:8px;padding-bottom:8px}
@@ -613,27 +838,31 @@ main{padding:0 24px}
   #search-clear{width:44px}
   #filters-toggle{display:inline-block}
   .filters{
-    display:none;position:fixed;left:0;right:0;bottom:0;z-index:80;
-    max-height:min(72vh,620px);overflow-y:auto;align-content:flex-start;
-    gap:8px;padding:54px 16px max(20px,env(safe-area-inset-bottom));
-    background:var(--card);border-top:2px solid var(--text);
-    border-radius:12px 12px 0 0;box-shadow:0 -8px 30px rgba(0,0,0,.18);
+    display:none;position:fixed;inset:0;z-index:80;
+    max-height:none;overflow-y:auto;align-content:flex-start;
+    gap:8px;padding:calc(66px + env(safe-area-inset-top)) 16px max(20px,env(safe-area-inset-bottom));
+    background:var(--card);border:0;border-radius:0;
   }
   .filters.open{display:flex}
   .filters-sheet-head{
-    display:flex;position:absolute;left:16px;right:12px;top:10px;
+    display:flex;position:fixed;left:0;right:0;top:0;z-index:81;
+    min-height:calc(56px + env(safe-area-inset-top));
+    padding:env(safe-area-inset-top) 12px 0 16px;
     align-items:center;justify-content:space-between;
+    background:var(--card);border-bottom:1px solid var(--border2);
     font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;
   }
   .filters-close{
     width:44px;height:36px;border:0;background:none;color:var(--muted);
     font-size:18px;cursor:pointer;
   }
-  .filters-backdrop.open{
-    display:block;position:fixed;inset:0;z-index:79;background:rgba(0,0,0,.38);
-  }
+  .filters-backdrop.open{display:none}
   .filter{min-height:44px;padding:9px 14px;font-size:10px}
   body.filters-open{overflow:hidden}
+  html[data-theme="dark"] body.filters-open header{
+    -webkit-backdrop-filter:none;
+    backdrop-filter:none;
+  }
   .mobile-overview{border-bottom:1px solid var(--border2)}
   .mobile-overview-summary{
     display:flex;align-items:center;justify-content:space-between;min-height:48px;
@@ -675,6 +904,12 @@ main{padding:0 24px}
     padding:0;background:var(--bg);
     scroll-margin-top:calc(var(--sticky-header-height,62px) + 8px);
   }
+  html[data-theme="dark"] .section-group .s-head{
+    background:linear-gradient(90deg,color-mix(in srgb,var(--section-accent) 9%,rgba(8,7,13,.96)),rgba(8,7,13,.96) 56%);
+    -webkit-backdrop-filter:blur(8px);
+    backdrop-filter:blur(8px);
+  }
+  html[data-theme="dark"] :is(.orient,.qref){background:var(--bg)}
   .section-toggle{cursor:pointer;min-height:44px}
   .section-chevron{display:inline-block;transition:transform .12s ease}
   .section-group:not(.collapsed) .section-chevron{transform:rotate(180deg)}
@@ -683,6 +918,12 @@ main{padding:0 24px}
 
 /* ── PRINT ───────────────────────────────────────────────── */
 @media print{
+  html,html[data-theme="dark"]{
+    color-scheme:light;
+    --bg:#fff;--card:#fff;--border:#ddd;--border2:#aaa;
+    --text:#111;--sub:#111;--muted:#333;--dim:#555;
+    --red:#b8380c;--key-bg:#eceae6;--key-text:#111;
+  }
   @page{margin:8mm 10mm;size:Letter}
 
   html{background:#fff;color:#111;font-size:10px}
@@ -715,7 +956,7 @@ main{padding:0 24px}
     font-size:7.5px;padding:1px 5px;
     background:#eceae6;border:1px solid #999;border-bottom:2px solid #999;color:#111;
   }
-  .commit-key.ks{background:#f5e8e6;color:#b01808;border-color:#c03020;border-bottom-color:#c03020}
+  .commit-key.ks{background:#d8dad9;color:#111;border-color:#999;border-bottom-color:#777}
   .commit-steps{gap:5px}
 
   /* Workflow section */
@@ -735,7 +976,7 @@ main{padding:0 24px}
   .wf-num{font-size:8px}
   .wf-title{font-size:9.5px;margin-bottom:2px}
   .wf-combo .key{font-size:7px;padding:1px 5px;background:#eceae6;border:1px solid #999;border-bottom:2px solid #999;color:#111}
-  .wf-combo .key.ks{background:#f5e8e6;color:#b01808;border-color:#c03020;border-bottom-color:#c03020}
+  .wf-combo .key.ks{background:#d8dad9;color:#111;border-color:#999;border-bottom-color:#777}
   .wf-combo .op{font-size:9px}
   .wf-desc{font-size:8.5px}
 
@@ -839,9 +1080,11 @@ main{padding:0 24px}
     -webkit-print-color-adjust:exact;print-color-adjust:exact;
   }
   .key.ks{
-    background:#f5e8e6;color:#b01808;
-    border-color:#c03020;border-bottom-color:#c03020;
+    background:#d8dad9;color:#111;
+    border-color:#999;border-bottom-color:#777;
   }
+  .key.key-orange{background:#f6c1ae;color:#6f210a;border-color:#d66a43;border-bottom-color:#b34a27}
+  .key.key-gray{background:#c1c6c8;color:#111;border-color:#888;border-bottom-color:#777}
   .op{color:#000;font-size:10px;font-weight:700}
   .op-chip{background:#eceae6;border-color:#999;color:#111}
   .combo-legend{
@@ -989,12 +1232,17 @@ main{padding:0 24px}
       <a class="h-print-btn h-icon-btn" href="https://github.com/josephharrington/ep133-cheatsheet" target="_blank" rel="noopener" aria-label="View source on GitHub" title="View source on GitHub">
         <svg viewBox="0 0 16 16" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.02 1.93-.02 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
       </a>
+      <button class="h-print-btn h-icon-btn h-theme-btn" id="theme-toggle" type="button">
+        <svg class="theme-icon-moon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M13.5 10.2A5.8 5.8 0 0 1 5.8 2.5 5.8 5.8 0 1 0 13.5 10.2Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+        <svg class="theme-icon-sun" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="2.7" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.2v1.5M8 13.3v1.5M1.2 8h1.5M13.3 8h1.5M3.2 3.2l1.1 1.1M11.7 11.7l1.1 1.1M12.8 3.2l-1.1 1.1M4.3 11.7l-1.1 1.1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+      </button>
       <span class="h-btn-divider"></span>
       <div class="legend-pop-wrap">
         <button class="h-print-btn" id="legend-btn" onclick="toggleLegend()" aria-expanded="false" aria-controls="legend">legend</button>
         <div class="combo-legend" id="legend">
           <span class="combo-legend-item"><span id="legend-key"></span> press</span>
-          <span class="combo-legend-item"><span id="legend-pad"></span> numbered pad</span>
+          <span class="combo-legend-item"><span id="legend-pad"></span> any black pad (0–9, dot, or ENTER)</span>
+          <span class="combo-legend-item"><span id="legend-group"></span> any group pad (A, B, C, or D)</span>
           <span class="combo-legend-item"><span class="op-chip">+</span> hold &amp; press together</span>
           <span class="combo-legend-item"><span class="op-chip">→</span> then (release first)</span>
           <span class="combo-legend-item"><span id="legend-held"></span> extended or timed hold</span>
@@ -1400,7 +1648,7 @@ const DATA = [
   {s:'step',  c:'hold [SHIFT] + turn [KNOB X]',         d:'Set the playback velocity (strength) of every note at the current step'},
   {s:'step',  c:'hold [SHIFT] + turn [KNOB Y]',         d:'Set how long every note at the current step is held'},
 // ── PATTERNS ────────────────────────────────────────────────
-  {s:'patterns',c:'hold [GROUP] + [−] / [+]',           d:'Select the previous or next pattern; type a pattern number on the pads to jump directly'},
+  {s:'patterns',c:'hold [A–D] + [−] / [+]',             d:'Select the previous or next pattern; type a pattern number on the pads to jump directly'},
   {s:'patterns',c:'hold [A] + [B] + [−] / [+]',             d:'Hold multiple groups to move their patterns together while preserving their relative offsets'},
   {s:'patterns',c:'[SHIFT] + [A]',                      d:'Jump to the next empty pattern'},
   {s:'patterns',c:'[MAIN] + [TEMPO] → turn [KNOB X] / [KNOB Y]', d:'Set the current pattern’s time signature: X changes the beats per bar (numerator); Y changes the beat unit (denominator)'},
@@ -1427,7 +1675,7 @@ const DATA = [
   {s:'edit',   c:'hold [#] → [SHIFT] + [C]',            d:'Copy only this pad\'s notes',n:true},
   {s:'edit',   c:'hold [#] → [SHIFT] + [D]',            d:'Paste notes to only this pad',n:true},
 // ── ERASE ───────────────────────────────────────────────────
-  {s:'erase',  c:'hold [ERASE] + hold [GROUP]',         d:'Erase the current pattern; hold until PTN blinks'},
+  {s:'erase',  c:'hold [ERASE] + hold [A–D]',           d:'Erase the current pattern; hold until PTN blinks'},
   {s:'erase',  c:'hold [ERASE] + hold [SOUND]',         d:'Permanently delete the selected sample; hold until SND blinks',risk:'permanent'},
   {s:'erase',  c:'hold [ERASE] + hold [FADER] (2s, while stopped)', d:'Erase all fader automation; the fader resets to the position where it was held'},
   {s:'erase',  c:'[ERASE] + [FADER] (while playing)',         d:'Erase fader automation live while playing'},
@@ -1460,7 +1708,7 @@ const DATA = [
   {s:'fader',  c:'hold [FADER]',                        d:'Show the current fader assignments; assignments with active automation blink'},
   {s:'fader',  c:'hold [RECORD] + move [FADER]',        d:'Record continuous fader movement during playback; while step sequencing, latch the current fader position onto the current step'},
   {s:'fader',  c:'[SHIFT] + [FADER]',                   d:'Reset every virtual fader assignment in the current group (RES); press again to restore them (SET). Disabled during playback'},
-  {s:'fader',  c:'hold [GROUP] + move [FADER]',         d:'Adjust that group\'s project-wide volume; this spans all patterns and cannot be automated'},
+  {s:'fader',  c:'hold [A–D] + move [FADER]',           d:'Adjust that group\'s project-wide volume; this spans all patterns and cannot be automated'},
   {s:'fader',  c:'hold [SHIFT] + move [FADER]',         d:'Fine-tune fader position with higher precision'},
 // ── EFFECTS ───────────────────────────────────────────────────
   {s:'effects',c:'[FX]',                                 d:'Enter {mode:FX} mode and choose delay, reverb, distortion, chorus, filter, or compressor',entry:true},
@@ -1473,16 +1721,16 @@ const DATA = [
   {s:'effects',c:'{screen:CHO} turn [KNOB X] / [KNOB Y]',d:'Chorus: X changes how quickly the sound is modulated; Y changes the effect’s intensity through feedback'},
   {s:'effects',c:'{screen:FLT} turn [KNOB X] / [KNOB Y]',d:'Filter: X sets the cutoff (left removes highs; right removes lows); Y emphasizes frequencies around the cutoff'},
   {s:'effects',c:'{screen:CMP} turn [KNOB X] / [KNOB Y]',d:'Compressor: X drives more signal into the compressor for a stronger effect; Y changes how quickly it responds'},
-  {s:'effects',c:'select [GROUP] → move [FADER]',       d:'Adjust that group’s independent send to the selected master effect'},
+  {s:'effects',c:'select [A–D] → move [FADER]',         d:'Adjust that group’s independent send to the selected master effect'},
   {s:'effects',c:'[MAIN] → turn [KNOB X] / [KNOB Y]', d:'With something connected to the line input, X adjusts its volume and Y adjusts how much is sent to the selected master effect'},
   {s:'effects',c:'hold [FX] + [#] (while playing)',     d:'Temporarily apply a pressure-sensitive punch-in FX; combine pads to layer them. These performance effects are separate from the selected master effect and group sends'},
   {s:'effects',c:'hold [FX] + [2] (while playing)',     d:'Apply tape stop; the slowdown also affects outgoing MIDI clock, so synchronized gear follows it'},
-  {s:'effects',c:'hold [FX] + [GROUP] (while playing)', d:'Momentarily solo that group and make it the selected group for editing; hold multiple groups to solo them together'},
+  {s:'effects',c:'hold [FX] + [A–D] (while playing)',   d:'Momentarily solo that group and make it the selected group for editing; hold multiple groups to solo them together'},
 // ── OUTPUT SETTINGS ─────────────────────────────────────────
   {s:'output', c:'[SHIFT] + [FX]',                      d:'Enter {mode:Output Settings}. X adjusts drive and Y adjusts response speed for the final master compressor, which processes the summed mix and is separate from the Compressor effect selectable in FX mode',entry:true},
   {s:'output', c:'[+]',                                 d:'Open {page:Sidechain} settings for note-triggered ducking, separate from both compressor effects'},
-  {s:'output', c:'hold [GROUP] + select [#]',           d:'Add that sound as a sidechain trigger source; its notes trigger ducking even when the sound itself is silent',p:'sidechain'},
-  {s:'output', c:'[SHIFT] + [GROUP]',                   d:'Add that group as a sidechain destination whose level will be ducked',p:'sidechain'},
+  {s:'output', c:'hold [A–D] + select [#]',             d:'Add that sound as a sidechain trigger source; its notes trigger ducking even when the sound itself is silent',p:'sidechain'},
+  {s:'output', c:'[SHIFT] + [A–D]',                     d:'Add that group as a sidechain destination whose level will be ducked',p:'sidechain'},
   {s:'output', c:'turn [KNOB X] / [KNOB Y]',            d:'X sets how long each source note ducks the destination; Y changes the shape of the volume dip',p:'sidechain'},
 // ── SOUND ───────────────────────────────────────────────────
   {s:'sound',  c:'[SOUND]',                             d:'Enter {mode:Sound} mode to browse and assign samples to pads',entry:true},
@@ -1526,8 +1774,8 @@ const DATA = [
   {s:'sample', c:'hold [FX] + turn [KNOB X] / [KNOB Y] (latched resampling)', d:'Adjust the selected effect live while the hands-free resample is being captured',n:true},
   {s:'sample', c:'[−] / [+] (hands-free sampling)',         d:'Select the number of bars to resample per capture'},
   {s:'chop',   c:'[SHIFT] + [SAMPLE] → CHOP',           d:'Enter {mode:Chop} mode to slice a sample across a group\'s pads',entry:true},
-  {s:'chop',   c:'[GROUP]',                             d:'Select the destination group. This resets its pad assignments, so use an empty group or one you are willing to overwrite',risk:'overwrites pads'},
-  {s:'chop',   c:'[GROUP] + [−] / [+]',                 d:'Switch between equal-length slices and attack detection',n:true},
+  {s:'chop',   c:'[A–D]',                               d:'Select the destination group. This resets its pad assignments, so use an empty group or one you are willing to overwrite',risk:'overwrites pads'},
+  {s:'chop',   c:'[A–D] + [−] / [+]',                   d:'Switch between equal-length slices and attack detection',n:true},
   {s:'chop',   c:'[−] / [+] (equal-length)',             d:'Set the number of equal-length slices per group'},
   {s:'chop',   c:'[#] (live mode)',                      d:'Live Chop: tap pads as the sample plays; each slice spans the time between consecutive taps'},
   {s:'chop',   c:'turn [KNOB X] / [KNOB Y] (pad selected)', d:'X moves the selected slice\'s start point; Y moves its end point. Hold SHIFT for finer control'},
@@ -1683,6 +1931,18 @@ function renderSignalFlow() {
 function renderContext(txt) {
   return `<span class="ctx">(${escH(txt)})</span>`;
 }
+function physicalKeyClass(label) {
+  if (label === 'SHIFT') return 'key-shift';
+  if (['RECORD','SAMPLE','COMMIT'].includes(label)) return 'key-orange';
+  if (label === 'PLAY') return 'key-gray';
+  if (['A','B','C','D','A–D'].includes(label)) return 'key-group';
+  if (label === '#' || /^\d$/.test(label)) return 'key-pad';
+  if (['−','+','EDIT','CHOP','OUTPUT','CORRECT','SYSTEM'].includes(label)) return 'key-white';
+  if (label === 'LOOP') return 'key-light';
+  if (label === 'KNOB X') return 'key-knob key-orange';
+  if (label === 'KNOB Y') return 'key-knob';
+  return '';
+}
 function renderCombo(str) {
   let html = '';
   const re = /\[([^\]]+)\]|(→|↔|\+)|\(([^)]+)\)|\{screen:([^}]+)\}/g;
@@ -1697,9 +1957,9 @@ function renderCombo(str) {
       }
     }
     if (m[1]) {
-      const cls = ['key', m[1]==='SHIFT'?'ks':'', pendingHold?'held':''].filter(Boolean).join(' ');
+      const cls = ['key', physicalKeyClass(m[1]), m[1]==='SHIFT'?'ks':'', pendingHold?'held':''].filter(Boolean).join(' ');
       const holdAttrs = pendingHold ? ` title="hold" aria-label="hold ${escH(m[1])}"` : '';
-      html += `<span class="${cls}"${holdAttrs}>${escH(m[1])}</span>`;
+      html += `<span class="${cls}" data-key="${escH(m[1])}"${holdAttrs}>${escH(m[1])}</span>`;
       pendingHold = false;
     } else if (m[2]) {
       html += `<span class="op">${m[2]}</span>`;
@@ -1739,6 +1999,7 @@ document.getElementById('qref-fx-label').innerHTML    = renderCombo('[FX]');
 document.getElementById('qref-fader-label').innerHTML = renderCombo('[FADER]');
 document.getElementById('legend-key').innerHTML       = renderCombo('[KEY]');
 document.getElementById('legend-pad').innerHTML       = renderCombo('[#]');
+document.getElementById('legend-group').innerHTML     = renderCombo('[A–D]');
 document.getElementById('legend-held').innerHTML      = renderCombo('hold [KEY]');
 
 // Tips inline chips
@@ -2156,6 +2417,24 @@ searchInput.addEventListener('keydown', e => {
   clearSearch();
 });
 searchClear.addEventListener('click', clearSearch);
+
+const themeToggle = document.getElementById('theme-toggle');
+const themeColor = document.getElementById('theme-color');
+function syncThemeToggle() {
+  const dark = document.documentElement.dataset.theme === 'dark';
+  const target = dark ? 'light' : 'dark';
+  themeToggle.setAttribute('aria-label', `Switch to ${target} mode`);
+  themeToggle.setAttribute('title', `Switch to ${target} mode`);
+  themeToggle.setAttribute('aria-pressed', String(dark));
+  themeColor.content = dark ? '#08070d' : '#f0ebe0';
+}
+themeToggle.addEventListener('click', () => {
+  const theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+  document.documentElement.dataset.theme = theme;
+  try { localStorage.setItem('ep133-theme', theme); } catch {}
+  syncThemeToggle();
+});
+syncThemeToggle();
 
 window.addEventListener('popstate', () => {
   const state = stateFromUrl();
