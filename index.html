@@ -2207,8 +2207,11 @@ function render() {
   [orient, extras, qref].forEach(clearSearchHighlights);
   const searchTerms = searchTerm.toLowerCase().split(/\s+/).filter(Boolean);
   const searchGroups = searchTerms.map(term => SEARCH_ALIASES[term] || [term]);
-  const highlightTerms = [...new Set(searchGroups.flat())];
+  const keySearches = searchTerms.map(term => ({'+':'+','-':'−','−':'−'})[term] || '');
+  const hasKeySearch = keySearches.some(Boolean);
+  const highlightTerms = [...new Set(searchGroups.flatMap((group,index) => keySearches[index] ? [] : group))];
   const matchesSearch = el => {
+    if (hasKeySearch) return false;
     const text = el.textContent.toLowerCase();
     return searchGroups.every(group => group.some(term => text.includes(term)));
   };
@@ -2242,7 +2245,10 @@ function render() {
     const matchesRowSearch = d => {
       const plain = d.c.replace(/\[([^\]]+)\]/g,'$1').toLowerCase();
       const searchable = `${plain} ${plainDescription(d.d)} ${d.risk || ''} ${d.p || ''} ${PAGE_DISPLAY_CODES[d.p] || ''} ${sec.label}`.toLowerCase();
-      return searchGroups.every(group => group.some(term => searchable.includes(term)));
+      const comboKeys = new Set([...d.c.matchAll(/\[([^\]]+)\]/g)].map(match => match[1]));
+      return searchGroups.every((group,index) => keySearches[index]
+        ? comboKeys.has(keySearches[index])
+        : group.some(term => searchable.includes(term)));
     };
     const directMatches = searchTerms.length ? sectionData.filter(matchesRowSearch) : [];
     const rows = searchTerms.length
