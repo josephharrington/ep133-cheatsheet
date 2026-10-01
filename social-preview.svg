@@ -54,7 +54,7 @@
     <rect x="68" y="466" width="161" height="37" rx="4" fill="#faf7f2" stroke="#b8a895" stroke-width="2"/>
     <text x="148.5" y="490" text-anchor="middle" fill="#b83b12" font-size="14" font-weight="700" letter-spacing="1.3">FIRMWARE v2.5</text>
 
-    <text x="70" y="552" fill="#625b53" font-size="14" letter-spacing="0.45">josephharrington.github.io/ep133-cheatsheet</text>
+    <text x="70" y="552" fill="#625b53" font-size="14" letter-spacing="0.45">ep133.joeyh.org</text>
   </g>
 
   <!-- Simplified reconstruction based on the physical EP-133 faceplate. -->
