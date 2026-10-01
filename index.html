@@ -1287,7 +1287,7 @@ html[data-theme="dark"] .key.key-gray{
       <div class="hier-row">
         <span class="hier-indent"></span>
         <span class="hier-name">project</span>
-        <span class="hier-note">· 9 total; each is a song</span>
+        <span class="hier-note">· 9 total; each can contain one composition or song</span>
       </div>
       <div class="hier-row">
         <span class="hier-indent">  └─ </span>
@@ -1356,7 +1356,7 @@ html[data-theme="dark"] .key.key-gray{
       <div>
         <div class="wf-title">pick a project</div>
         <div class="wf-combo" id="wf0"></div>
-        <div class="wf-desc">projects 1–5 are populated; 6–9 are empty by default. hold MAIN to see the current project</div>
+        <div class="wf-desc">on a factory-fresh device, projects 1–5 contain demo material and 6–9 are empty. hold MAIN to see the current project</div>
       </div>
     </div>
 
@@ -1374,7 +1374,7 @@ html[data-theme="dark"] .key.key-gray{
       <div>
         <div class="wf-title">load sounds</div>
         <div class="wf-combo" id="wf2"></div>
-        <div class="wf-desc">select a pad → browse with −/+. kicks are 1–99, snares are 100–199, and so on</div>
+        <div class="wf-desc">select a pad → browse with −/+. factory kicks are 1–99, snares are 100–199, and so on</div>
       </div>
     </div>
 
@@ -1401,7 +1401,7 @@ html[data-theme="dark"] .key.key-gray{
       <div>
         <div class="wf-title">fix with step sequencer</div>
         <div class="wf-combo" id="wf5"></div>
-        <div class="wf-desc">move through steps with −/+; add notes with RECORD+PAD and remove them with ERASE+PAD</div>
+        <div class="wf-desc">move through steps with −/+; tap RECORD+PAD to add a note at that step or ERASE+PAD to remove it</div>
       </div>
     </div>
 
@@ -1526,7 +1526,7 @@ html[data-theme="dark"] .key.key-gray{
 
   <!-- SAMPLE LIBRARY + FADER -->
   <div class="qref-panel">
-    <div class="qref-head">sample library ranges</div>
+    <div class="qref-head">factory sample ranges</div>
     <div class="slots">
       <div class="slot-row">
         <span class="slot-range">001–099</span>
@@ -1562,7 +1562,7 @@ html[data-theme="dark"] .key.key-gray{
 
     <div class="qref-head qref-sep">fader modes · <span id="qref-fader-label"></span> + labeled pad</div>
     <div class="fader-table">
-      <div class="fader-entry"><span class="fader-name def">level ★</span><span class="fader-def">group/pattern volume</span></div>
+      <div class="fader-entry"><span class="fader-name def">level ★</span><span class="fader-def">current group’s pattern level</span></div>
       <div class="fader-entry"><span class="fader-name">pitch</span><span class="fader-def">semitone pitch shift</span></div>
       <div class="fader-entry"><span class="fader-name">time</span><span class="fader-def">playback speed or stretch</span></div>
       <div class="fader-entry"><span class="fader-name">lpf</span><span class="fader-def">low-pass filter</span></div>
@@ -1583,13 +1583,13 @@ html[data-theme="dark"] .key.key-gray{
     <div class="qref-head">easy to miss</div>
     <ul class="tips-list">
       <li>Hold <span id="tip-shift"></span> while turning any knob → slow/precise adjustment</li>
-      <li>Hold a pad in SOUND mode → see the sample name on screen</li>
+      <li>Hold a pad in SOUND mode → see the sample name on screen, if it has one</li>
       <li>Umbrella icon lit → undo available; press <span id="tip-undo"></span></li>
       <li>Hold <span id="tip-fx"></span> while playing, then press GROUP pads → momentary per-group solo</li>
       <li>Hold + or − during playback → temporarily nudge tempo up or down</li>
       <li>In step mode, hold <span id="tip-rec"></span> and hold a pad → write a longer note</li>
       <li>In SOUND mode, type a sample number (e.g. 1·0·3), then press ENTER → jump directly to that slot</li>
-      <li>Lock mode: hold <span id="tip-main"></span> on power-up → prevent changes from being auto-saved to disk</li>
+      <li>Lock mode: hold <span id="tip-main"></span> on power-up → changes work temporarily but are not saved; restart to restore the saved state</li>
       <li><span id="tip-shift2"></span> + <span id="tip-fx2"></span> → master compressor &amp; sidechain settings</li>
       <li>Tape stop (punch-in FX pad 2) affects MIDI clock output, which is useful for synced gear</li>
       <li>Pad velocity is off by default. In System Settings, use pad → vel → hi for a soft touch or pad → vel → lo for vigorous playing</li>
@@ -1683,7 +1683,7 @@ html[data-theme="dark"] .key.key-gray{
         <div class="row-badge"></div>
       </div><div class="row">
         <div class="row-combo"><span class="key" data-key="ERASE">ERASE</span><span class="op">+</span><span class="key key-pad" data-key="#">#</span><span class="ctx">(while stopped)</span></div>
-        <div class="row-desc">Erase that pad's note at the current step</div>
+        <div class="row-desc">Tap to erase that pad’s note at the current step; do not hold long enough for TRK to blink</div>
 
         <div class="row-badge"></div>
       </div><div class="row">
@@ -1698,7 +1698,7 @@ html[data-theme="dark"] .key.key-gray{
         <div class="row-badge"></div>
       </div><div class="row">
         <div class="row-combo"><span class="key key-shift ks" data-key="SHIFT">SHIFT</span><span class="op">+</span><span class="key key-pad" data-key="#">#</span><span class="op">+</span><span class="key key-white" data-key="−">−</span><span class="ctx">/</span><span class="key key-white" data-key="+">+</span></div>
-        <div class="row-desc">Nudge the note by steps in quantize mode or ticks in free-time mode</div>
+        <div class="row-desc">Nudge that pad’s note at the current step by steps in quantize mode or ticks in free-time mode</div>
 
         <div class="row-badge"></div>
       </div><div class="row">
@@ -1719,12 +1719,17 @@ html[data-theme="dark"] .key.key-gray{
       </button>
     </h2><div class="section-body" id="section-body-patterns"><div class="row">
         <div class="row-combo"><span class="key key-group held" data-key="A–D" title="hold" aria-label="hold A–D">A–D</span><span class="op">+</span><span class="key key-white" data-key="−">−</span><span class="ctx">/</span><span class="key key-white" data-key="+">+</span></div>
-        <div class="row-desc">Select the previous or next pattern; type a pattern number on the pads to jump directly</div>
+        <div class="row-desc">Select the previous or next pattern for that group</div>
 
         <div class="row-badge"></div>
       </div><div class="row">
-        <div class="row-combo"><span class="key key-group held" data-key="A" title="hold" aria-label="hold A">A</span><span class="op">+</span><span class="key key-group" data-key="B">B</span><span class="op">+</span><span class="key key-white" data-key="−">−</span><span class="ctx">/</span><span class="key key-white" data-key="+">+</span></div>
-        <div class="row-desc">Hold multiple groups to move their patterns together while preserving their relative offsets</div>
+        <div class="row-combo"><span class="key key-group held" data-key="A–D" title="hold" aria-label="hold A–D">A–D</span><span class="op">+</span><span class="ctx">numpad</span></div>
+        <div class="row-desc">Jump directly to that group’s pattern number</div>
+
+        <div class="row-badge"></div>
+      </div><div class="row">
+        <div class="row-combo"><span class="key key-group held" data-key="A–D" title="hold" aria-label="hold A–D">A–D</span><span class="op">+</span><span class="key key-group" data-key="A–D">A–D</span><span class="op">+</span><span class="key key-white" data-key="−">−</span><span class="ctx">/</span><span class="key key-white" data-key="+">+</span></div>
+        <div class="row-desc">Hold two or more groups to move their patterns together while preserving their relative offsets</div>
 
         <div class="row-badge"></div>
       </div><div class="row">
@@ -1755,7 +1760,7 @@ html[data-theme="dark"] .key.key-gray{
         <div class="row-badge"></div>
       </div><div class="row">
         <div class="row-combo"><span class="key held" data-key="MAIN" title="hold" aria-label="hold MAIN">MAIN</span><span class="op">+</span><span class="key key-pad held" data-key="#" title="hold" aria-label="hold #">#</span><span class="ctx">(1–9)</span></div>
-        <div class="row-desc">Switch projects: 1–5 are populated and 6–9 are empty by default</div>
+        <div class="row-desc">Switch projects. On a factory-fresh device, 1–5 contain demo material and 6–9 are empty</div>
 
         <div class="row-badge"></div>
       </div><div class="row">
@@ -1796,7 +1801,7 @@ html[data-theme="dark"] .key.key-gray{
         <div class="row-badge"></div>
       </div><div class="row">
         <div class="row-combo"><span class="key key-shift ks" data-key="SHIFT">SHIFT</span><span class="op">+</span><span class="key key-group" data-key="C">C</span></div>
-        <div class="row-desc">Cut scene from current song position to clipboard</div>
+        <div class="row-desc">Cut the current song-position entry to the clipboard; the referenced scene itself is not deleted</div>
 
         <div class="row-badge"></div>
       </div><div class="row">
@@ -1904,7 +1909,7 @@ html[data-theme="dark"] .key.key-gray{
       </button>
     </h2><div class="section-body" id="section-body-keys"><div class="row">
         <div class="row-combo"><span class="key" data-key="KEYS">KEYS</span></div>
-        <div class="row-desc">Enter <span class="mode-ref">Keys</span> mode and play the selected sound chromatically across all 12 pads</div>
+        <div class="row-desc">Enter <span class="mode-ref">Keys</span> mode and play the selected sound across all 12 pads using the project’s current root note and scale</div>
 
         <div class="row-badge"></div>
       </div><div class="row">
@@ -2016,7 +2021,7 @@ html[data-theme="dark"] .key.key-gray{
         <div class="row-badge"></div>
       </div><div class="row">
         <div class="row-combo"><span class="key key-pad held" data-key="#" title="hold" aria-label="hold #">#</span><span class="ctx">(while playing)</span></div>
-        <div class="row-desc">Live-quantize notes on that pad while held</div>
+        <div class="row-desc">As playback passes them, quantize existing notes on that pad while held; the display counts the corrected notes</div>
 
         <div class="row-badge"></div>
       </div><div class="row">
@@ -2047,12 +2052,12 @@ html[data-theme="dark"] .key.key-gray{
         <div class="row-badge"></div>
       </div><div class="row">
         <div class="row-combo"><span class="key key-shift ks" data-key="SHIFT">SHIFT</span><span class="op">+</span><span class="key" data-key="FADER">FADER</span></div>
-        <div class="row-desc">Reset every virtual fader assignment in the current group (RES); press again to restore them (SET). Disabled during playback</div>
+        <div class="row-desc">Reset every virtual fader assignment in the selected group to its default value (RES); press again to recall the previous values (SET). Disabled during playback</div>
 
         <div class="row-badge"></div>
       </div><div class="row">
         <div class="row-combo"><span class="key key-group held" data-key="A–D" title="hold" aria-label="hold A–D">A–D</span><span class="op">+</span><span class="ctx">move</span><span class="key" data-key="FADER">FADER</span></div>
-        <div class="row-desc">Adjust that group's project-wide volume; this spans all patterns and cannot be automated</div>
+        <div class="row-desc">Adjust that group’s project-wide volume; this spans all patterns and cannot be automated</div>
 
         <div class="row-badge"></div>
       </div><div class="row">
@@ -2158,7 +2163,7 @@ html[data-theme="dark"] .key.key-gray{
         <div class="row-badge"></div>
       </div><div class="row">
         <div class="row-combo"><span class="key" data-key="MAIN">MAIN</span><span class="op">→</span><span class="ctx">turn</span><span class="key key-knob key-orange" data-key="KNOB X">KNOB X</span><span class="ctx">/</span><span class="key key-knob" data-key="KNOB Y">KNOB Y</span></div>
-        <div class="row-desc">With something connected to the line input, X adjusts its volume and Y adjusts how much is sent to the selected master effect</div>
+        <div class="row-desc">In Main view with line input connected, X sets its input volume and Y sets its send to the selected master effect</div>
 
         <div class="row-badge"></div>
       </div><div class="row">
@@ -2184,7 +2189,12 @@ html[data-theme="dark"] .key.key-gray{
       </button>
     </h2><div class="section-body" id="section-body-output"><div class="row">
         <div class="row-combo"><span class="key key-shift ks" data-key="SHIFT">SHIFT</span><span class="op">+</span><span class="key" data-key="FX">FX</span></div>
-        <div class="row-desc">Enter <span class="mode-ref">Output Settings</span>. X adjusts drive and Y adjusts response speed for the final master compressor, which processes the summed mix and is separate from the Compressor effect selectable in FX mode</div>
+        <div class="row-desc">Enter <span class="mode-ref">Output Settings</span>; X adjusts drive and Y adjusts response speed for the final master compressor</div>
+
+        <div class="row-badge"></div>
+      </div><div class="row concept-row" role="note">
+        <div class="row-combo"><span class="concept-label"><span class="concept-icon" aria-hidden="true">i</span>how it works</span><span class="ctx bare">Final compressor</span></div>
+        <div class="row-desc">This compressor processes the summed mix after the shared Master FX. It is separate from the Compressor effect selectable in FX mode.</div>
 
         <div class="row-badge"></div>
       </div><div class="row">
@@ -2279,7 +2289,7 @@ html[data-theme="dark"] .key.key-gray{
         <div class="row-badge"></div>
       </div><div class="row">
         <div class="row-combo"><span class="key key-orange" data-key="SAMPLE">SAMPLE</span><span class="op">+</span><span class="key" data-key="TEMPO">TEMPO</span></div>
-        <div class="row-desc">Match tempo by listening to the audio input and setting BPM</div>
+        <div class="row-desc">Listen to the built-in mic or line input, detect its tempo, and set the project BPM to the detected value</div>
 
         <div class="row-badge"></div>
       </div></div></section><section class="section-group section-sound"><h2 class="s-head" id="section-sound">
@@ -2300,7 +2310,7 @@ html[data-theme="dark"] .key.key-gray{
         <div class="row-badge"></div>
       </div><div class="row">
         <div class="row-combo"><span class="key key-pad held" data-key="#" title="hold" aria-label="hold #">#</span></div>
-        <div class="row-desc">Show the selected pad’s sample name on screen</div>
+        <div class="row-desc">Show the selected pad’s sample name on screen, if it was imported or renamed with the EP Sample Tool</div>
 
         <div class="row-badge"></div>
       </div><div class="row">
@@ -2315,17 +2325,17 @@ html[data-theme="dark"] .key.key-gray{
         <div class="row-badge"></div>
       </div><div class="row">
         <div class="row-combo"><span class="ctx">numpad</span><span class="op">→</span><span class="key" data-key="ENTER">ENTER</span></div>
-        <div class="row-desc">Type a sample number and assign that library slot directly to the selected pad</div>
+        <div class="row-desc">Type a sample number and fresh-load that library slot onto the selected pad; unlike browsing away and back with −/+, this resets the pad’s sound settings for that sample</div>
 
         <div class="row-badge"></div>
       </div><div class="row">
         <div class="row-combo"><span class="ctx">turn</span><span class="key key-knob key-orange" data-key="KNOB X">KNOB X</span></div>
-        <div class="row-desc">Set the selected pad's level relative to the other pads (AMP); the edited sound plays as you turn</div>
+        <div class="row-desc">Set the selected pad’s level relative to the other pads (AMP); the edited sound plays as you turn</div>
 
         <div class="row-badge"></div>
       </div><div class="row">
         <div class="row-combo"><span class="ctx">turn</span><span class="key key-knob" data-key="KNOB Y">KNOB Y</span></div>
-        <div class="row-desc">Raise or lower the selected pad's pitch (PTC); the edited sound plays as you turn</div>
+        <div class="row-desc">Raise or lower the selected pad’s pitch (PTC); the edited sound plays as you turn</div>
 
         <div class="row-badge"></div>
       </div><div class="row">
@@ -2335,7 +2345,7 @@ html[data-theme="dark"] .key.key-gray{
         <div class="row-badge"></div>
       </div><div class="row">
         <div class="row-combo"><span class="key key-shift ks" data-key="SHIFT">SHIFT</span><span class="op">+</span><span class="key key-group" data-key="C">C</span><span class="ctx">×2</span><span class="op">→</span><span class="ctx bare">select group</span><span class="op">→</span><span class="key key-shift ks" data-key="SHIFT">SHIFT</span><span class="op">+</span><span class="key key-group" data-key="D">D</span></div>
-        <div class="row-desc">In Sound mode, copy all 12 pad sound assignments in the current group, then select a destination group and paste them</div>
+        <div class="row-desc">In Sound mode, copy all 12 pad sound assignments in the selected group, then select a destination group and paste them</div>
 
         <div class="row-badge"></div>
       </div></div></section><section class="section-group section-sound-edit"><h2 class="s-head" id="section-sound-edit">
@@ -2363,7 +2373,7 @@ html[data-theme="dark"] .key.key-gray{
         <h3 class="page-rail-label" id="page-sound-edit-sound"><span class="page-screen-code">SND</span><span class="page-name">sound</span></h3>
         <div class="page-rail-rows"><div class="row">
         <div class="row-combo"><span class="ctx">turn</span><span class="key key-knob key-orange" data-key="KNOB X">KNOB X</span><span class="ctx">/</span><span class="key key-knob" data-key="KNOB Y">KNOB Y</span></div>
-        <div class="row-desc">X chooses playback behavior: oneshot plays the full sample monophonically, key allows overlapping voices, and legato continues from the current position; Y places the sound left, center, or right</div>
+        <div class="row-desc">X chooses playback behavior: oneshot plays monophonically, key allows overlapping voices, and legato changes pitch without restarting the sample playhead while a note remains held; Y places the sound left, center, or right</div>
 
         <div class="row-badge"></div>
       </div><div class="row concept-row" role="note">
@@ -2402,7 +2412,7 @@ html[data-theme="dark"] .key.key-gray{
         <h3 class="page-rail-label" id="page-sound-edit-time"><span class="page-screen-code">TIM</span><span class="page-name">time</span></h3>
         <div class="page-rail-rows"><div class="row">
         <div class="row-combo"><span class="ctx">turn</span><span class="key key-knob key-orange" data-key="KNOB X">KNOB X</span><span class="ctx">/</span><span class="key key-knob" data-key="KNOB Y">KNOB Y</span></div>
-        <div class="row-desc">X chooses BPM, BAR, or reverse mode; Y sets the sample’s source BPM in BPM mode or its target length in BAR mode</div>
+        <div class="row-desc">X chooses BPM, BAR, or reverse. In BPM mode, Y sets the sample’s original BPM so it follows project tempo; in BAR mode, Y sets how many project bars it should occupy; reverse plays it backward</div>
 
         <div class="row-badge"></div>
       </div><div class="row">
@@ -2423,7 +2433,7 @@ html[data-theme="dark"] .key.key-gray{
         <h3 class="page-rail-label" id="page-sound-edit-mute-group"><span class="page-screen-code">GRP</span><span class="page-name">mute group</span></h3>
         <div class="page-rail-rows"><div class="row">
         <div class="row-combo"><span class="ctx">tap</span><span class="key key-pad" data-key="#">#</span></div>
-        <div class="row-desc">Toggle that pad in the current A–D group's single mute group. Members light up; when none are assigned, all pads flash. The last-played member cuts off the others</div>
+        <div class="row-desc">Toggle that pad in the selected A–D group’s single mute group. Members light up; when none are assigned, all pads flash. The last-played member cuts off the others</div>
 
         <div class="row-badge"></div>
       </div></div>
@@ -2440,7 +2450,12 @@ html[data-theme="dark"] .key.key-gray{
         <div class="row-badge"></div>
       </div><div class="row">
         <div class="row-combo"><span class="key key-pad held" data-key="#" title="hold" aria-label="hold #">#</span></div>
-        <div class="row-desc"><span class="risk-label">reassigns pad</span>Record audio to that pad; hold to capture, then release to stop and auto-trim. The recording is saved in the next available library slot and assigned to that pad. If the pad already has a sound, its assignment is replaced and existing pattern notes on that pad play the new sample; the previous library sample is not deleted. Choose a blinking unassigned pad, switching to another group if needed; some users reserve Group D for new recordings and resamples. The library has up to 999 numbered slots, subject to available storage</div>
+        <div class="row-desc"><span class="risk-label">reassigns pad</span>Hold to record to that pad, then release to stop and auto-trim. Choose a blinking unassigned pad, switching groups if needed; some users reserve Group D for new recordings and resamples</div>
+
+        <div class="row-badge"></div>
+      </div><div class="row concept-row" role="note">
+        <div class="row-combo"><span class="concept-label"><span class="concept-icon" aria-hidden="true">i</span>how it works</span><span class="ctx bare">Where recordings go</span></div>
+        <div class="row-desc">A recording is saved in the next available library slot and assigned to the destination pad. An occupied pad’s previous library sample is not deleted, but its assignment is replaced, so existing pattern notes on that pad play the new recording. The library has up to 999 numbered slots, subject to available storage.</div>
 
         <div class="row-badge"></div>
       </div><div class="row">
@@ -2505,7 +2520,7 @@ html[data-theme="dark"] .key.key-gray{
         <div class="row-badge"></div>
       </div><div class="row">
         <div class="row-combo"><span class="screen-ref">RSP</span><span class="op">→</span><span class="key key-shift ks" data-key="SHIFT">SHIFT</span><span class="op">+</span><span class="key key-pad" data-key="#">#</span><span class="op">→</span><span class="key key-gray" data-key="PLAY">PLAY</span></div>
-        <div class="row-desc">Capture the current pattern's full length to that destination pad, hands-free</div>
+        <div class="row-desc">Capture the current pattern’s full length to that destination pad, hands-free</div>
 
         <div class="row-badge"></div>
       </div><div class="row">
@@ -2515,7 +2530,7 @@ html[data-theme="dark"] .key.key-gray{
         <div class="row-badge"><span class="badge-new">2.5</span></div>
       </div><div class="row">
         <div class="row-combo"><span class="key key-white" data-key="−">−</span><span class="ctx">/</span><span class="key key-white" data-key="+">+</span><span class="ctx">(hands-free sampling)</span></div>
-        <div class="row-desc">Select the number of bars to resample per capture</div>
+        <div class="row-desc">Choose a fixed recording length in bars; press PLAY to begin the hands-free capture</div>
 
         <div class="row-badge"></div>
       </div><div class="row concept-row" role="note">
@@ -2540,13 +2555,13 @@ html[data-theme="dark"] .key.key-gray{
         <span class="section-chevron" aria-hidden="true">▾</span>
       </button>
     </h2><div class="section-body" id="section-body-chop"><div class="row">
-        <div class="row-combo"><span class="key key-shift ks" data-key="SHIFT">SHIFT</span><span class="op">+</span><span class="key key-orange" data-key="SAMPLE">SAMPLE</span><span class="op">→</span><span class="ctx">CHOP</span></div>
-        <div class="row-desc">Enter <span class="mode-ref">Chop</span> mode to slice a sample across a group's pads</div>
+        <div class="row-combo"><span class="key key-shift ks" data-key="SHIFT">SHIFT</span><span class="op">+</span><span class="key key-orange" data-key="SAMPLE">SAMPLE</span></div>
+        <div class="row-desc">Enter <span class="mode-ref">Chop</span> mode to slice a sample across a group’s pads</div>
 
         <div class="row-badge"></div>
       </div><div class="row">
         <div class="row-combo"><span class="key key-group" data-key="A–D">A–D</span></div>
-        <div class="row-desc"><span class="risk-label">overwrites pads</span>Select the destination group. This resets its pad assignments, so use an empty group or one you are willing to overwrite</div>
+        <div class="row-desc"><span class="risk-label">overwrites pads</span>Select the destination group. This replaces its pad assignments without deleting the underlying library samples, so use an empty group or one you are willing to overwrite</div>
 
         <div class="row-badge"></div>
       </div><div class="row">
@@ -2556,7 +2571,7 @@ html[data-theme="dark"] .key.key-gray{
         <div class="row-badge"><span class="badge-new">2.5</span></div>
       </div><div class="row">
         <div class="row-combo"><span class="key key-white" data-key="−">−</span><span class="ctx">/</span><span class="key key-white" data-key="+">+</span><span class="ctx">(equal-length)</span></div>
-        <div class="row-desc">Set the number of equal-length slices per group</div>
+        <div class="row-desc">Choose how many equal-length slices to create</div>
 
         <div class="row-badge"></div>
       </div><div class="row">
@@ -2566,7 +2581,7 @@ html[data-theme="dark"] .key.key-gray{
         <div class="row-badge"></div>
       </div><div class="row">
         <div class="row-combo"><span class="ctx">turn</span><span class="key key-knob key-orange" data-key="KNOB X">KNOB X</span><span class="ctx">/</span><span class="key key-knob" data-key="KNOB Y">KNOB Y</span><span class="ctx">(pad selected)</span></div>
-        <div class="row-desc">X moves the selected slice's start point; Y moves its end point. Hold SHIFT for finer control</div>
+        <div class="row-desc">X moves the selected slice’s start point; Y moves its end point. Hold SHIFT for finer control</div>
 
         <div class="row-badge"></div>
       </div></div></section><section class="section-group section-connections"><h2 class="s-head" id="section-connections">
@@ -2592,7 +2607,7 @@ html[data-theme="dark"] .key.key-gray{
         <div class="row-badge"></div>
       </div><div class="row connection-row">
         <div class="row-combo"><span class="ctx">K.O. II</span><span class="op">→</span><span class="ctx bare">MIDI instrument</span></div>
-        <div class="row-desc"><span class="label-ref">connect</span> Connect the K.O. II MIDI OUT to the instrument’s MIDI IN, or connect a compatible USB MIDI device over USB-C. <br class="detail-break"><span class="label-ref">channel</span> Assign the pad’s channel in Sound Edit → MIDI, then set the receiving instrument to that same channel. <br class="detail-break"><span class="label-ref">MIDI-only pad</span> Assign sample <span class="code-ref">000</span> so the pad sends MIDI without playing a K.O. II voice. <br class="detail-break"><span class="label-ref">clock</span> Use <span class="code-ref">102</span> if the K.O. II should also provide MIDI clock</div>
+        <div class="row-desc"><span class="label-ref">connect</span> Connect the K.O. II MIDI OUT to the instrument’s MIDI IN. Use USB-C only when the other device or an intermediary can act as the USB host for the K.O. II. <br class="detail-break"><span class="label-ref">channel</span> Assign the pad’s channel in Sound Edit → MIDI, then set the receiving instrument to that same channel. <br class="detail-break"><span class="label-ref">MIDI-only pad</span> Assign sample <span class="code-ref">000</span> so the pad sends MIDI without playing a K.O. II voice. <br class="detail-break"><span class="label-ref">clock</span> Use <span class="code-ref">102</span> if the K.O. II should also provide MIDI clock</div>
 
         <div class="row-badge"></div>
       </div><div class="row connection-row">
@@ -2657,7 +2672,7 @@ html[data-theme="dark"] .key.key-gray{
         <div class="row-badge"></div>
       </div><div class="row sub-row">
         <div class="row-combo"><span class="ctx">mid</span><span class="op">→</span><span class="ctx">chn</span><span class="op">→</span><span class="ctx">off</span></div>
-        <div class="row-desc">Send MIDI only when a channel is assigned per pad in Sound Edit</div>
+        <div class="row-desc">Send and receive MIDI voice messages only for pads with a channel assigned in Sound Edit</div>
         <div class="row-code">127</div>
         <div class="row-badge"></div>
       </div><div class="row sub-row">
@@ -2667,7 +2682,7 @@ html[data-theme="dark"] .key.key-gray{
         <div class="row-badge"></div>
       </div><div class="row sub-row">
         <div class="row-combo"><span class="ctx">mid</span><span class="op">→</span><span class="ctx">thr</span><span class="op">→</span><span class="ctx">on</span></div>
-        <div class="row-desc">Enable MIDI Thru and forward incoming MIDI through MIDI out</div>
+        <div class="row-desc">Enable MIDI Thru and forward incoming MIDI to MIDI OUT and USB</div>
         <div class="row-code">131</div>
         <div class="row-badge"></div>
       </div><div class="row sub-row">
@@ -2757,7 +2772,7 @@ html[data-theme="dark"] .key.key-gray{
         <div class="row-badge"><span class="badge-new">2.5</span></div>
       </div><div class="row sub-row sep-row">
         <div class="row-combo"><span class="ctx">pad</span><span class="op">→</span><span class="ctx">pot</span><span class="op">→</span><span class="ctx">sca</span></div>
-        <div class="row-desc">Scaling takeover (default): responds immediately without jumping by mapping the control's remaining travel from the stored value toward the end of the parameter range</div>
+        <div class="row-desc">Scaling takeover (default): responds immediately without jumping by mapping the control’s remaining travel from the stored value toward the end of the parameter range</div>
         <div class="row-code">330</div>
         <div class="row-badge"><span class="badge-new">2.5</span></div>
       </div><div class="row sub-row">
@@ -2890,21 +2905,22 @@ const DATA = [
 // ── STEP SEQ ────────────────────────────────────────────────
   {s:'step',  c:'[−] / [+] (while stopped)',                  d:'Move backward or forward through sequencer steps'},
   {s:'step',  c:'[RECORD] + [#] (while stopped)',        d:'Write that pad to the current step: tap for a short note or hold for a longer one'},
-  {s:'step',  c:'[ERASE] + [#] (while stopped)',         d:'Erase that pad\'s note at the current step'},
+  {s:'step',  c:'[ERASE] + [#] (while stopped)',         d:'Tap to erase that pad’s note at the current step; do not hold long enough for TRK to blink'},
   {s:'step',  c:'hold [ERASE] + hold [#] (while stopped)',d:'Erase every note for that pad in the pattern; hold until TRK blinks'},
   {s:'step',  c:'[ERASE] + [#] (while playing)',         d:'Live-erase that pad’s notes as the pattern plays; hold multiple pads to erase several tracks at once, including notes recorded in Keys mode'},
-  {s:'step',  c:'[SHIFT] + [#] + [−] / [+]',             d:'Nudge the note by steps in quantize mode or ticks in free-time mode'},
+  {s:'step',  c:'[SHIFT] + [#] + [−] / [+]',             d:'Nudge that pad’s note at the current step by steps in quantize mode or ticks in free-time mode'},
   {s:'step',  c:'hold [SHIFT] + turn [KNOB X]',         d:'Set the playback velocity (strength) of every note at the current step'},
   {s:'step',  c:'hold [SHIFT] + turn [KNOB Y]',         d:'Set how long every note at the current step is held'},
 // ── PATTERNS ────────────────────────────────────────────────
-  {s:'patterns',c:'hold [A–D] + [−] / [+]',             d:'Select the previous or next pattern; type a pattern number on the pads to jump directly'},
-  {s:'patterns',c:'hold [A] + [B] + [−] / [+]',             d:'Hold multiple groups to move their patterns together while preserving their relative offsets'},
+  {s:'patterns',c:'hold [A–D] + [−] / [+]',             d:'Select the previous or next pattern for that group'},
+  {s:'patterns',c:'hold [A–D] + numpad',                 d:'Jump directly to that group’s pattern number'},
+  {s:'patterns',c:'hold [A–D] + [A–D] + [−] / [+]',    d:'Hold two or more groups to move their patterns together while preserving their relative offsets'},
   {s:'patterns',c:'[SHIFT] + [A]',                      d:'Jump to the next empty pattern'},
   {s:'patterns',c:'[MAIN] + [TEMPO] → turn [KNOB X] / [KNOB Y]', d:'Set the current pattern’s time signature: X changes the beats per bar (numerator); Y changes the beat unit (denominator)'},
 // ── SCENES ──────────────────────────────────────────────────
   {s:'scenes', c:'hold [MAIN] + [−] / [+]',             d:'Select scene 01–99'},
   {s:'scenes', c:'hold [MAIN] + numpad',                 d:'Jump directly to a scene by number'},
-  {s:'scenes', c:'hold [MAIN] + hold [#] (1–9)',        d:'Switch projects: 1–5 are populated and 6–9 are empty by default'},
+  {s:'scenes', c:'hold [MAIN] + hold [#] (1–9)',        d:'Switch projects. On a factory-fresh device, 1–5 contain demo material and 6–9 are empty'},
   {s:'scenes', c:'[SHIFT] + [MAIN]',                    d:'Commit the scene, duplicate it into the next scene, and keep editing'},
   {s:'scenes', c:'hold [ERASE] + hold [MAIN] (2s)',     d:'Clear scene contents, or delete if empty and not in song'},
 // ── SONG MODE ───────────────────────────────────────────────
@@ -2912,7 +2928,7 @@ const DATA = [
   {s:'song',   c:'[−] / [+]',                           d:'Move to the previous or next song position'},
   {s:'song',   c:'[SHIFT] + [A]',                       d:'Add the current scene to the song list at this position'},
   {s:'song',   c:'[SHIFT] + [−] / [+]',                d:'Change which scene plays at the current position'},
-  {s:'song',   c:'[SHIFT] + [C]',                       d:'Cut scene from current song position to clipboard'},
+  {s:'song',   c:'[SHIFT] + [C]',                       d:'Cut the current song-position entry to the clipboard; the referenced scene itself is not deleted'},
   {s:'song',   c:'[SHIFT] + [D]',                       d:'Insert or paste a scene at the current song position'},
   {s:'song',   c:'[PLAY]',                              d:'Play from the current song position and exit the song editor'},
   {s:'song',   c:'[SHIFT] + [PLAY]',                    d:'Play the song from the beginning'},
@@ -2933,7 +2949,7 @@ const DATA = [
   {s:'erase',  c:'[ERASE] + [FADER] (while playing)',         d:'Erase all fader automation in the selected group and pattern as playback passes it; assignments reset to the fader position where the hold began'},
   {s:'erase',  c:'[ERASE] + [FADER] + [#]',             d:'Erase only the automation for that pad’s fader assignment in the selected group and pattern',n:true},
 // ── KEYS ────────────────────────────────────────────────────
-  {s:'keys',   c:'[KEYS]',                              d:'Enter {mode:Keys} mode and play the selected sound chromatically across all 12 pads',entry:true},
+  {s:'keys',   c:'[KEYS]',                              d:'Enter {mode:Keys} mode and play the selected sound across all 12 pads using the project’s current root note and scale',entry:true},
   {s:'keys',   c:'[KEYS] + [−] / [+]',                  d:'Shift the keyboard layout up or down by one octave'},
   {s:'keys',   c:'[KEYS] + [#]',                        d:'Transpose the current scale from that pad'},
   {s:'keys',   c:'hold [KEYS] + turn [KNOB X]',         d:'Choose the root note (tonic) for the scale played across the pads; this replaces the old pad → key menu',n:true},
@@ -2955,14 +2971,14 @@ const DATA = [
   {s:'timing-correct', c:'turn [KNOB X]',               d:'Choose the grid interval that corrected notes snap to'},
   {s:'timing-correct', c:'turn [KNOB Y]',               d:'Set the swing amount for corrected notes when the interval is 1/8 or 1/16'},
   {s:'timing-correct', c:'[#] (while stopped)',         d:'Quantize every note on that pad to the selected interval'},
-  {s:'timing-correct', c:'hold [#] (while playing)',    d:'Live-quantize notes on that pad while held'},
+  {s:'timing-correct', c:'hold [#] (while playing)',    d:'As playback passes them, quantize existing notes on that pad while held; the display counts the corrected notes'},
   {s:'timing-correct', c:'hold [#] + [−] / [+]',        d:'Nudge all notes on that pad earlier or later by one tick',n:true},
 // ── FADER ───────────────────────────────────────────────────
   {s:'fader',  c:'[FADER] + [#]',                       d:'Assign the fader function shown above that pad'},
   {s:'fader',  c:'hold [FADER]',                        d:'Show the current fader assignments; assignments with active automation blink'},
   {s:'fader',  c:'hold [RECORD] + move [FADER]',        d:'Record continuous fader movement during playback; while step sequencing, latch the current fader position onto the current step'},
-  {s:'fader',  c:'[SHIFT] + [FADER]',                   d:'Reset every virtual fader assignment in the current group (RES); press again to restore them (SET). Disabled during playback'},
-  {s:'fader',  c:'hold [A–D] + move [FADER]',           d:'Adjust that group\'s project-wide volume; this spans all patterns and cannot be automated'},
+  {s:'fader',  c:'[SHIFT] + [FADER]',                   d:'Reset every virtual fader assignment in the selected group to its default value (RES); press again to recall the previous values (SET). Disabled during playback'},
+  {s:'fader',  c:'hold [A–D] + move [FADER]',           d:'Adjust that group’s project-wide volume; this spans all patterns and cannot be automated'},
   {s:'fader',  c:'hold [SHIFT] + move [FADER]',         d:'Fine-tune fader position with higher precision'},
 // ── EFFECTS ───────────────────────────────────────────────────
   {s:'effects',c:'[FX]',                                 d:'Enter {mode:FX} mode and choose delay, reverb, distortion, chorus, filter, or compressor',entry:true},
@@ -2976,12 +2992,13 @@ const DATA = [
   {s:'effects',c:'{screen:FLT} turn [KNOB X] / [KNOB Y]',d:'Filter: X sets the cutoff (left removes highs; right removes lows); Y emphasizes frequencies around the cutoff'},
   {s:'effects',c:'{screen:CMP} turn [KNOB X] / [KNOB Y]',d:'Compressor: X drives more signal into the compressor for a stronger effect; Y changes how quickly it responds'},
   {s:'effects',c:'select [A–D] → move [FADER]',         d:'Adjust that group’s independent send to the selected master effect'},
-  {s:'effects',c:'[MAIN] → turn [KNOB X] / [KNOB Y]', d:'With something connected to the line input, X adjusts its volume and Y adjusts how much is sent to the selected master effect'},
+  {s:'effects',c:'[MAIN] → turn [KNOB X] / [KNOB Y]', d:'In Main view with line input connected, X sets its input volume and Y sets its send to the selected master effect'},
   {s:'effects',c:'hold [FX] + [#] (while playing)',     d:'Temporarily apply a pressure-sensitive punch-in FX; combine pads to layer them. These performance effects are separate from the selected master effect and group sends'},
   {s:'effects',c:'hold [FX] + [2] (while playing)',     d:'Apply tape stop; the slowdown also affects outgoing MIDI clock, so synchronized gear follows it'},
   {s:'effects',c:'hold [FX] + [A–D] (while playing)',   d:'Momentarily solo that group and make it the selected group for editing; hold multiple groups to solo them together'},
 // ── OUTPUT SETTINGS ─────────────────────────────────────────
-  {s:'output', c:'[SHIFT] + [FX]',                      d:'Enter {mode:Output Settings}. X adjusts drive and Y adjusts response speed for the final master compressor, which processes the summed mix and is separate from the Compressor effect selectable in FX mode',entry:true},
+  {s:'output', c:'[SHIFT] + [FX]',                      d:'Enter {mode:Output Settings}; X adjusts drive and Y adjusts response speed for the final master compressor',entry:true},
+  {s:'output', c:'Final compressor',                    d:'This compressor processes the summed mix after the shared Master FX. It is separate from the Compressor effect selectable in FX mode.',concept:true},
   {s:'output', c:'[+]',                                 d:'Open {page:Sidechain} settings for note-triggered ducking, separate from both compressor effects'},
   {s:'output', c:'hold [A–D] + select [#]',             d:'Add that sound as a sidechain trigger source; its notes trigger ducking even when the sound itself is silent',p:'sidechain'},
   {s:'output', c:'[SHIFT] + [A–D]',                     d:'Add that group as a sidechain destination whose level will be ducked',p:'sidechain'},
@@ -2989,30 +3006,31 @@ const DATA = [
 // ── SOUND ───────────────────────────────────────────────────
   {s:'sound',  c:'[SOUND]',                             d:'Enter {mode:Sound} mode to browse and assign samples to pads',entry:true},
   {s:'sound',  c:'tap [#]',                             d:'Select that pad for editing; the last pad tapped remains selected, indicated by the light above it'},
-  {s:'sound',  c:'hold [#]',                            d:'Show the selected pad’s sample name on screen'},
+  {s:'sound',  c:'hold [#]',                            d:'Show the selected pad’s sample name on screen, if it was imported or renamed with the EP Sample Tool'},
   {s:'sound',  c:'[−] / [+]',                           d:'Change the sample on the selected pad'},
   {s:'sound',  c:'[SHIFT] + [−] / [+]',                 d:'Move through the sample library in increments of ten'},
-  {s:'sound',  c:'numpad → [ENTER]',                    d:'Type a sample number and assign that library slot directly to the selected pad'},
-  {s:'sound',  c:'turn [KNOB X]',                       d:'Set the selected pad\'s level relative to the other pads (AMP); the edited sound plays as you turn'},
-  {s:'sound',  c:'turn [KNOB Y]',                       d:'Raise or lower the selected pad\'s pitch (PTC); the edited sound plays as you turn'},
+  {s:'sound',  c:'numpad → [ENTER]',                    d:'Type a sample number and fresh-load that library slot onto the selected pad; unlike browsing away and back with −/+, this resets the pad’s sound settings for that sample'},
+  {s:'sound',  c:'turn [KNOB X]',                       d:'Set the selected pad’s level relative to the other pads (AMP); the edited sound plays as you turn'},
+  {s:'sound',  c:'turn [KNOB Y]',                       d:'Raise or lower the selected pad’s pitch (PTC); the edited sound plays as you turn'},
   {s:'sound-edit', c:'[SHIFT] + [SOUND]',               d:'Enter {mode:Sound Edit}; use −/+ to move through {page:Sound}, {page:Trim}, {page:Envelope}, {page:Time}, {page:MIDI}, and {page:Mute Group}',entry:true},
   {s:'sound-edit', c:'hold [SHIFT] + hold [SOUND] (2s)', d:'Save sound edits permanently to disk'},
   {s:'sound-edit', c:'[−] / [+]',                       d:'Move to the previous or next Sound Edit page'},
-  {s:'sound-edit', c:'turn [KNOB X] / [KNOB Y]',        d:'X chooses playback behavior: oneshot plays the full sample monophonically, key allows overlapping voices, and legato continues from the current position; Y places the sound left, center, or right',p:'sound'},
+  {s:'sound-edit', c:'turn [KNOB X] / [KNOB Y]',        d:'X chooses playback behavior: oneshot plays monophonically, key allows overlapping voices, and legato changes pitch without restarting the sample playhead while a note remains held; Y places the sound left, center, or right',p:'sound'},
   {s:'sound-edit', c:'Voice limits',                    d:'Firmware 2.5 supports up to 16 mono or 12 stereo voices at once. Time-stretched, stereo, and high-pitched samples can reduce the available polyphony.',p:'sound',concept:true,n:true},
   {s:'sound-edit', c:'turn [KNOB X] / [KNOB Y]',        d:'X moves where playback begins; Y changes the playback length from that start point',p:'trim'},
   {s:'sound-edit', c:'hold [#]',                         d:'Show the sample’s current playback position in seconds while it plays',p:'trim',n:true},
   {s:'sound-edit', c:'hold [SHIFT] + [SOUND]',          d:'Crop to the current trim points; this overwrites the sample file and cannot be undone',p:'trim',n:true,risk:'permanent'},
   {s:'sound-edit', c:'turn [KNOB X] / [KNOB Y]',        d:'X sets how gradually the sample fades in; Y sets how long it continues after you release the pad',p:'envelope'},
-  {s:'sound-edit', c:'turn [KNOB X] / [KNOB Y]',        d:'X chooses BPM, BAR, or reverse mode; Y sets the sample’s source BPM in BPM mode or its target length in BAR mode',p:'time'},
+  {s:'sound-edit', c:'turn [KNOB X] / [KNOB Y]',        d:'X chooses BPM, BAR, or reverse. In BPM mode, Y sets the sample’s original BPM so it follows project tempo; in BAR mode, Y sets how many project bars it should occupy; reverse plays it backward',p:'time'},
   {s:'sound-edit', c:'turn [KNOB X] to REV',            d:'Reverse sample playback',p:'time',n:true},
   {s:'sound-edit', c:'turn [KNOB X] / [KNOB Y]',        d:'X chooses the MIDI channel this pad sends and receives on; Y aligns the pad’s MIDI note with the sample’s musical root',p:'midi'},
-  {s:'sound-edit', c:'tap [#]',                         d:'Toggle that pad in the current A–D group\'s single mute group. Members light up; when none are assigned, all pads flash. The last-played member cuts off the others',p:'mute group'},
+  {s:'sound-edit', c:'tap [#]',                         d:'Toggle that pad in the selected A–D group’s single mute group. Members light up; when none are assigned, all pads flash. The last-played member cuts off the others',p:'mute group'},
   {s:'sound',  c:'[SHIFT] + [C] → select pad → [SHIFT] + [D]', d:'In Sound mode, copy the selected pad’s sound assignment, then select a destination pad and paste it'},
-  {s:'sound',  c:'[SHIFT] + [C] ×2 → select group → [SHIFT] + [D]', d:'In Sound mode, copy all 12 pad sound assignments in the current group, then select a destination group and paste them'},
+  {s:'sound',  c:'[SHIFT] + [C] ×2 → select group → [SHIFT] + [D]', d:'In Sound mode, copy all 12 pad sound assignments in the selected group, then select a destination group and paste them'},
 // ── SAMPLE + CHOP ───────────────────────────────────────────
   {s:'sample', c:'[SAMPLE]',                            d:'Enter {mode:Sample} mode; only unassigned pads blink. Choose a blinking pad to avoid changing an existing sound assignment or pattern playback',entry:true},
-  {s:'sample', c:'hold [#]',                             d:'Record audio to that pad; hold to capture, then release to stop and auto-trim. The recording is saved in the next available library slot and assigned to that pad. If the pad already has a sound, its assignment is replaced and existing pattern notes on that pad play the new sample; the previous library sample is not deleted. Choose a blinking unassigned pad, switching to another group if needed; some users reserve Group D for new recordings and resamples. The library has up to 999 numbered slots, subject to available storage',risk:'reassigns pad'},
+  {s:'sample', c:'hold [#]',                             d:'Hold to record to that pad, then release to stop and auto-trim. Choose a blinking unassigned pad, switching groups if needed; some users reserve Group D for new recordings and resamples',risk:'reassigns pad'},
+  {s:'sample', c:'Where recordings go',                  d:'A recording is saved in the next available library slot and assigned to the destination pad. An occupied pad’s previous library sample is not deleted, but its assignment is replaced, so existing pattern notes on that pad play the new recording. The library has up to 999 numbered slots, subject to available storage.',concept:true},
   {s:'sample', c:'[#] (after capture)',                  d:'Audition the sample you just recorded'},
   {s:'sample', c:'[−] / [+]',                           d:'Choose the recording source and, where available, mono or stereo capture. Screen icons indicate whether the selected source records mono or stereo; compare the options below'},
   {s:'sample', c:'[−] / [+] → {screen:MIC}',                     d:'{label:input} Use the built-in microphone; no cable is required. {label:channels} Records mono. {label:maximum} Up to 40 seconds per sample',source:true},
@@ -3025,18 +3043,18 @@ const DATA = [
   {s:'sample', c:'[SAMPLE] (while hands-free recording)', d:'Stop recording'},
   {s:'sample', c:'[MAIN]',                              d:'Exit Sample mode'},
   {s:'sample', c:'[SHIFT] + [#]',                      d:'Start hands-free sampling; K.O. II holds the pad for you'},
-  {s:'sample', c:'{screen:RSP} → [SHIFT] + [#] → [PLAY]', d:'Capture the current pattern\'s full length to that destination pad, hands-free'},
+  {s:'sample', c:'{screen:RSP} → [SHIFT] + [#] → [PLAY]', d:'Capture the current pattern’s full length to that destination pad, hands-free'},
   {s:'sample', c:'hold [FX] + turn [KNOB X] / [KNOB Y] (latched resampling)', d:'Adjust the selected effect live while the hands-free resample is being captured',n:true},
-  {s:'sample', c:'[−] / [+] (hands-free sampling)',         d:'Select the number of bars to resample per capture'},
+  {s:'sample', c:'[−] / [+] (hands-free sampling)',         d:'Choose a fixed recording length in bars; press PLAY to begin the hands-free capture'},
   {s:'sample', c:'EP Sample Tool (USB-C)',               d:'Visit {url:https://teenage.engineering/apps/ep-sample-tool} to upload, download, rename, or delete library samples. Its Backup & Restore view can also save projects and samples to a local file.',concept:true},
   {s:'sample', c:'Local backup and restore',              d:'Back up all samples and projects, or save a destination project before overwriting it. Restore Local Backup can recover only content included in a backup file you previously saved.',concept:true},
   {s:'sample', c:'Restore Factory Content',               d:'Overwrite every sample and project with the original factory content. Back up your work first; factory restore does not recover a deleted user recording.',concept:true,risk:'overwrites device'},
-  {s:'chop',   c:'[SHIFT] + [SAMPLE] → CHOP',           d:'Enter {mode:Chop} mode to slice a sample across a group\'s pads',entry:true},
-  {s:'chop',   c:'[A–D]',                               d:'Select the destination group. This resets its pad assignments, so use an empty group or one you are willing to overwrite',risk:'overwrites pads'},
+  {s:'chop',   c:'[SHIFT] + [SAMPLE]',                  d:'Enter {mode:Chop} mode to slice a sample across a group’s pads',entry:true},
+  {s:'chop',   c:'[A–D]',                               d:'Select the destination group. This replaces its pad assignments without deleting the underlying library samples, so use an empty group or one you are willing to overwrite',risk:'overwrites pads'},
   {s:'chop',   c:'[A–D] + [−] / [+]',                   d:'Switch between equal-length slices and attack detection',n:true},
-  {s:'chop',   c:'[−] / [+] (equal-length)',             d:'Set the number of equal-length slices per group'},
+  {s:'chop',   c:'[−] / [+] (equal-length)',             d:'Choose how many equal-length slices to create'},
   {s:'chop',   c:'[#] (live mode)',                      d:'Live Chop: tap pads as the sample plays; each slice spans the time between consecutive taps'},
-  {s:'chop',   c:'turn [KNOB X] / [KNOB Y] (pad selected)', d:'X moves the selected slice\'s start point; Y moves its end point. Hold SHIFT for finer control'},
+  {s:'chop',   c:'turn [KNOB X] / [KNOB Y] (pad selected)', d:'X moves the selected slice’s start point; Y moves its end point. Hold SHIFT for finer control'},
 // ── LOOP ────────────────────────────────────────────────────
   {s:'loop',   c:'[SHIFT] + [TEMPO]',                   d:'Create a loop at the current playhead'},
   {s:'loop',   c:'hold [SHIFT] + [TEMPO]',              d:'Set loop length: the loop starts on press and ends on release'},
@@ -3050,12 +3068,12 @@ const DATA = [
   {s:'tempo',  c:'turn [KNOB X]',                      d:'Adjust BPM from 60–180 with the knob (type a value for the full 40–399 range)'},
   {s:'tempo',  c:'turn [KNOB Y]',                      d:'Adjust how loud the metronome is while recording; System Settings controls whether it also plays during playback'},
   {s:'tempo',  c:'hold [TEMPO] + numpad',               d:'Type an exact BPM; use the decimal key for values such as 120.51'},
-  {s:'tempo',  c:'[SAMPLE] + [TEMPO]',                  d:'Match tempo by listening to the audio input and setting BPM'},
+  {s:'tempo',  c:'[SAMPLE] + [TEMPO]',                  d:'Listen to the built-in mic or line input, detect its tempo, and set the project BPM to the detected value'},
 // ── MIDI + SYNC SETUPS ───────────────────────────────────
   {s:'connections', c:'[SHIFT] + [ERASE]', d:'{label:codes} Open System Settings, then type any three-digit setting below. {label:clock} Choose one path: USB/TRS MIDI carries clock and transport; SYNC carries analog pulses and start/stop',entry:true},
   {s:'connections', c:'computer / DAW ↔ K.O. II', d:'{label:connect} Connect the K.O. II directly to the computer with USB-C. {label:clock} Use {code:101} when the K.O. II should follow the DAW, {code:102} when it should lead, or {code:100} to disable MIDI clock. {label:DAW} Enable MIDI clock and transport for the K.O. II port in the DAW’s MIDI settings. {label:USB audio} The same connection sends stereo audio to and from the K.O. II and carries MIDI transport messages such as play and stop',route:true},
   {s:'connections', c:'MIDI keyboard → K.O. II', d:'{label:connect} Connect the keyboard’s MIDI OUT to the K.O. II MIDI IN with a Type A TRS-compatible cable or DIN adapter. A USB-only controller requires a computer or USB MIDI host between the devices. {label:channel} Use {code:110} to receive on every MIDI channel, or {code:111–126} to receive on one matching channel. {label:play} Press KEYS to play the selected K.O. II sound chromatically from the keyboard',route:true},
-  {s:'connections', c:'K.O. II → MIDI instrument', d:'{label:connect} Connect the K.O. II MIDI OUT to the instrument’s MIDI IN, or connect a compatible USB MIDI device over USB-C. {label:channel} Assign the pad’s channel in Sound Edit → MIDI, then set the receiving instrument to that same channel. {label:MIDI-only pad} Assign sample {code:000} so the pad sends MIDI without playing a K.O. II voice. {label:clock} Use {code:102} if the K.O. II should also provide MIDI clock',route:true},
+  {s:'connections', c:'K.O. II → MIDI instrument', d:'{label:connect} Connect the K.O. II MIDI OUT to the instrument’s MIDI IN. Use USB-C only when the other device or an intermediary can act as the USB host for the K.O. II. {label:channel} Assign the pad’s channel in Sound Edit → MIDI, then set the receiving instrument to that same channel. {label:MIDI-only pad} Assign sample {code:000} so the pad sends MIDI without playing a K.O. II voice. {label:clock} Use {code:102} if the K.O. II should also provide MIDI clock',route:true},
   {s:'connections', c:'MIDI controller → K.O. II → MIDI gear', d:'{label:connect} Connect the controller’s MIDI OUT to the K.O. II MIDI IN, then connect the K.O. II MIDI OUT to the next instrument’s MIDI IN. {label:thru} Use {code:131} to forward incoming MIDI to MIDI OUT and USB, or {code:130} to stop forwarding it. {label:clock} MIDI Thru does not choose the clock source; set that separately with {code:101} or {code:102}',route:true},
   {s:'connections', c:'K.O. II → K.O. II', d:'{label:connect} Connect the first unit’s SYNC OUT to the second unit’s SYNC IN with a 3.5 mm cable. {label:set} Set both units to 1/16 sync: use {code:211} on the leader and {code:201} on the follower',route:true},
   {s:'connections', c:'K.O. II → Pocket Operator', d:'{label:connect} Connect K.O. II SYNC OUT to the Pocket Operator’s left input with a 3.5 mm cable. {label:set} Use {code:210} on the K.O. II and set the Pocket Operator to {code:SY2}. {label:start} Press play on the Pocket Operator first, then press PLAY on the K.O. II',route:true},
@@ -3069,10 +3087,10 @@ const DATA = [
 // MIDI channel
   {s:'system', c:'mid → chn → all',     sub:true, sep:true, code:'110',     d:'Receive on all channels, send on ch.1 (default)'},
   {s:'system', c:'mid → chn → ch.1–16', sub:true,           code:'111–126', d:'Lock send + receive to a specific MIDI channel'},
-  {s:'system', c:'mid → chn → off',     sub:true,           code:'127',     d:'Send MIDI only when a channel is assigned per pad in Sound Edit'},
+  {s:'system', c:'mid → chn → off',     sub:true,           code:'127',     d:'Send and receive MIDI voice messages only for pads with a channel assigned in Sound Edit'},
 // MIDI misc
   {s:'system', c:'mid → thr → off',     sub:true,           code:'130',     d:'Disable MIDI Thru (default)'},
-  {s:'system', c:'mid → thr → on',      sub:true,           code:'131',     d:'Enable MIDI Thru and forward incoming MIDI through MIDI out'},
+  {s:'system', c:'mid → thr → on',      sub:true,           code:'131',     d:'Enable MIDI Thru and forward incoming MIDI to MIDI OUT and USB'},
   {s:'system', c:'mid → rst → off',     sub:true,           code:'140',     d:'Do not reset MIDI controllers on stop (default)'},
   {s:'system', c:'mid → rst → on',      sub:true,           code:'141',     d:'Reset all MIDI controllers on stop'},
 // Sync in
@@ -3097,7 +3115,7 @@ const DATA = [
   {s:'system', c:'pad → led → mid',     sub:true,           code:'321',     d:'Set medium LED brightness',n:true},
   {s:'system', c:'pad → led → high',    sub:true,           code:'322',     d:'Set high LED brightness',n:true},
 // Pad/knob takeover mode (new in 2.5, reassigned from old scale-key codes)
-  {s:'system', c:'pad → pot → sca',     sub:true, sep:true, code:'330',     d:'Scaling takeover (default): responds immediately without jumping by mapping the control\'s remaining travel from the stored value toward the end of the parameter range',n:true},
+  {s:'system', c:'pad → pot → sca',     sub:true, sep:true, code:'330',     d:'Scaling takeover (default): responds immediately without jumping by mapping the control’s remaining travel from the stored value toward the end of the parameter range',n:true},
   {s:'system', c:'pad → pot → cat',     sub:true,           code:'331',     d:'Catch takeover: ignores movement until the physical control reaches the stored value, then tracks it directly',n:true},
 // Sequencer metronome
   {s:'system', c:'seq → met → rec',     sub:true, sep:true, code:'401',     d:'Enable the metronome during recording only (default)'},
@@ -3255,7 +3273,7 @@ injectCombo('wf4',   '[RECORD] → [PLAY]');
 injectCombo('wf5',   '[−] / [+]  to step through');
 injectCombo('wf6',   '[A] / [B] / [C] / [D]');
 injectCombo('wf7',   '[SHIFT] + [MAIN]');
-injectCombo('wf9',   '[SAMPLE] → [SHIFT] + [#] → [PLAY]');
+injectCombo('wf9',   '[SAMPLE] → [−] / [+] to {screen:RSP} → [SHIFT] + [#] → [PLAY]');
 injectCombo('wf10',  '[MAIN] + [ENTER]');
 
 // Quick ref inline labels
