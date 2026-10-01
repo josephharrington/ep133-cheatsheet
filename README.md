@@ -4,13 +4,6 @@ A mobile-friendly, searchable, and printable reference for the Teenage Engineeri
 
 **View it here:** https://ep133.joeyh.org/
 
-## Hosting
-
-Cloudflare Pages deploys the `main` branch as `ep133-cheatsheet.pages.dev`. There
-is no build step, and the build output directory is the repository root (`.`).
-The custom domain `ep133.joeyh.org` uses an explicit `ep133` CNAME at Porkbun
-pointing to `ep133-cheatsheet.pages.dev`; DNS stays at Porkbun.
-
 ## Using it
 
 - Search for one or more words to find a shortcut. Search checks every section, even when section filters are active.
