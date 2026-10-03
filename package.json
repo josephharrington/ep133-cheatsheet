@@ -4,7 +4,8 @@
   "scripts": {
     "prerender": "node scripts/prerender.mjs",
     "check:prerender": "node scripts/prerender.mjs --check",
-    "test": "npm run check:prerender"
+    "check:pwa": "node scripts/check-pwa.mjs",
+    "test": "npm run check:prerender && npm run check:pwa"
   },
   "devDependencies": {
     "jsdom": "29.1.1"

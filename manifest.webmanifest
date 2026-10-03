@@ -1,0 +1,25 @@
+{
+  "id": "/",
+  "name": "EP-133 K.O. II Cheat Sheet",
+  "short_name": "EP-133 Guide",
+  "description": "Searchable EP-133 K.O. II shortcut and workflow guide for firmware 2.5.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f2ede4",
+  "theme_color": "#f0ebe0",
+  "icons": [
+    {
+      "src": "/assets/icons/app-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/icons/app-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
