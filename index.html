@@ -1588,7 +1588,7 @@ html[data-theme="dark"] .key.key-gray{
       <li>Hold <span id="tip-fx"></span> while playing, then press GROUP pads → momentary per-group solo</li>
       <li>Hold + or − during playback → temporarily nudge tempo up or down</li>
       <li>In step mode, hold <span id="tip-rec"></span> and hold a pad → write a longer note</li>
-      <li>In SOUND mode, type a sample number (e.g. 1·0·3), then press ENTER → jump directly to that slot</li>
+      <li>Hold <span id="tip-sound"></span> and type a sample number → release SOUND or press ENTER to fresh-load that slot with default pad settings</li>
       <li>Lock mode: hold <span id="tip-main"></span> on power-up → changes work temporarily but are not saved; restart to restore the saved state</li>
       <li><span id="tip-shift2"></span> + <span id="tip-fx2"></span> → master compressor &amp; sidechain settings</li>
       <li>Tape stop (punch-in FX pad 2) affects MIDI clock output, which is useful for synced gear</li>
@@ -2324,8 +2324,13 @@ html[data-theme="dark"] .key.key-gray{
 
         <div class="row-badge"></div>
       </div><div class="row">
-        <div class="row-combo"><span class="ctx">numpad</span><span class="op">→</span><span class="key" data-key="ENTER">ENTER</span></div>
-        <div class="row-desc">Type a sample number and fresh-load that library slot onto the selected pad; unlike browsing away and back with −/+, this resets the pad’s sound settings for that sample</div>
+        <div class="row-combo"><span class="key held" data-key="SOUND" title="hold" aria-label="hold SOUND">SOUND</span><span class="op">+</span><span class="ctx">numpad</span><span class="op">→</span><span class="ctx">release /</span><span class="key" data-key="ENTER">ENTER</span></div>
+        <div class="row-desc">Type a sample number while holding SOUND, then release SOUND or press ENTER to fresh-load that library slot. Unlike browsing away and back with −/+, direct entry resets the selected pad’s sound settings to defaults</div>
+
+        <div class="row-badge"></div>
+      </div><div class="row">
+        <div class="row-combo"><span class="key held" data-key="SOUND" title="hold" aria-label="hold SOUND">SOUND</span><span class="op">+</span><span class="key key-pad" data-key="0">0</span><span class="key key-pad" data-key="0">0</span><span class="key key-pad" data-key="0">0</span><span class="op">→</span><span class="screen-ref">___</span></div>
+        <div class="row-desc">Unassign the selected pad without deleting its library sample or pattern notes. While empty, sequenced notes produce no internal sound or pad LED; assigning a sample later makes them play again. The pad blinks as an available destination in Sample mode; browsing with −/+ stops at 001 and cannot reach 000</div>
 
         <div class="row-badge"></div>
       </div><div class="row">
@@ -2500,12 +2505,12 @@ html[data-theme="dark"] .key.key-gray{
         <div class="row-badge"></div>
       </div><div class="row">
         <div class="row-combo"><span class="key key-orange" data-key="SAMPLE">SAMPLE</span><span class="ctx">(after capture)</span></div>
-        <div class="row-desc">Discard that take and record the sample again</div>
+        <div class="row-desc">Discard that take and re-arm the same pad for a replacement in the same library slot. The selected source remains on screen, the destination pad goes dark, and other empty pads continue blinking</div>
 
         <div class="row-badge"></div>
       </div><div class="row">
         <div class="row-combo"><span class="key key-orange" data-key="SAMPLE">SAMPLE</span><span class="ctx">(while hands-free recording)</span></div>
-        <div class="row-desc">Stop recording</div>
+        <div class="row-desc">Stop recording. The source returns to the display, the completed destination stays lit, and other empty pads resume blinking</div>
 
         <div class="row-badge"></div>
       </div><div class="row">
@@ -2515,7 +2520,7 @@ html[data-theme="dark"] .key.key-gray{
         <div class="row-badge"></div>
       </div><div class="row">
         <div class="row-combo"><span class="key key-shift ks" data-key="SHIFT">SHIFT</span><span class="op">+</span><span class="key key-pad" data-key="#">#</span></div>
-        <div class="row-desc">Start hands-free sampling; K.O. II holds the pad for you</div>
+        <div class="row-desc">Arm that pad for hands-free sampling. Only the destination blinks while 0.0 blinks on screen; recording waits for the input to cross the threshold, then the display counts elapsed seconds while the pad continues blinking</div>
 
         <div class="row-badge"></div>
       </div><div class="row">
@@ -3009,7 +3014,8 @@ const DATA = [
   {s:'sound',  c:'hold [#]',                            d:'Show the selected pad’s sample name on screen, if it was imported or renamed with the EP Sample Tool'},
   {s:'sound',  c:'[−] / [+]',                           d:'Change the sample on the selected pad'},
   {s:'sound',  c:'[SHIFT] + [−] / [+]',                 d:'Move through the sample library in increments of ten'},
-  {s:'sound',  c:'numpad → [ENTER]',                    d:'Type a sample number and fresh-load that library slot onto the selected pad; unlike browsing away and back with −/+, this resets the pad’s sound settings for that sample'},
+  {s:'sound',  c:'hold [SOUND] + numpad → release / [ENTER]', d:'Type a sample number while holding SOUND, then release SOUND or press ENTER to fresh-load that library slot. Unlike browsing away and back with −/+, direct entry resets the selected pad’s sound settings to defaults'},
+  {s:'sound',  c:'hold [SOUND] + [0] [0] [0] → {screen:___}', d:'Unassign the selected pad without deleting its library sample or pattern notes. While empty, sequenced notes produce no internal sound or pad LED; assigning a sample later makes them play again. The pad blinks as an available destination in Sample mode; browsing with −/+ stops at 001 and cannot reach 000'},
   {s:'sound',  c:'turn [KNOB X]',                       d:'Set the selected pad’s level relative to the other pads (AMP); the edited sound plays as you turn'},
   {s:'sound',  c:'turn [KNOB Y]',                       d:'Raise or lower the selected pad’s pitch (PTC); the edited sound plays as you turn'},
   {s:'sound-edit', c:'[SHIFT] + [SOUND]',               d:'Enter {mode:Sound Edit}; use −/+ to move through {page:Sound}, {page:Trim}, {page:Envelope}, {page:Time}, {page:MIDI}, and {page:Mute Group}',entry:true},
@@ -3039,10 +3045,10 @@ const DATA = [
   {s:'sample', c:'[−] / [+] → {screen:USB}',                     d:'{label:connect} Use USB-C with a class-compliant phone or computer host, then select the K.O. II as that host’s audio output before choosing USB as the sample source. {label:choose} Capture USB audio in mono or stereo. {label:maximum} Mono captures up to 40 seconds; stereo captures up to 20 seconds. {label:monitoring} System code {code:510} sends USB audio only to the sampler; {code:511} also monitors it live',source:true,n:true},
   {s:'sample', c:'turn [KNOB X]',                       d:'Raise or lower the incoming audio level before it is recorded'},
   {s:'sample', c:'turn [KNOB Y]',                       d:'Set how loud the input must be before recording starts'},
-  {s:'sample', c:'[SAMPLE] (after capture)',              d:'Discard that take and record the sample again'},
-  {s:'sample', c:'[SAMPLE] (while hands-free recording)', d:'Stop recording'},
+  {s:'sample', c:'[SAMPLE] (after capture)',              d:'Discard that take and re-arm the same pad for a replacement in the same library slot. The selected source remains on screen, the destination pad goes dark, and other empty pads continue blinking'},
+  {s:'sample', c:'[SAMPLE] (while hands-free recording)', d:'Stop recording. The source returns to the display, the completed destination stays lit, and other empty pads resume blinking'},
   {s:'sample', c:'[MAIN]',                              d:'Exit Sample mode'},
-  {s:'sample', c:'[SHIFT] + [#]',                      d:'Start hands-free sampling; K.O. II holds the pad for you'},
+  {s:'sample', c:'[SHIFT] + [#]',                      d:'Arm that pad for hands-free sampling. Only the destination blinks while 0.0 blinks on screen; recording waits for the input to cross the threshold, then the display counts elapsed seconds while the pad continues blinking'},
   {s:'sample', c:'{screen:RSP} → [SHIFT] + [#] → [PLAY]', d:'Capture the current pattern’s full length to that destination pad, hands-free'},
   {s:'sample', c:'hold [FX] + turn [KNOB X] / [KNOB Y] (latched resampling)', d:'Adjust the selected effect live while the hands-free resample is being captured',n:true},
   {s:'sample', c:'[−] / [+] (hands-free sampling)',         d:'Choose a fixed recording length in bars; press PLAY to begin the hands-free capture'},
@@ -3290,6 +3296,7 @@ injectCombo('tip-undo',   '[SHIFT] + [B]');
 injectCombo('tip-fx',     '[FX]');
 injectCombo('tip-rec',    '[RECORD]');
 injectCombo('tip-main',   '[MAIN]');
+injectCombo('tip-sound',  '[SOUND]');
 injectCombo('tip-shift2', '[SHIFT]');
 injectCombo('tip-fx2',    '[FX]');
 injectCombo('tip-mute',   '[SHIFT] + [SOUND]');
