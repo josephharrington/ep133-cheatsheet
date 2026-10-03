@@ -1123,7 +1123,8 @@ html[data-theme="dark"] .key.key-gray{
   .no-res{display:none!important}
   .s-head{break-after:avoid}
   .mobile-overview-summary{display:none!important}
-  .mobile-overview-body{display:block!important}
+  details.mobile-overview > .mobile-overview-body,
+  details.wf-details > .wf-body{display:block!important}
   .section-chevron{display:none!important}
   .section-body{display:block!important}
 
@@ -3799,9 +3800,24 @@ new ResizeObserver(syncHeaderHeight).observe(header);
 syncHeaderState();
 syncHeaderHeight();
 
-if (mobileMedia.matches) {
-  document.getElementById('mobile-overview').removeAttribute('open');
-}
+const mobileOverview = document.getElementById('mobile-overview');
+const syncOverviewState = () => {
+  mobileOverview.open = !mobileMedia.matches;
+};
+mobileMedia.addEventListener('change', syncOverviewState);
+syncOverviewState();
+
+const printableDetails = [mobileOverview, document.getElementById('extras')];
+let detailsOpenBeforePrint;
+addEventListener('beforeprint', () => {
+  detailsOpenBeforePrint = printableDetails.map(details => details.open);
+  printableDetails.forEach(details => { details.open = true; });
+});
+addEventListener('afterprint', () => {
+  printableDetails.forEach((details, index) => {
+    details.open = detailsOpenBeforePrint[index];
+  });
+});
 
 scheduleSearchAnalytics(render());
 if (location.hash) {
