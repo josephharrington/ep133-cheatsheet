@@ -9,9 +9,16 @@ A mobile-friendly, searchable, and printable reference for the Teenage Engineeri
 - Search for one or more words to find a shortcut. Search checks every section, even when section filters are active.
 - Use the section picker to narrow the page to one or more topics such as recording, patterns, sound, sampling, or chopping.
 - On phones, sections collapse into a compact lookup view designed for use beside the device.
-- After one online visit, the sheet remains available offline. Add it to your phone's home screen for an app-like launcher.
-- For analytics-free testing, visit `https://ep133.joeyh.org/?no-analytics` once on that device. Visit `https://ep133.joeyh.org/?analytics` to opt back in.
-- Use the print button for a six-page paper reference, including the overview and System Settings table.
+
+## Install for offline use
+
+Add the sheet to your phone's home screen for an app-like launcher that works beside the device without a network connection.
+
+For analytics-free testing, visit `https://ep133.joeyh.org/?no-analytics` once on that device. Visit `https://ep133.joeyh.org/?analytics` to opt back in.
+
+## Print a custom reference
+
+Use the section picker to choose exactly what you want to include, then use the print button. Printing uses a dedicated portrait US Letter layout with compact columns, expanded content, and screen controls removed. It is not simply a printout of the page as it currently appears in the browser.
 
 ## Found a mistake, or want something added?
 

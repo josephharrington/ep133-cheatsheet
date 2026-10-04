@@ -167,8 +167,8 @@ h1.h-logo{margin:0;display:inline}
 .theme-icon-sun{display:none}
 html[data-theme="dark"] .theme-icon-sun{display:block}
 html[data-theme="dark"] .theme-icon-moon{display:none}
-.legend-pop-wrap{position:relative}
-#legend-btn[aria-expanded="true"]{color:var(--text);border-color:#888;background:var(--card)}
+.guide-pop-wrap{position:relative}
+#guide-btn[aria-expanded="true"]{color:var(--text);border-color:#888;background:var(--card)}
 
 .bug-pop-wrap{position:relative}
 #bug-btn[aria-expanded="true"]{color:var(--text);border-color:#888;background:var(--card)}
@@ -228,12 +228,22 @@ html[data-theme="dark"] .theme-icon-moon{display:none}
 .filters-backdrop,.filters-sheet-head{display:none}
 .combo-legend{
   display:none;flex-direction:column;align-items:flex-start;gap:8px;
-  position:absolute;top:calc(100% + 8px);right:0;min-width:230px;z-index:60;
+  position:absolute;top:calc(100% + 8px);right:0;z-index:60;
+  width:min(370px,calc(100vw - 32px));max-height:min(70vh,560px);overflow-y:auto;
   padding:12px 14px;
   background:var(--card);border:1px solid var(--border2);border-radius:3px;
   font-family:var(--mono);font-size:9.5px;color:var(--muted);
 }
 .combo-legend.open{display:flex}
+.guide-copy{display:flex;flex-direction:column;gap:9px;width:100%;padding-bottom:11px;border-bottom:1px solid var(--border)}
+.guide-title{font-size:10px;letter-spacing:.08em;color:var(--text)}
+.guide-intro{font-family:var(--sans);font-size:11px;line-height:1.45;color:var(--sub)}
+.guide-tip{display:grid;grid-template-columns:52px 1fr;gap:8px;align-items:start}
+.guide-tip-label{font-size:8px;letter-spacing:.08em;color:var(--red)}
+.guide-tip-text{font-family:var(--sans);font-size:10.5px;line-height:1.4;color:var(--sub)}
+.guide-tip-text a{color:var(--text);text-underline-offset:2px}
+.guide-legend-label{font-size:8px;letter-spacing:.08em;color:var(--dim);margin-top:2px}
+.guide-legend-items{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
 .combo-legend-item{display:flex;align-items:center;gap:6px;white-space:nowrap}
 .op-chip{
   display:inline-flex;align-items:center;justify-content:center;
@@ -1117,9 +1127,12 @@ html[data-theme="dark"] .key.key-gray{
   .combo-legend{
     display:flex!important;position:static!important;
     flex-direction:row;flex-wrap:wrap;justify-content:space-between;
-    min-width:0;gap:4px 14px;padding:0;margin-top:9px;
+    width:auto;min-width:0;max-height:none;overflow:visible;
+    gap:4px 14px;padding:0;margin-top:9px;
     background:none;border:none;font-size:9px;color:#000;
   }
+  .guide-copy,.guide-legend-label{display:none!important}
+  .guide-legend-items{display:contents}
   .ctx{color:#000;font-size:8.5px}
   .mode-ref,.page-ref{font-size:6.5px;color:#000}
   .page-ref{font-size:6px}
@@ -1266,15 +1279,42 @@ html[data-theme="dark"] .key.key-gray{
         <svg class="theme-icon-sun" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="2.7" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.2v1.5M8 13.3v1.5M1.2 8h1.5M13.3 8h1.5M3.2 3.2l1.1 1.1M11.7 11.7l1.1 1.1M12.8 3.2l-1.1 1.1M4.3 11.7l-1.1 1.1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
       </button>
       <span class="h-btn-divider"></span>
-      <div class="legend-pop-wrap">
-        <button class="h-print-btn" id="legend-btn" onclick="toggleLegend()" aria-expanded="false" aria-controls="legend">legend</button>
-        <div class="combo-legend" id="legend">
-          <span class="combo-legend-item"><span id="legend-key"></span> press</span>
-          <span class="combo-legend-item"><span id="legend-pad"></span> any black pad (0–9, dot, or ENTER)</span>
-          <span class="combo-legend-item"><span id="legend-group"></span> any group pad (A, B, C, or D)</span>
-          <span class="combo-legend-item"><span class="op-chip">+</span> hold &amp; press together</span>
-          <span class="combo-legend-item"><span class="op-chip">→</span> then (release first)</span>
-          <span class="combo-legend-item"><span id="legend-held"></span> extended or timed hold</span>
+      <div class="guide-pop-wrap">
+        <button class="h-print-btn" id="guide-btn" onclick="toggleGuide()" aria-expanded="false" aria-controls="guide">guide</button>
+        <div class="combo-legend" id="guide" role="dialog" aria-label="Guide to the cheat sheet">
+          <div class="guide-copy">
+            <div class="guide-title">about this cheat sheet</div>
+            <p class="guide-intro">An unofficial quick-reference guide for the EP-133 K.O. II, updated for firmware 2.5.</p>
+            <div class="guide-tip">
+              <span class="guide-tip-label">find</span>
+              <span class="guide-tip-text">Search with one or more words. Matching shortcuts appear even when their sections were not selected.</span>
+            </div>
+            <div class="guide-tip">
+              <span class="guide-tip-label">browse</span>
+              <span class="guide-tip-text">Use sections to show one topic or combine several. Your choices are reflected in the URL so the view can be bookmarked or shared.</span>
+            </div>
+            <div class="guide-tip">
+              <span class="guide-tip-label">offline</span>
+              <span class="guide-tip-text">Add the page to your home screen for an installable reference that keeps working offline.</span>
+            </div>
+            <div class="guide-tip">
+              <span class="guide-tip-label">print</span>
+              <span class="guide-tip-text">Choose the sections you want, then print. A dedicated paper layout expands the selected content instead of copying the current screen view.</span>
+            </div>
+            <div class="guide-tip">
+              <span class="guide-tip-label">feedback</span>
+              <span class="guide-tip-text">Use <strong>found a bug?</strong> to report anything incorrect, unclear, or missing.</span>
+            </div>
+          </div>
+          <div class="guide-legend-label">button notation</div>
+          <div class="guide-legend-items">
+            <span class="combo-legend-item"><span id="legend-key"></span> press</span>
+            <span class="combo-legend-item"><span id="legend-pad"></span> any black pad (0–9, dot, or ENTER)</span>
+            <span class="combo-legend-item"><span id="legend-group"></span> any group pad (A, B, C, or D)</span>
+            <span class="combo-legend-item"><span class="op-chip">+</span> hold &amp; press together</span>
+            <span class="combo-legend-item"><span class="op-chip">→</span> then (release first)</span>
+            <span class="combo-legend-item"><span id="legend-held"></span> extended or timed hold</span>
+          </div>
         </div>
       </div>
       <button class="h-print-btn" onclick="window.print()">print</button>
@@ -3317,23 +3357,23 @@ injectCombo('tip-shift2', '[SHIFT]');
 injectCombo('tip-fx2',    '[FX]');
 injectCombo('tip-mute',   '[SHIFT] + [SOUND]');
 
-function toggleLegend() {
-  const el = document.getElementById('legend');
-  const btn = document.getElementById('legend-btn');
+function toggleGuide() {
+  const el = document.getElementById('guide');
+  const btn = document.getElementById('guide-btn');
   const open = el.classList.toggle('open');
   btn.setAttribute('aria-expanded', open);
 }
 document.addEventListener('click', e => {
-  const wrap = document.querySelector('.legend-pop-wrap');
+  const wrap = document.querySelector('.guide-pop-wrap');
   if (wrap && !wrap.contains(e.target)) {
-    document.getElementById('legend').classList.remove('open');
-    document.getElementById('legend-btn').setAttribute('aria-expanded', 'false');
+    document.getElementById('guide').classList.remove('open');
+    document.getElementById('guide-btn').setAttribute('aria-expanded', 'false');
   }
 });
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
-    document.getElementById('legend').classList.remove('open');
-    document.getElementById('legend-btn').setAttribute('aria-expanded', 'false');
+    document.getElementById('guide').classList.remove('open');
+    document.getElementById('guide-btn').setAttribute('aria-expanded', 'false');
     closeBugForm();
   }
 });
