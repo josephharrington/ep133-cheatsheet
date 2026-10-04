@@ -1,15 +1,15 @@
 // Bump this and the asset query version when changing a cached icon in place.
-const CACHE_NAME = 'ep133-cheatsheet-v3';
+const CACHE_NAME = 'ep133-cheatsheet-v4';
 const APP_SHELL = [
   '/index.html',
   '/manifest.webmanifest',
   '/assets/fonts/inter-latin.woff2',
   '/assets/fonts/space-mono-regular-latin.woff2',
   '/assets/fonts/space-mono-bold-latin.woff2',
-  '/assets/icons/app-icon.svg?v=3',
-  '/assets/icons/app-icon-180.png?v=3',
-  '/assets/icons/app-icon-192.png?v=3',
-  '/assets/icons/app-icon-512.png?v=3'
+  '/assets/icons/app-icon.svg?v=4',
+  '/assets/icons/app-icon-180.png?v=4',
+  '/assets/icons/app-icon-192.png?v=4',
+  '/assets/icons/app-icon-512.png?v=4'
 ];
 
 self.addEventListener('install', event => {
