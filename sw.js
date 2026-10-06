@@ -1,7 +1,7 @@
 // Keep the installable cheat sheet usable offline by caching its page and static assets.
 // Navigations try the network first for fresh content; fonts and icons use the cache first.
 // Bump this cache name, and an icon's query version when needed, to refresh existing installs.
-const CACHE_NAME = 'ep133-cheatsheet-v10';
+const CACHE_NAME = 'ep133-cheatsheet-v11';
 const APP_SHELL = [
   '/index.html',
   '/manifest.webmanifest',

@@ -8,7 +8,7 @@ mappings were checked against text shown on the hardware.
 TenSegTeen is not made by, affiliated with, or endorsed by Teenage
 Engineering.
 
-[View the interactive font specimen.](specimen.html)
+[View the interactive font specimen.](https://ep133.joeyh.org/assets/fonts/tensegteen/specimen)
 
 ## Character set
 
