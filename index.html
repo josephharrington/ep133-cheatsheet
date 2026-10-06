@@ -38,14 +38,14 @@ if (new URLSearchParams(location.search).has('mobile-preview') && window.top ===
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ep133.joeyh.org/">
 <meta property="og:site_name" content="EP-133 K.O. II Cheat Sheet">
-<meta property="og:image" content="https://ep133.joeyh.org/social-preview.png">
+<meta property="og:image" content="https://ep133.joeyh.org/assets/images/social-preview.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="EP-133 K.O. II Cheat Sheet, a searchable shortcut and workflow guide for firmware 2.5">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="EP-133 K.O. II (KO2) Cheat Sheet and Shortcut Guide">
 <meta name="twitter:description" content="Searchable firmware 2.5 shortcut and workflow reference for the Teenage Engineering EP-133 K.O. II.">
-<meta name="twitter:image" content="https://ep133.joeyh.org/social-preview.png">
+<meta name="twitter:image" content="https://ep133.joeyh.org/assets/images/social-preview.png">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="EP-133 Guide">
@@ -70,7 +70,7 @@ if (new URLSearchParams(location.search).has('mobile-preview') && window.top ===
 }
 @font-face{
   font-family:'TenSegTeen';
-  src:url('assets/fonts/tensegteen/TenSegTeen-Regular.woff2') format('woff2');
+  src:url('assets/fonts/tensegteen/TenSegTeen-Regular.woff2?v=1') format('woff2');
   font-weight:400;font-style:normal;font-display:block;
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -191,6 +191,7 @@ html[data-theme="dark"] .theme-icon-moon{display:none}
 .bug-form textarea{min-height:60px}
 .bug-hp{position:absolute!important;left:-9999px;top:auto;width:1px;height:1px;opacity:0}
 .bug-form-actions{display:flex;justify-content:flex-end;gap:6px}
+.bug-form-privacy{margin:0;font-size:9px;line-height:1.4;color:var(--dim)}
 .bug-form-status{font-family:var(--mono);font-size:9.5px;color:var(--muted);min-height:11px}
 .bug-form-status.error{color:var(--red)}
 
@@ -1286,6 +1287,7 @@ html[data-theme="dark"] .key.key-gray{
           <label>your email (optional, if you'd like a reply)
             <input type="email" name="email" placeholder="you@example.com">
           </label>
+          <p class="bug-form-privacy">Sends your report, optional email, and current page URL, including active search and section filters.</p>
           <input type="text" name="_hp" class="bug-hp" tabindex="-1" autocomplete="off">
           <div class="bug-form-actions">
             <button type="button" class="h-print-btn" onclick="closeBugForm()">cancel</button>
@@ -1328,6 +1330,10 @@ html[data-theme="dark"] .key.key-gray{
               <span class="guide-tip-label">feedback</span>
               <span class="guide-tip-text">Use <strong>found a bug?</strong> to report anything incorrect, unclear, or missing.</span>
             </div>
+            <div class="guide-tip">
+              <span class="guide-tip-label">more</span>
+              <span class="guide-tip-text"><a href="https://github.com/josephharrington/ep133-cheatsheet#readme" target="_blank" rel="noopener">The project README</a> covers offline use, privacy, printing, feedback, and licensing.</span>
+            </div>
           </div>
           <div class="guide-legend-label">button notation</div>
           <div class="guide-legend-items">
@@ -1338,7 +1344,7 @@ html[data-theme="dark"] .key.key-gray{
             <span class="combo-legend-item"><span class="op-chip">→</span> then (release first)</span>
             <span class="combo-legend-item"><span id="legend-held"></span> extended or timed hold</span>
           </div>
-          <div class="guide-credit">lcd display font: <a href="assets/fonts/tensegteen/specimen.html" target="_blank" rel="noopener">TenSegTeen</a></div>
+          <div class="guide-credit">lcd display font: <a href="assets/fonts/tensegteen/specimen" target="_blank" rel="noopener">TenSegTeen</a></div>
         </div>
       </div>
       <button class="h-print-btn" onclick="window.print()">print</button>

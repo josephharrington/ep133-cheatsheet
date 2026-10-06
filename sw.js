@@ -1,15 +1,15 @@
 // Keep the installable cheat sheet usable offline by caching its page and static assets.
 // Navigations try the network first for fresh content; fonts and icons use the cache first.
-// Bump this cache name, and an icon's query version when needed, to refresh existing installs.
-const CACHE_NAME = 'ep133-cheatsheet-v12';
+// Bump this cache name and an asset's query version when replacing a cache-first file.
+const CACHE_NAME = 'ep133-cheatsheet-v14';
 const APP_SHELL = [
   '/index.html',
   '/manifest.webmanifest',
   '/assets/fonts/inter-latin.woff2',
   '/assets/fonts/space-mono-regular-latin.woff2',
   '/assets/fonts/space-mono-bold-latin.woff2',
-  '/assets/fonts/tensegteen/TenSegTeen-Regular.woff2',
-  '/assets/fonts/tensegteen/specimen.html',
+  '/assets/fonts/tensegteen/TenSegTeen-Regular.woff2?v=1',
+  '/assets/fonts/tensegteen/specimen',
   '/assets/icons/app-icon.svg?v=4',
   '/assets/icons/app-icon-180.png?v=4',
   '/assets/icons/app-icon-192.png?v=4',

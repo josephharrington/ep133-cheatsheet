@@ -10,8 +10,23 @@
 /manifest.webmanifest
   Cache-Control: public, max-age=3600
 
-/assets/fonts/*
+/assets/fonts/inter-latin.woff2
   Cache-Control: public, max-age=31536000, immutable
+
+/assets/fonts/space-mono-regular-latin.woff2
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/fonts/space-mono-bold-latin.woff2
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/fonts/tensegteen/TenSegTeen-Regular.woff2
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/fonts/tensegteen/specimen
+  Cache-Control: no-cache
+
+/assets/fonts/tensegteen/specimen.html
+  Cache-Control: no-cache
 
 /assets/icons/*
   Cache-Control: public, max-age=31536000, immutable
