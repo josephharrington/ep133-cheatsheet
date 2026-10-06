@@ -86,6 +86,7 @@ if (new URLSearchParams(location.search).has('mobile-preview') && window.top ===
   --muted:#625b53;
   --dim:#70685f;
   --red:#b83b12;
+  --lcd-lit:#9f3214;
   --key-bg:#1a1a18;
   --key-text:#ede8dd;
   --device-orange:#f15a22;
@@ -345,6 +346,7 @@ html[data-theme="dark"] .theme-icon-moon{display:none}
 }
 .wf-title{font-size:11.5px;font-weight:500;color:var(--text);margin-bottom:4px}
 .wf-combo{display:flex;flex-wrap:wrap;gap:2px;align-items:center;margin-bottom:4px}
+#wf9 .screen-ref{margin-left:2px}
 .wf-desc{font-size:10px;color:var(--muted);font-weight:300;line-height:1.35}
 
 /* ── QUICK REFERENCE ─────────────────────────────────────── */
@@ -598,12 +600,12 @@ main{padding:0 24px}
 }
 .url-ref{color:var(--red);font-weight:600;text-underline-offset:2px}
 .screen-ref{
-  color:var(--red);font-family:var(--display);font-size:12px;
+  color:var(--lcd-lit);font-family:var(--display);font-size:16px;
   letter-spacing:.1em;line-height:1;white-space:nowrap;
 }
 .lcd-display{display:inline-grid}
 .lcd-scaffold,.lcd-text{grid-area:1/1}
-.lcd-scaffold{color:currentColor;opacity:.1;pointer-events:none}
+.lcd-scaffold{color:currentColor;opacity:.06;pointer-events:none}
 html[data-theme="dark"] .lcd-scaffold{opacity:.18}
 .page-rail{position:relative;display:block;border-bottom:1px solid var(--border)}
 .page-rail::before{
@@ -611,13 +613,13 @@ html[data-theme="dark"] .lcd-scaffold{opacity:.18}
   background:rgba(184,59,18,.7);
 }
 .page-rail-label{
-  display:flex;align-items:baseline;gap:7px;padding:10px 12px 3px 12px;
+  display:flex;align-items:center;gap:7px;padding:10px 12px 3px 12px;
   font-family:var(--mono);font-size:8px;font-weight:700;line-height:1.35;
   letter-spacing:.07em;color:var(--sub);text-transform:uppercase;
 }
 .page-screen-code{
-  font-family:var(--display);font-size:12px;font-weight:400;line-height:1;
-  letter-spacing:.12em;color:var(--red);text-transform:none;
+  font-family:var(--display);font-size:16px;font-weight:400;line-height:1;
+  letter-spacing:.12em;color:var(--lcd-lit);text-transform:none;
 }
 .page-name{font-size:7.5px;color:var(--muted)}
 .page-rail-rows{padding-left:12px}
@@ -742,6 +744,7 @@ html[data-theme="dark"] :is(.section-fader,.section-effects,.section-output){--s
 html[data-theme="dark"] :is(.section-loop,.section-tempo){--section-accent:var(--neon-lime)}
 html[data-theme="dark"] :is(.section-sound,.section-sound-edit,.section-sample,.section-chop){--section-accent:var(--neon-orange)}
 html[data-theme="dark"] :is(.section-connections,.section-system){--section-accent:var(--neon-blue)}
+html[data-theme="dark"] #wf9{--section-accent:var(--neon-orange)}
 html[data-theme="dark"] .section-group .s-head{
   border-bottom-color:var(--section-accent);
   background:linear-gradient(90deg,color-mix(in srgb,var(--section-accent) 9%,transparent),transparent 56%);
@@ -749,6 +752,16 @@ html[data-theme="dark"] .section-group .s-head{
 }
 html[data-theme="dark"] .section-group :is(.s-head-num,.section-chevron,.mode-ref,.screen-ref,.page-screen-code,.concept-label,.sys-group-head){
   color:var(--section-accent);
+}
+html[data-theme="dark"] :is(.section-group,#wf9) :is(.screen-ref,.page-screen-code){
+  color:color-mix(in srgb,var(--section-accent) 70%,white);
+}
+html[data-theme="dark"] :is(.section-group,#wf9) :is(.screen-ref,.page-screen-code) .lcd-scaffold{
+  color:var(--section-accent);opacity:.14;
+}
+html[data-theme="dark"] :is(.section-group,#wf9) :is(.screen-ref,.page-screen-code) .lcd-text{
+  filter:drop-shadow(0 0 .05em color-mix(in srgb,var(--section-accent) 80%,transparent))
+         drop-shadow(0 0 .2em color-mix(in srgb,var(--section-accent) 48%,transparent));
 }
 html[data-theme="dark"] .section-group .page-rail::before{background:var(--section-accent);box-shadow:0 0 8px color-mix(in srgb,var(--section-accent) 35%,transparent)}
 html[data-theme="dark"] .section-group .concept-row{
@@ -1147,6 +1160,8 @@ html[data-theme="dark"] .key.key-gray{
   .code-ref{color:#000;font-size:7.5px;background:#eee}
   .url-ref{color:#000}
   .screen-ref{color:#000;font-size:8px}
+  html[data-theme="dark"] :is(.section-group,#wf9) :is(.screen-ref,.page-screen-code){color:#000}
+  html[data-theme="dark"] :is(.section-group,#wf9) :is(.screen-ref,.page-screen-code) .lcd-text{filter:none}
   .lcd-scaffold{display:none}
   .detail-break{display:none}
   .page-rail{border-color:#e4e4e4;break-inside:avoid}
