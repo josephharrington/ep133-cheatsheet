@@ -16,7 +16,18 @@ Created and maintained by [Joey Harrington](https://joeyh.org/).
 
 Add the sheet to your phone's home screen for an app-like launcher that works beside the device without a network connection.
 
-For analytics-free testing, visit `https://ep133.joeyh.org/?no-analytics` once on that device. Visit `https://ep133.joeyh.org/?analytics` to opt back in.
+## Privacy
+
+When online, the site uses GoatCounter to count visits and whether search is
+used or returns no results. Search terms are not sent. Visit
+`https://ep133.joeyh.org/?no-analytics` once to opt that browser out, or visit
+`https://ep133.joeyh.org/?analytics` to opt back in.
+
+The feedback form sends the report, optional email address, and current page
+URL through Google Apps Script. The URL can include the active search and
+section filters. Theme, first-visit Guide state, and analytics preference are
+stored locally in the browser; the service worker caches site files for
+offline use.
 
 ## Print a custom reference
 

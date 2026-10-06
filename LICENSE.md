@@ -3,12 +3,12 @@
 This repository contains software, original reference content, fonts, and
 visual assets under different licenses.
 
+Except where otherwise noted, copyright (c) 2026 Joey Harrington.
+
 ## Software
 
 Unless a file says otherwise, the source code in this repository is licensed
 under the MIT License.
-
-Copyright (c) 2026 Joey Harrington
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -31,9 +31,9 @@ SOFTWARE.
 ## Original content and graphics
 
 Unless otherwise noted, the original written content and original visual
-assets in this repository are copyright 2026 Joey Harrington and licensed
-under the [Creative Commons Attribution 4.0 International License][cc-by-4].
-This license applies only to the rights Joey Harrington holds in those works.
+assets in this repository are licensed under the
+[Creative Commons Attribution 4.0 International License][cc-by-4]. This
+license applies only to rights held by the project copyright holder.
 
 Suggested attribution:
 
@@ -42,7 +42,7 @@ Suggested attribution:
 
 ## Fonts
 
-TenSegTeen is copyright 2026 Joey Harrington and licensed under the
+TenSegTeen has its own copyright notice and is licensed under the
 [SIL Open Font License 1.1](assets/fonts/tensegteen/OFL.txt).
 
 Inter and Space Mono are distributed under their respective SIL Open Font
