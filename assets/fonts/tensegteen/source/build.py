@@ -161,7 +161,7 @@ def build_font(paths: dict[str, str], mapping: dict[str, list[str]]) -> tuple[in
             "fullName": "TenSegTeen Regular",
             "psName": "TenSegTeen-Regular",
             "version": "Version 0.1",
-            "copyright": "Copyright 2026 The TenSegTeen Project Authors",
+            "copyright": "Copyright 2026 Joey Harrington",
             "description": (
                 "Unofficial ten-segment display typeface derived from an illuminated "
                 "EP-133 K.O. II LCD. Not affiliated with or endorsed by Teenage Engineering."

@@ -4,6 +4,8 @@ A mobile-friendly, searchable, and printable reference for the Teenage Engineeri
 
 **View it here:** https://ep133.joeyh.org/
 
+Created and maintained by [Joey Harrington](https://joeyh.org/).
+
 ## Using it
 
 - Search for one or more words to find a shortcut. Search checks every section, even when section filters are active.
@@ -41,6 +43,13 @@ You can also [open an issue](../../issues/new) on this GitHub page. You don't ne
 3. Submit it. You'll need a GitHub account to do this, but not to just read the cheat sheet.
 
 If you're comfortable with GitHub and want to submit the fix yourself, pull requests are welcome too.
+
+## License
+
+The project uses separate licenses for its different parts: source code is
+available under the MIT License, original written and visual content under
+CC BY 4.0, and fonts under their respective SIL Open Font Licenses. See
+[LICENSE.md](LICENSE.md) for details and third-party exclusions.
 
 ## Disclaimer
 
