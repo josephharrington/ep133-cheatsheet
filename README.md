@@ -20,6 +20,14 @@ For analytics-free testing, visit `https://ep133.joeyh.org/?no-analytics` once o
 
 Use the section picker to choose exactly what you want to include, then use the print button. Printing uses a dedicated portrait US Letter layout with compact columns, expanded content, and screen controls removed. It is not simply a printout of the page as it currently appears in the browser.
 
+## TenSegTeen display font
+
+The screen codes use [TenSegTeen](assets/fonts/tensegteen/README.md), an
+unofficial ten-segment font traced from an illuminated EP-133 display. Its
+core alphanumeric mappings were checked against the hardware, while additional
+punctuation is a stylistic extension. Its source is included in this repository
+under the SIL Open Font License 1.1.
+
 ## Found a mistake, or want something added?
 
 This is a volunteer project and it's only as good as the details in it. If something's wrong or missing, please say so.

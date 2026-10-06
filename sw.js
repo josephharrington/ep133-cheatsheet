@@ -1,11 +1,15 @@
-// Bump this and the asset query version when changing a cached icon in place.
-const CACHE_NAME = 'ep133-cheatsheet-v4';
+// Keep the installable cheat sheet usable offline by caching its page and static assets.
+// Navigations try the network first for fresh content; fonts and icons use the cache first.
+// Bump this cache name, and an icon's query version when needed, to refresh existing installs.
+const CACHE_NAME = 'ep133-cheatsheet-v10';
 const APP_SHELL = [
   '/index.html',
   '/manifest.webmanifest',
   '/assets/fonts/inter-latin.woff2',
   '/assets/fonts/space-mono-regular-latin.woff2',
   '/assets/fonts/space-mono-bold-latin.woff2',
+  '/assets/fonts/tensegteen/TenSegTeen-Regular.woff2',
+  '/assets/fonts/tensegteen/specimen.html',
   '/assets/icons/app-icon.svg?v=4',
   '/assets/icons/app-icon-180.png?v=4',
   '/assets/icons/app-icon-192.png?v=4',
@@ -30,12 +34,15 @@ self.addEventListener('activate', event => {
 
 async function networkFirstPage(request) {
   const cache = await caches.open(CACHE_NAME);
+  const url = new URL(request.url);
+  const homePage = url.pathname === '/' || url.pathname === '/index.html';
+  const cacheKey = homePage ? '/index.html' : request;
   try {
     const response = await fetch(request);
-    if (response.ok) await cache.put('/index.html', response.clone());
+    if (response.ok) await cache.put(cacheKey, response.clone());
     return response;
   } catch {
-    return (await cache.match('/index.html')) || Response.error();
+    return (await cache.match(cacheKey)) || (await cache.match('/index.html')) || Response.error();
   }
 }
 
