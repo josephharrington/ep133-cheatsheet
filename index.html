@@ -949,6 +949,10 @@ html[data-theme="dark"] .key.key-gray{
   .page-rail-rows .row{grid-template-columns:1fr auto;grid-template-rows:auto auto}
   .risk-label{font-size:6.75px}
   header,main,.orient,.combo-legend,.wf-details,.qref{padding-left:16px;padding-right:16px}
+  .combo-legend{
+    position:fixed;top:max(16px,env(safe-area-inset-top));left:16px;right:16px;
+    width:auto;max-height:calc(100vh - 32px);max-height:calc(100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  }
   .wf-summary,.wf-body{padding-left:16px;padding-right:16px}
   .bug-form-backdrop.open{background:rgba(0,0,0,.4)}
   .bug-form{
@@ -2842,12 +2846,12 @@ html[data-theme="dark"] .key.key-gray{
         <div class="row-badge"></div>
       </div><div class="row sub-row">
         <div class="row-combo"><span class="ctx">PAD</span><span class="op">→</span><span class="ctx">SCA</span><span class="op">→</span><span class="ctx">MAJ</span></div>
-        <div class="row-desc">Choose major, minor, dorian, phrygian, lydian, mixolydian, locrian, major pentatonic, or minor pentatonic</div>
+        <div class="row-desc">Choose major, minor, dorian, phrygian, lydian, mixolydian, locrian, major pentatonic, or minor pentatonic. In 2.5+, hold KEYS and turn Y to choose the scale</div>
         <div class="row-code">311–319</div>
         <div class="row-badge"><span class="badge-old">&lt;2.5</span></div>
       </div><div class="row sub-row">
         <div class="row-combo"><span class="ctx">PAD</span><span class="op">→</span><span class="ctx">KEY</span><span class="op">→</span><span class="ctx">C</span></div>
-        <div class="row-desc">Choose a scale root from C through B (removed in 2.5)</div>
+        <div class="row-desc">Choose a scale root from C through B. In 2.5+, hold KEYS and turn X to choose the root</div>
         <div class="row-code">320–331</div>
         <div class="row-badge"><span class="badge-old">&lt;2.5</span></div>
       </div><div class="row sub-row sep-row">
@@ -3199,9 +3203,9 @@ const DATA = [
   {s:'system', c:'pad → vel → lo',      sub:true,           code:'302',     d:'Enable pressure sensitivity for vigorous playing'},
 // Scale type
   {s:'system', c:'pad → sca → 12t',     sub:true, sep:true, code:'310',     d:'Use 12-tone equal temperament (default). This is the only scale code in 2.5+; scale selection moved to hold KEYS + turn Y, while X sets the root'},
-  {s:'system', c:'pad → sca → maj',     sub:true,           code:'311–319', d:'Choose major, minor, dorian, phrygian, lydian, mixolydian, locrian, major pentatonic, or minor pentatonic',o:true},
+  {s:'system', c:'pad → sca → maj',     sub:true,           code:'311–319', d:'Choose major, minor, dorian, phrygian, lydian, mixolydian, locrian, major pentatonic, or minor pentatonic. In 2.5+, hold KEYS and turn Y to choose the scale',o:true},
 // Scale key (removed in 2.5)
-  {s:'system', c:'pad → key → c',       sub:true,           code:'320–331', d:'Choose a scale root from C through B (removed in 2.5)',o:true},
+  {s:'system', c:'pad → key → c',       sub:true,           code:'320–331', d:'Choose a scale root from C through B. In 2.5+, hold KEYS and turn X to choose the root',o:true},
 // Pad LED brightness (new in 2.5, reassigned from old scale-key codes)
   {s:'system', c:'pad → led → lo',      sub:true, sep:true, code:'320',     d:'Set low LED brightness',n:true},
   {s:'system', c:'pad → led → mid',     sub:true,           code:'321',     d:'Set medium LED brightness',n:true},
