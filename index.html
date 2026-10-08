@@ -238,7 +238,14 @@ html[data-theme="dark"] .theme-icon-moon{display:none}
 }
 .combo-legend.open{display:flex}
 .guide-copy{display:flex;flex-direction:column;gap:9px;width:100%;padding-bottom:11px;border-bottom:1px solid var(--border)}
+.guide-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .guide-title{font-size:10px;letter-spacing:.08em;color:var(--text)}
+.guide-close{
+  display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;
+  width:32px;height:32px;padding:0;border:0;background:none;color:var(--muted);
+  font:400 18px/1 var(--sans);cursor:pointer;
+}
+.guide-close:hover,.guide-close:focus-visible{color:var(--text)}
 .guide-intro{font-family:var(--sans);font-size:11px;line-height:1.45;color:var(--sub)}
 .guide-tip{display:grid;grid-template-columns:52px 1fr;gap:8px;align-items:start}
 .guide-tip-label{font-size:8px;letter-spacing:.08em;color:var(--red)}
@@ -953,6 +960,7 @@ html[data-theme="dark"] .key.key-gray{
     position:fixed;top:max(16px,env(safe-area-inset-top));left:16px;right:16px;
     width:auto;max-height:calc(100vh - 32px);max-height:calc(100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
   }
+  .guide-close{width:44px;height:44px;margin:-8px -10px -8px 0}
   .wf-summary,.wf-body{padding-left:16px;padding-right:16px}
   .bug-form-backdrop.open{background:rgba(0,0,0,.4)}
   .bug-form{
@@ -1312,7 +1320,10 @@ html[data-theme="dark"] .key.key-gray{
         <button class="h-print-btn" id="guide-btn" onclick="toggleGuide()" aria-expanded="false" aria-controls="guide">guide</button>
         <div class="combo-legend" id="guide" role="dialog" aria-label="Guide to the cheat sheet">
           <div class="guide-copy">
-            <div class="guide-title">about this cheat sheet</div>
+            <div class="guide-heading">
+              <div class="guide-title">about this cheat sheet</div>
+              <button class="guide-close" type="button" onclick="setGuideOpen(false)" aria-label="Close guide">×</button>
+            </div>
             <p class="guide-intro">An unofficial quick-reference guide for the EP-133 K.O. II, updated for firmware 2.5.</p>
             <div class="guide-tip">
               <span class="guide-tip-label">find</span>
@@ -1926,12 +1937,12 @@ html[data-theme="dark"] .key.key-gray{
         <div class="row-badge"></div>
       </div><div class="row">
         <div class="row-combo"><span class="key key-shift ks" data-key="SHIFT">SHIFT</span><span class="op">+</span><span class="key key-group" data-key="C">C</span></div>
-        <div class="row-desc">In Main view, copy every pad’s recorded notes in the current bar; press twice to copy the full pattern</div>
+        <div class="row-desc">In Main view, copy every pad’s recorded notes in the current bar; BAR appears and the copy icon lights. Press twice to copy the full pattern, including its length and every bar; the display changes to PTN</div>
 
         <div class="row-badge"></div>
       </div><div class="row">
         <div class="row-combo"><span class="key key-shift ks" data-key="SHIFT">SHIFT</span><span class="op">+</span><span class="key key-group" data-key="D">D</span></div>
-        <div class="row-desc">In Main view, paste the copied bar or pattern sequence data at the current position</div>
+        <div class="row-desc">In Main view, paste the copied sequence data. A copied bar replaces the destination bar and shows BAR; a copied pattern sets the destination’s length and notes and shows PTN. The paste icon lights for either</div>
 
         <div class="row-badge"></div>
       </div><div class="row">
@@ -1946,12 +1957,12 @@ html[data-theme="dark"] .key.key-gray{
         <div class="row-badge"></div>
       </div><div class="row">
         <div class="row-combo"><span class="key key-pad held" data-key="#" title="hold" aria-label="hold #">#</span><span class="op">→</span><span class="key key-shift ks" data-key="SHIFT">SHIFT</span><span class="op">+</span><span class="key key-group" data-key="C">C</span></div>
-        <div class="row-desc">In Main view, copy only the held pad’s recorded notes from the current pattern</div>
+        <div class="row-desc">In Main view, copy only the held pad’s recorded notes from the current pattern; BAR appears and the copy icon lights</div>
 
         <div class="row-badge"><span class="badge-new">2.5</span></div>
       </div><div class="row">
         <div class="row-combo"><span class="key key-pad held" data-key="#" title="hold" aria-label="hold #">#</span><span class="op">→</span><span class="key key-shift ks" data-key="SHIFT">SHIFT</span><span class="op">+</span><span class="key key-group" data-key="D">D</span></div>
-        <div class="row-desc">In Main view, paste the copied notes to the held destination pad</div>
+        <div class="row-desc">In Main view, replace the held destination pad’s existing notes with the copied notes; BAR appears and the paste icon lights</div>
 
         <div class="row-badge"><span class="badge-new">2.5</span></div>
       </div></div></section><section class="section-group section-erase"><h2 class="s-head" id="section-erase">
@@ -3029,12 +3040,12 @@ const DATA = [
   {s:'song',   c:'[SHIFT] + [PLAY]',                    d:'Play the song from the beginning'},
 // ── COPY + PASTE ────────────────────────────────────────────
   {s:'edit',   c:'Copy/paste scope',                    d:'In Main view, bar and pattern copy/paste moves recorded sequence data. Holding a pad limits the operation to that pad’s notes. In Sound mode, the same C/D shortcuts copy pad sound assignments instead.',concept:true},
-  {s:'edit',   c:'[SHIFT] + [C]',                       d:'In Main view, copy every pad’s recorded notes in the current bar; press twice to copy the full pattern'},
-  {s:'edit',   c:'[SHIFT] + [D]',                       d:'In Main view, paste the copied bar or pattern sequence data at the current position'},
+  {s:'edit',   c:'[SHIFT] + [C]',                       d:'In Main view, copy every pad’s recorded notes in the current bar; BAR appears and the copy icon lights. Press twice to copy the full pattern, including its length and every bar; the display changes to PTN'},
+  {s:'edit',   c:'[SHIFT] + [D]',                       d:'In Main view, paste the copied sequence data. A copied bar replaces the destination bar and shows BAR; a copied pattern sets the destination’s length and notes and shows PTN. The paste icon lights for either'},
   {s:'edit',   c:'[SHIFT] + [B]',                       d:'Undo the last undoable edit; the umbrella icon lights when undo is available. Permanent sample deletion and cropping cannot be undone'},
   {s:'edit',   c:'[SHIFT] + [−] / [+] (while copying)',        d:'Navigate to a different bar before copying'},
-  {s:'edit',   c:'hold [#] → [SHIFT] + [C]',            d:'In Main view, copy only the held pad’s recorded notes from the current pattern',n:true},
-  {s:'edit',   c:'hold [#] → [SHIFT] + [D]',            d:'In Main view, paste the copied notes to the held destination pad',n:true},
+  {s:'edit',   c:'hold [#] → [SHIFT] + [C]',            d:'In Main view, copy only the held pad’s recorded notes from the current pattern; BAR appears and the copy icon lights',n:true},
+  {s:'edit',   c:'hold [#] → [SHIFT] + [D]',            d:'In Main view, replace the held destination pad’s existing notes with the copied notes; BAR appears and the paste icon lights',n:true},
 // ── ERASE ───────────────────────────────────────────────────
   {s:'erase',  c:'Erase scope',                         d:'Pad erase removes recorded notes; group erase clears pattern sequence data; Sound erase deletes the underlying library sample from device storage.',concept:true},
   {s:'erase',  c:'hold [ERASE] + hold [A–D]',           d:'Erase the current pattern for each held group without deleting its pad sound assignments or library samples; hold until PTN blinks'},
